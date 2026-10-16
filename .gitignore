@@ -12,6 +12,21 @@ dist
 dist-ssr
 *.local
 
+# Databases
+*.db
+*.db-journal
+
+# Env
+.env
+.env.*
+!.env.example
+
+# pnpm local store (se usado)
+.pnpm-store/
+
+# Test coverage
+coverage
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
