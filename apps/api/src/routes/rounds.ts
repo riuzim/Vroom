@@ -1,7 +1,8 @@
 import rateLimit from 'express-rate-limit';
 import { Router } from 'express';
 import { z } from 'zod';
-import type { RequestHandler } from 'express';
+import type { AsyncRequestHandler } from '../middleware/asyncHandler.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 import {
   blurFromMistakes,
   calculatePoints,
@@ -96,7 +97,7 @@ async function pickCar(mode: GameMode) {
 }
 
 /** POST /api/rounds — inicia (ou retoma) uma rodada do modo pedido. */
-const startRound: RequestHandler = async (req, res) => {
+const startRound: AsyncRequestHandler = async (req, res) => {
   const { mode } = startSchema.parse(req.body);
   const user = req.user ?? null;
   const today = todayUtc();
@@ -148,7 +149,7 @@ const startRound: RequestHandler = async (req, res) => {
 };
 
 /** GET /api/rounds/active — rodada em andamento do usuário logado. */
-const activeRound: RequestHandler = async (req, res) => {
+const activeRound: AsyncRequestHandler = async (req, res) => {
   if (!req.user) {
     res.json({ round: null });
     return;
@@ -177,7 +178,7 @@ function canPlayRound(round: RoundWithCar | null, userId?: number): string | nul
 }
 
 /** POST /api/rounds/:id/guess — valida o chute no servidor. */
-const submitGuess: RequestHandler = async (req, res) => {
+const submitGuess: AsyncRequestHandler = async (req, res) => {
   const roundId = Number(req.params.id);
   const { guess } = guessSchema.parse(req.body);
 
@@ -261,7 +262,7 @@ const submitGuess: RequestHandler = async (req, res) => {
 };
 
 /** POST /api/rounds/:id/skip — encerra revelando a resposta (0 pontos). */
-const skipRound: RequestHandler = async (req, res) => {
+const skipRound: AsyncRequestHandler = async (req, res) => {
   const roundId = Number(req.params.id);
 
   const round = await prisma.round.findUnique({ where: { id: roundId }, include: { car: true } });
@@ -287,9 +288,9 @@ const skipRound: RequestHandler = async (req, res) => {
   });
 };
 
-roundsRouter.post('/', startRound);
-roundsRouter.get('/active', activeRound);
-roundsRouter.post('/:id/guess', guessLimiter, submitGuess);
-roundsRouter.post('/:id/skip', skipRound);
+roundsRouter.post('/', asyncHandler(startRound));
+roundsRouter.get('/active', asyncHandler(activeRound));
+roundsRouter.post('/:id/guess', guessLimiter, asyncHandler(submitGuess));
+roundsRouter.post('/:id/skip', asyncHandler(skipRound));
 
 export default roundsRouter;

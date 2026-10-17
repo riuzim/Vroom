@@ -1,7 +1,8 @@
 import rateLimit from 'express-rate-limit';
 import { Router } from 'express';
 import { z } from 'zod';
-import type { RequestHandler } from 'express';
+import type { AsyncRequestHandler } from '../middleware/asyncHandler.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 import { prisma } from '../lib/prisma.js';
 import {
   clearAuthCookie,
@@ -45,7 +46,7 @@ const publicUser = (user: { id: number; username: string; email: string }) => ({
   email: user.email,
 });
 
-const register: RequestHandler = async (req, res) => {
+const register: AsyncRequestHandler = async (req, res) => {
   const body = registerSchema.parse(req.body);
 
   const existing = await prisma.user.findFirst({
@@ -68,7 +69,7 @@ const register: RequestHandler = async (req, res) => {
   res.status(201).json({ user: publicUser(user) });
 };
 
-const login: RequestHandler = async (req, res) => {
+const login: AsyncRequestHandler = async (req, res) => {
   const body = loginSchema.parse(req.body);
 
   const user = await prisma.user.findUnique({ where: { email: body.email } });
@@ -82,12 +83,12 @@ const login: RequestHandler = async (req, res) => {
   res.json({ user: publicUser(user) });
 };
 
-const logout: RequestHandler = (_req, res) => {
+const logout: AsyncRequestHandler = async (_req, res) => {
   clearAuthCookie(res);
   res.json({ ok: true });
 };
 
-const me: RequestHandler = async (req, res) => {
+const me: AsyncRequestHandler = async (req, res) => {
   if (!req.user) {
     res.json({ user: null });
     return;
@@ -101,9 +102,9 @@ const me: RequestHandler = async (req, res) => {
   res.json({ user });
 };
 
-authRouter.post('/register', authLimiter, register);
-authRouter.post('/login', authLimiter, login);
-authRouter.post('/logout', logout);
-authRouter.get('/me', optionalAuth, me);
+authRouter.post('/register', authLimiter, asyncHandler(register));
+authRouter.post('/login', authLimiter, asyncHandler(login));
+authRouter.post('/logout', asyncHandler(logout));
+authRouter.get('/me', optionalAuth, asyncHandler(me));
 
 export default authRouter;

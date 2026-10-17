@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { prisma } from '../lib/prisma.js';
 import { requireAuth } from '../lib/auth.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 
 const profileRouter = Router();
 
@@ -10,7 +11,10 @@ interface ModeStats {
 }
 
 /** GET /api/profile/stats — estatísticas de ranking do usuário logado. */
-profileRouter.get('/stats', requireAuth, async (req, res) => {
+profileRouter.get(
+  '/stats',
+  requireAuth,
+  asyncHandler(async (req, res) => {
   const userId = req.user!.id;
 
   const scores = await prisma.score.findMany({
@@ -39,6 +43,7 @@ profileRouter.get('/stats', requireAuth, async (req, res) => {
       byMode,
     },
   });
-});
+  })
+);
 
 export default profileRouter;

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
-import type { RequestHandler } from 'express';
+import type { AsyncRequestHandler } from '../middleware/asyncHandler.js';
+import { asyncHandler } from '../middleware/asyncHandler.js';
 import { prisma } from '../lib/prisma.js';
 
 const leaderboardRouter = Router();
@@ -11,7 +12,7 @@ const querySchema = z.object({
 });
 
 /** GET /api/leaderboard?period=all|today&mode=all|classic|hard|daily */
-const leaderboard: RequestHandler = async (req, res) => {
+const leaderboard: AsyncRequestHandler = async (req, res) => {
   const { period, mode } = querySchema.parse(req.query);
 
   const where = {
@@ -51,6 +52,6 @@ const leaderboard: RequestHandler = async (req, res) => {
   res.json({ entries });
 };
 
-leaderboardRouter.get('/', leaderboard);
+leaderboardRouter.get('/', asyncHandler(leaderboard));
 
 export default leaderboardRouter;

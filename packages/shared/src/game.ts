@@ -11,7 +11,8 @@ export function normalizeGuess(value: string): string {
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, ' ')
-    .replace(/\s+/g, ' ');
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 /** Máscara do nome com letras reveladas (espaços, hífens e dígitos sempre visíveis). */
