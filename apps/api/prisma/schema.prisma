@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  rounds       Round[]
+  scores       Score[]
+}
+
+model Car {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  imageUrl  String
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  rounds    Round[]
+}
+
+/// Estado de uma rodada. O nome do carro nunca sai do servidor antes do fim
+/// (status != playing) — anti-cheat.
+model Round {
+  id              Int      @id @default(autoincrement())
+  userId          Int?
+  user            User?    @relation(fields: [userId], references: [id])
+  carId           Int
+  car             Car      @relation(fields: [carId], references: [id])
+  mode            String
+  status          String   @default("playing")
+  attemptsUsed    Int      @default(0)
+  mistakes        Int      @default(0)
+  revealedLetters String   @default("[]")
+  dailyDate       String?
+  points          Int?
+  startedAt       DateTime @default(now())
+  endedAt         DateTime?
+  scores          Score[]
+
+  @@unique([userId, dailyDate])
+  @@index([userId, status])
+  @@index([status])
+  @@index([mode])
+}
+
+/// Pontos registrados no ranking — apenas de usuários autenticados.
+model Score {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  roundId   Int?
+  round     Round?   @relation(fields: [roundId], references: [id])
+  points    Int
+  mode      String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([mode])
+}

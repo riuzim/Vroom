@@ -18,6 +18,16 @@ export default tseslint.config(
   {
     rules: {
       'no-console': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
+    },
+  },
+  {
+    files: ['apps/api/**/*.ts', 'apps/api/prisma/**/*.ts'],
+    rules: {
+      'no-console': 'off',
     },
   },
   prettier,

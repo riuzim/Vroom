@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -8,13 +8,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useRegister } from '@/hooks/useAuth';
 
 const registerSchema = z
   .object({
     username: z
       .string()
       .min(3, 'O nome precisa ter ao menos 3 caracteres')
-      .max(20, 'Máximo de 20 caracteres'),
+      .max(20, 'Máximo de 20 caracteres')
+      .regex(/^[a-zA-Z0-9_]+$/, 'Apenas letras, números e _'),
     email: z.string().email('Informe um email válido'),
     password: z.string().min(6, 'A senha precisa ter ao menos 6 caracteres'),
     confirmPassword: z.string(),
@@ -25,13 +27,22 @@ const registerSchema = z
   });
 
 export default function Register() {
+  const navigate = useNavigate();
+  const register = useRegister();
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: { username: '', email: '', password: '', confirmPassword: '' },
   });
 
-  function onSubmit() {
-    toast.info('Contas chegam com o backend do jogo (próximas fases). Em breve!');
+  function onSubmit(values) {
+    const { confirmPassword: _confirm, ...body } = values;
+    register.mutate(body, {
+      onSuccess: () => {
+        toast.success('Conta criada. Bom jogo!');
+        navigate('/');
+      },
+      onError: (error) => toast.error(error.message),
+    });
   }
 
   return (
@@ -97,9 +108,9 @@ export default function Register() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={register.isPending}>
                 <UserPlus className="size-4" />
-                Criar conta
+                {register.isPending ? 'Criando...' : 'Criar conta'}
               </Button>
             </form>
           </Form>

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Send } from 'lucide-react';
-import { carNames } from '@/data/cars';
+import { carNames } from '@vroom/shared';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 

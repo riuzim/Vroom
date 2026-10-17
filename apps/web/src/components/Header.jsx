@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { LogIn, Menu, Settings } from 'lucide-react';
+import { LogIn, LogOut, Menu, Settings } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import { useLogout, useMe } from '@/hooks/useAuth';
 import { clearLocalScores } from '@/lib/localScores';
 import SettingsModal from '@/components/SettingsModal.jsx';
 
@@ -38,6 +40,9 @@ function NavLinks({ onNavigate }) {
 
 export default function Header() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const { data } = useMe();
+  const logout = useLogout();
+  const user = data?.user ?? null;
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-ink/90 backdrop-blur-xl">
@@ -78,12 +83,36 @@ export default function Header() {
           >
             <Settings className="size-5" />
           </Button>
-          <Button variant="outline" size="sm" asChild className="hidden sm:inline-flex">
-            <Link to="/login">
-              <LogIn className="size-4" />
-              Entrar
-            </Link>
-          </Button>
+          {user ? (
+            <>
+              <Button variant="ghost" size="sm" asChild className="gap-2 px-2">
+                <Link to="/profile" aria-label="Ver perfil">
+                  <Avatar className="size-7 border-none">
+                    <AvatarFallback className="text-xs">{user.username.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <span className="hidden max-w-24 truncate font-bold normal-case tracking-normal text-white/85 sm:inline">
+                    {user.username}
+                  </span>
+                </Link>
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Sair"
+                onClick={() => logout.mutate()}
+                disabled={logout.isPending}
+              >
+                <LogOut className="size-5" />
+              </Button>
+            </>
+          ) : (
+            <Button variant="outline" size="sm" asChild className="hidden sm:inline-flex">
+              <Link to="/login">
+                <LogIn className="size-4" />
+                Entrar
+              </Link>
+            </Button>
+          )}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -98,12 +127,29 @@ export default function Header() {
                 <div className="mt-4 flex flex-col gap-4">
                   <NavLinks />
                   <div className="flex flex-col gap-2 border-t border-white/10 pt-4">
-                    <Button variant="outline" asChild>
-                      <Link to="/login">
-                        <LogIn className="size-4" />
-                        Entrar
-                      </Link>
-                    </Button>
+                    {user ? (
+                      <>
+                        <Button variant="secondary" asChild>
+                          <Link to="/profile">
+                            <Avatar className="size-6 border-none">
+                              <AvatarFallback className="text-xs">{user.username.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            {user.username}
+                          </Link>
+                        </Button>
+                        <Button variant="outline" onClick={() => logout.mutate()} disabled={logout.isPending}>
+                          <LogOut className="size-4" />
+                          Sair
+                        </Button>
+                      </>
+                    ) : (
+                      <Button variant="outline" asChild>
+                        <Link to="/login">
+                          <LogIn className="size-4" />
+                          Entrar
+                        </Link>
+                      </Button>
+                    )}
                     <a
                       href="https://discord.gg/JTDE5eMv"
                       target="_blank"

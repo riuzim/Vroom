@@ -1,12 +1,23 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary.jsx';
 import Header from '@/components/Header.jsx';
+import { Skeleton } from '@/components/ui/skeleton';
 import Home from '@/pages/Home.jsx';
-import Game from '@/pages/Game.jsx';
-import Leaderboard from '@/pages/Leaderboard.jsx';
-import Login from '@/pages/Login.jsx';
-import Profile from '@/pages/Profile.jsx';
-import Register from '@/pages/Register.jsx';
+
+const Game = lazy(() => import('@/pages/Game.jsx'));
+const Leaderboard = lazy(() => import('@/pages/Leaderboard.jsx'));
+const Login = lazy(() => import('@/pages/Login.jsx'));
+const Profile = lazy(() => import('@/pages/Profile.jsx'));
+const Register = lazy(() => import('@/pages/Register.jsx'));
+
+function PageFallback() {
+  return (
+    <main className="mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-4 py-16">
+      <Skeleton className="h-48 w-full max-w-2xl" />
+    </main>
+  );
+}
 
 export default function App() {
   return (
@@ -14,15 +25,17 @@ export default function App() {
       <div className="flex min-h-screen flex-col bg-ink text-white">
         <Header />
         <ErrorBoundary>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/game/:mode" element={<Game />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Suspense fallback={<PageFallback />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/game/:mode" element={<Game />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
         </ErrorBoundary>
         <footer className="border-t border-white/10 py-6 text-center text-xs font-semibold text-white/40">
           Vroom · Feito para quem ama carros ·{' '}

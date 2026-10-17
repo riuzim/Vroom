@@ -1,4 +1,6 @@
-export const cars = [
+import type { Car } from './game.js';
+
+export const cars: Car[] = [
   { name: 'BMW XM', imageUrl: 'https://i.imgur.com/QOyhDrc.jpg' },
   { name: 'Mercedes GTR', imageUrl: 'https://i.imgur.com/1EKcZtW.jpg' },
   { name: 'Porsche 911', imageUrl: 'https://i.imgur.com/ckbtkUK.jpg' },

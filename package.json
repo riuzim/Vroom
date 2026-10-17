@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "pnpm --filter @vroom/web dev",
+    "dev": "pnpm --parallel -r dev",
     "dev:web": "pnpm --filter @vroom/web dev",
     "build": "pnpm -r build",
     "test": "pnpm -r test",

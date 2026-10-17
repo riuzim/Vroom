@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   BLUR_STEP,
+  cars,
   getAvailableLetters,
   getHint,
   INITIAL_BLUR,
@@ -8,7 +9,6 @@ import {
   normalizeGuess,
   pickRandomCar,
 } from '@vroom/shared';
-import { cars } from '@/data/cars';
 import { loadLocalScores, saveLocalScores, SCORES_CHANGED_EVENT } from '@/lib/localScores';
 
 /**

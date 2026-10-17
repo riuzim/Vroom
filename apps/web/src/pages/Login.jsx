@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useLogin } from '@/hooks/useAuth';
 
 const loginSchema = z.object({
   email: z.string().email('Informe um email válido'),
@@ -15,13 +16,21 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
+  const navigate = useNavigate();
+  const login = useLogin();
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
 
-  function onSubmit() {
-    toast.info('Contas chegam com o backend do jogo (próximas fases). Em breve!');
+  function onSubmit(values) {
+    login.mutate(values, {
+      onSuccess: () => {
+        toast.success('Bem-vindo de volta!');
+        navigate('/');
+      },
+      onError: (error) => toast.error(error.message),
+    });
   }
 
   return (
@@ -61,9 +70,9 @@ export default function Login() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={login.isPending}>
                 <LogIn className="size-4" />
-                Entrar
+                {login.isPending ? 'Entrando...' : 'Entrar'}
               </Button>
             </form>
           </Form>
