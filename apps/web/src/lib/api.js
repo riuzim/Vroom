@@ -13,7 +13,9 @@ async function request(path, options = {}) {
     });
   } catch (cause) {
     // Rede indisponível/offline: evita vazar "Failed to fetch" cru nos toasts.
-    const error = new Error('Sem conexão com o servidor. Verifique sua internet e tente novamente.');
+    const error = new Error(
+      'Sem conexão com o servidor. Verifique sua internet e tente novamente.',
+    );
     error.cause = cause;
     throw error;
   }
