@@ -7,7 +7,13 @@ let cache = { raw: null, scores: [] };
 
 /** Lê os scores locais com cache estável (seguro para useSyncExternalStore). */
 export function loadLocalScores() {
-  const raw = localStorage.getItem(SCORE_STORAGE_KEY);
+  let raw;
+  try {
+    raw = localStorage.getItem(SCORE_STORAGE_KEY);
+  } catch {
+    // Storage bloqueado (modo privado, etc.): mantém o que já está em cache.
+    return cache.scores;
+  }
 
   if (raw !== cache.raw) {
     try {
@@ -22,12 +28,20 @@ export function loadLocalScores() {
 }
 
 export function saveLocalScores(scores) {
-  localStorage.setItem(SCORE_STORAGE_KEY, JSON.stringify(scores));
+  try {
+    localStorage.setItem(SCORE_STORAGE_KEY, JSON.stringify(scores));
+  } catch {
+    // Cota cheia ou storage bloqueado: a partida continua, só não persiste.
+  }
   window.dispatchEvent(new CustomEvent(SCORES_CHANGED_EVENT));
 }
 
 export function clearLocalScores() {
-  localStorage.removeItem(SCORE_STORAGE_KEY);
+  try {
+    localStorage.removeItem(SCORE_STORAGE_KEY);
+  } catch {
+    // Storage bloqueado: nada acessível a limpar.
+  }
   window.dispatchEvent(new CustomEvent(SCORES_CHANGED_EVENT));
 }
 

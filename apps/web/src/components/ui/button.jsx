@@ -11,7 +11,7 @@ const buttonVariants = cva(
         default:
           'border-2 border-bone bg-primary text-primary-foreground shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none',
         destructive:
-          'border-2 border-bone bg-danger text-ink shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none',
+          'border-2 border-danger bg-transparent text-danger hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none',
         outline: 'border-2 border-bone bg-transparent text-bone hover:bg-bone hover:text-ink',
         secondary: 'border-2 border-bone bg-raised text-bone hover:bg-line',
         ghost:

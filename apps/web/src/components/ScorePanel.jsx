@@ -20,13 +20,13 @@ export default function ScorePanel({
                 key={`${score}-${index}`}
                 className={cn(
                   'flex items-center justify-between rounded-none border-2 px-3 py-2 text-sm',
-                  isTop ? 'border-bone bg-bone text-ink' : 'border-line bg-raised text-bone/80',
+                  isTop ? 'border-flame bg-raised text-bone' : 'border-line bg-raised text-bone/80',
                 )}
               >
                 <span className="flex items-center gap-2 font-black">
                   {variant === 'best' ? (
                     <>
-                      {isTop && <span className="font-mono text-xs">0{index + 1}</span>}
+                      {isTop && <span className="font-mono text-xs text-flame">0{index + 1}</span>}
                       {index + 1}º
                     </>
                   ) : (

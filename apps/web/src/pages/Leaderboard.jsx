@@ -19,7 +19,7 @@ export default function Leaderboard() {
   const [period, setPeriod] = useState('all');
   const [mode, setMode] = useState('all');
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['leaderboard', period, mode],
     queryFn: () => api.get(`/api/leaderboard?period=${period}&mode=${mode}`),
   });
@@ -70,6 +70,19 @@ export default function Leaderboard() {
                     <Skeleton key={index} className="h-14 w-full" />
                   ))}
                 </div>
+              ) : isError ? (
+                <div className="flex flex-col items-center gap-3 py-8 text-center">
+                  <p className="text-sm text-bone/55">
+                    Não foi possível carregar o ranking. Verifique sua conexão.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => refetch()}
+                    className="rounded-none border-2 border-bone px-4 py-1.5 text-xs font-black uppercase tracking-wide transition hover:bg-bone hover:text-ink"
+                  >
+                    Tentar novamente
+                  </button>
+                </div>
               ) : entries.length === 0 ? (
                 <p className="py-8 text-center text-sm text-bone/55">
                   Ninguém pontuou aqui ainda. Que tal ser o primeiro?
@@ -82,13 +95,13 @@ export default function Leaderboard() {
                       className={cn(
                         'flex items-center justify-between rounded-none border-2 px-4 py-3',
                         entry.position <= 3
-                          ? 'border-bone bg-bone text-ink'
+                          ? 'border-flame bg-raised text-bone'
                           : 'border-line bg-raised text-bone/80',
                       )}
                     >
                       <span className="flex min-w-0 items-center gap-3 font-black">
                         {entry.position <= 3 ? (
-                          <span className="font-mono text-xs">0{entry.position}</span>
+                          <span className="font-mono text-xs text-flame">0{entry.position}</span>
                         ) : null}
                         <span className="truncate">{entry.username}</span>
                       </span>

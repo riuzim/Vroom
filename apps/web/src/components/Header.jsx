@@ -27,7 +27,7 @@ function NavLinks({ onNavigate }) {
           className={({ isActive }) =>
             cn(
               'rounded-none px-4 py-2 text-sm font-black uppercase transition',
-              isActive ? 'bg-bone text-ink' : 'text-bone/70 hover:bg-bone/10 hover:text-bone',
+              isActive ? 'bg-flame text-ink' : 'text-bone/70 hover:bg-bone/10 hover:text-bone',
             )
           }
         >
