@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { INITIAL_BLUR, MAX_ATTEMPTS } from '@vroom/shared';
 import { api } from '@/lib/api';
 import { useMe } from '@/hooks/useAuth';
-import { loadLocalScores, saveLocalScores, SCORES_CHANGED_EVENT } from '@/lib/localScores';
+import { loadLocalScores, saveLocalScores, useLocalScores } from '@/lib/localScores';
 
 /**
  * Loop de jogo server-authoritative (Fase 3). O nome do carro nunca sai do
@@ -27,24 +27,13 @@ export function useVroomGame(mode = 'classic') {
   const [status, setStatus] = useState('idle');
   const [message, setMessage] = useState('');
   const [sessionScore, setSessionScore] = useState(0);
-  const [scores, setScores] = useState(loadLocalScores);
+  // Fonte única de verdade para os scores locais (sincroniza entre abas).
+  const scores = useLocalScores();
   const nextTimer = useRef(null);
 
   const round = roundQuery.data?.round ?? null;
   const isRoundOver = !round || round.status !== 'playing';
   const dailyDone = mode === 'daily' && isRoundOver && round !== null;
-
-  useEffect(() => {
-    function onScoresChanged() {
-      setScores(loadLocalScores());
-    }
-    window.addEventListener(SCORES_CHANGED_EVENT, onScoresChanged);
-    return () => window.removeEventListener(SCORES_CHANGED_EVENT, onScoresChanged);
-  }, []);
-
-  useEffect(() => {
-    saveLocalScores(scores);
-  }, [scores]);
 
   useEffect(() => {
     return () => {
@@ -78,14 +67,15 @@ export function useVroomGame(mode = 'classic') {
 
   const recordEndedRound = useCallback((sessionStreak) => {
     // Score local acompanha o streak da sessão (Best/Last Score do painel).
-    setScores((values) => [...values, sessionStreak]);
+    // Grava no fim da rodada direto na store, que é a fonte única de verdade.
+    saveLocalScores([...loadLocalScores(), sessionStreak]);
   }, []);
 
   const guessMutation = useMutation({
     mutationFn: (guess) => api.post(`/api/rounds/${round?.id}/guess`, { guess }),
     onSuccess: (data) => {
       queryClient.setQueryData(['round', mode], { round: data.round });
-      setStatus(data.result === 'wrong' ? 'wrong' : data.result);
+      setStatus(data.result);
       setMessage(data.message);
 
       if (data.result === 'correct') {
@@ -111,6 +101,8 @@ export function useVroomGame(mode = 'classic') {
       setMessage(data.message);
       recordEndedRound(sessionScore);
       setSessionScore(0);
+      // Igual ao chute errado: agenda a próxima rodada para não travar o jogo.
+      scheduleNext(1800);
     },
     onError: (error) => toast.error(error.message),
   });

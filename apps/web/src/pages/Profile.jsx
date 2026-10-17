@@ -12,16 +12,17 @@ import { useLogout, useMe } from '@/hooks/useAuth';
 import { useLocalScores } from '@/lib/localScores';
 
 export default function Profile() {
-  const { data, isLoading } = useMe();
+  const { data, isLoading, isError, refetch } = useMe();
   const logout = useLogout();
   const scores = useLocalScores();
 
   const user = data?.user ?? null;
-  const { data: statsData, isLoading: statsLoading } = useQuery({
-    queryKey: ['stats'],
-    queryFn: () => api.get('/api/profile/stats'),
-    enabled: !!user,
-  });
+  const { data: statsData, isLoading: statsLoading, isError: statsError, refetch: refetchStats } =
+    useQuery({
+      queryKey: ['stats'],
+      queryFn: () => api.get('/api/profile/stats'),
+      enabled: !!user,
+    });
 
   const stats = statsData?.stats ?? null;
   const roundsPlayed = scores.length;
@@ -42,6 +43,17 @@ export default function Profile() {
       {isLoading ? (
         <Card>
           <CardContent className="p-10 text-center text-sm text-bone/55">Carregando...</CardContent>
+        </Card>
+      ) : isError ? (
+        <Card>
+          <CardContent className="flex flex-col items-center gap-3 p-10 text-center">
+            <p className="text-sm text-bone/55">
+              Não foi possível carregar seu perfil. Verifique sua conexão.
+            </p>
+            <Button variant="outline" size="sm" onClick={() => refetch()}>
+              Tentar novamente
+            </Button>
+          </CardContent>
         </Card>
       ) : user ? (
         <Card>
@@ -99,16 +111,38 @@ export default function Profile() {
         </Card>
       )}
 
-      {stats ? (
+      {user && statsError ? (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="text-lg">Ranking</CardTitle>
+            <CardDescription>Seus pontos registrados no servidor.</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center gap-3 text-center">
+            <p className="text-sm text-bone/55">
+              Não foi possível carregar suas estatísticas. Verifique sua conexão.
+            </p>
+            <Button variant="outline" size="sm" onClick={() => refetchStats()}>
+              Tentar novamente
+            </Button>
+          </CardContent>
+        </Card>
+      ) : user && statsLoading ? (
         <Card className="mt-6">
           <CardHeader>
             <CardTitle className="text-lg">Ranking</CardTitle>
             <CardDescription>Seus pontos registrados no servidor.</CardDescription>
           </CardHeader>
           <CardContent>
-            {statsLoading ? (
-              <Skeleton className="h-20 w-full" />
-            ) : (
+            <Skeleton className="h-20 w-full" />
+          </CardContent>
+        </Card>
+      ) : stats ? (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="text-lg">Ranking</CardTitle>
+            <CardDescription>Seus pontos registrados no servidor.</CardDescription>
+          </CardHeader>
+          <CardContent>
               <div className="grid grid-cols-3 gap-4">
                 <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
                   <p className="text-xs font-black uppercase tracking-wide text-bone/55">Pontos</p>
@@ -127,7 +161,6 @@ export default function Profile() {
                   <p className="mt-1 font-mono text-2xl font-black text-acid">{stats.bestRound}</p>
                 </div>
               </div>
-            )}
           </CardContent>
         </Card>
       ) : (

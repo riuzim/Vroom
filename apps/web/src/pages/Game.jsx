@@ -108,14 +108,17 @@ export default function Game() {
               status={game.status}
             />
 
-            <GuessInput disabled={game.isRoundOver || game.isGuessing} onSubmit={game.guess} />
+            <GuessInput
+              disabled={game.isRoundOver || game.isGuessing || game.isSkipping}
+              onSubmit={game.guess}
+            />
 
             <div className="flex justify-center">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={game.skip}
-                disabled={game.isRoundOver || game.isSkipping}
+                disabled={game.isRoundOver || game.isGuessing || game.isSkipping}
               >
                 <SkipForward className="size-4" />
                 Pular carro
