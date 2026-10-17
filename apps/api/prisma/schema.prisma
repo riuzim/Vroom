@@ -37,7 +37,6 @@ model Round {
   mode            String
   status          String   @default("playing")
   attemptsUsed    Int      @default(0)
-  mistakes        Int      @default(0)
   revealedLetters String   @default("[]")
   dailyDate       String?
   points          Int?

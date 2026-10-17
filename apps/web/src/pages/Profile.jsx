@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { CalendarDays, LogIn, LogOut, UserPlus } from 'lucide-react';
 import { toast } from 'sonner';
+import { api } from '@/lib/api';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useLogout, useMe } from '@/hooks/useAuth';
 import { useLocalScores } from '@/lib/localScores';
 
@@ -14,6 +17,13 @@ export default function Profile() {
   const scores = useLocalScores();
 
   const user = data?.user ?? null;
+  const { data: statsData, isLoading: statsLoading } = useQuery({
+    queryKey: ['stats'],
+    queryFn: () => api.get('/api/profile/stats'),
+    enabled: !!user,
+  });
+
+  const stats = statsData?.stats ?? null;
   const roundsPlayed = scores.length;
   const bestStreak = scores.reduce((max, score) => Math.max(max, score), 0);
 
@@ -89,24 +99,53 @@ export default function Profile() {
         </Card>
       )}
 
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle className="text-lg">Suas estatísticas locais</CardTitle>
-          <CardDescription>Rodadas encerradas neste navegador.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-lg bg-white/[0.04] p-4 text-center">
-              <p className="text-xs font-black uppercase tracking-wide text-white/45">Rodadas</p>
-              <p className="mt-1 font-mono text-3xl font-black">{roundsPlayed}</p>
+      {stats ? (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="text-lg">Ranking</CardTitle>
+            <CardDescription>Seus pontos registrados no servidor.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {statsLoading ? (
+              <Skeleton className="h-20 w-full" />
+            ) : (
+              <div className="grid grid-cols-3 gap-4">
+                <div className="rounded-lg bg-white/[0.04] p-4 text-center">
+                  <p className="text-xs font-black uppercase tracking-wide text-white/45">Pontos</p>
+                  <p className="mt-1 font-mono text-2xl font-black text-flame">{stats.totalPoints}</p>
+                </div>
+                <div className="rounded-lg bg-white/[0.04] p-4 text-center">
+                  <p className="text-xs font-black uppercase tracking-wide text-white/45">Rodadas</p>
+                  <p className="mt-1 font-mono text-2xl font-black">{stats.roundsPlayed}</p>
+                </div>
+                <div className="rounded-lg bg-white/[0.04] p-4 text-center">
+                  <p className="text-xs font-black uppercase tracking-wide text-white/45">Melhor rodada</p>
+                  <p className="mt-1 font-mono text-2xl font-black text-mint">{stats.bestRound}</p>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="text-lg">Suas estatísticas locais</CardTitle>
+            <CardDescription>Rodadas encerradas neste navegador.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-lg bg-white/[0.04] p-4 text-center">
+                <p className="text-xs font-black uppercase tracking-wide text-white/45">Rodadas</p>
+                <p className="mt-1 font-mono text-3xl font-black">{roundsPlayed}</p>
+              </div>
+              <div className="rounded-lg bg-white/[0.04] p-4 text-center">
+                <p className="text-xs font-black uppercase tracking-wide text-white/45">Melhor streak</p>
+                <p className="mt-1 font-mono text-3xl font-black text-flame">{bestStreak}</p>
+              </div>
             </div>
-            <div className="rounded-lg bg-white/[0.04] p-4 text-center">
-              <p className="text-xs font-black uppercase tracking-wide text-white/45">Melhor streak</p>
-              <p className="mt-1 font-mono text-3xl font-black text-flame">{bestStreak}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
     </main>
   );
 }

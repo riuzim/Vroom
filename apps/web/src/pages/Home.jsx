@@ -22,8 +22,7 @@ const modes = [
     mode: 'daily',
     icon: CalendarDays,
     title: 'Daily',
-    description: 'Um carro por dia para todo mundo. Ranking global em breve.',
-    badge: 'Em breve',
+    description: 'Um carro por dia para todo mundo. Uma rodada por dia — escolha bem.',
   },
 ];
 
