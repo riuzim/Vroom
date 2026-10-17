@@ -49,6 +49,7 @@ export default function Leaderboard() {
                   <button
                     key={filter.value}
                     type="button"
+                    aria-pressed={mode === filter.value}
                     onClick={() => setMode(filter.value)}
                     className={cn(
                       'rounded-none border-2 px-3 py-1.5 text-xs font-black uppercase tracking-wide transition',

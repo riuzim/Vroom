@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { LogIn, LogOut, Menu, Settings } from 'lucide-react';
+import { toast } from 'sonner';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
@@ -43,6 +44,13 @@ export default function Header() {
   const { data } = useMe();
   const logout = useLogout();
   const user = data?.user ?? null;
+
+  function handleLogout() {
+    logout.mutate(undefined, {
+      onSuccess: () => toast.success('Sessão encerrada. Até logo!'),
+      onError: (error) => toast.error(error.message),
+    });
+  }
 
   return (
     <header className="sticky top-0 z-40 border-b-2 border-bone bg-ink">
@@ -99,7 +107,7 @@ export default function Header() {
                 variant="ghost"
                 size="icon"
                 aria-label="Sair"
-                onClick={() => logout.mutate()}
+                onClick={handleLogout}
                 disabled={logout.isPending}
               >
                 <LogOut className="size-5" />
@@ -141,7 +149,7 @@ export default function Header() {
                         </Button>
                         <Button
                           variant="outline"
-                          onClick={() => logout.mutate()}
+                          onClick={handleLogout}
                           disabled={logout.isPending}
                         >
                           <LogOut className="size-4" />
