@@ -4,11 +4,13 @@ const Toaster = (props) => (
   <Sonner
     className="toaster group"
     toastOptions={{
+      style: { borderRadius: '0px' },
       classNames: {
-        toast: 'group toast group-[.toaster]:bg-panel group-[.toaster]:text-white group-[.toaster]:border-white/10 group-[.toaster]:shadow-2xl',
-        description: 'group-[.toast]:text-white/60',
+        toast:
+          'group toast group-[.toaster]:rounded-none group-[.toaster]:border-2 group-[.toaster]:border-bone group-[.toaster]:bg-panel group-[.toaster]:text-bone group-[.toaster]:shadow-hard',
+        description: 'group-[.toast]:text-bone/60',
         actionButton: 'group-[.toast]:bg-primary group-[.toast]:text-primary-foreground',
-        cancelButton: 'group-[.toast]:bg-white/10 group-[.toast]:text-white/70',
+        cancelButton: 'group-[.toast]:bg-bone/10 group-[.toast]:text-bone/70',
       },
     }}
     {...props}

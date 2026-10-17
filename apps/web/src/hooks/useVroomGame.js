@@ -73,7 +73,7 @@ export function useVroomGame(mode = 'classic') {
         startNextRound();
       }, delay);
     },
-    [mode, startNextRound]
+    [mode, startNextRound],
   );
 
   const recordEndedRound = useCallback((sessionStreak) => {
@@ -116,13 +116,21 @@ export function useVroomGame(mode = 'classic') {
   });
 
   const bestScores = useMemo(
-    () => [...scores].filter((item) => item > 0).sort((a, b) => b - a).slice(0, 3),
-    [scores]
+    () =>
+      [...scores]
+        .filter((item) => item > 0)
+        .sort((a, b) => b - a)
+        .slice(0, 3),
+    [scores],
   );
 
   const recentScores = useMemo(
-    () => [...scores].filter((item) => item > 0).slice(-5).reverse(),
-    [scores]
+    () =>
+      [...scores]
+        .filter((item) => item > 0)
+        .slice(-5)
+        .reverse(),
+    [scores],
   );
 
   return {

@@ -31,7 +31,7 @@ export default function SettingsModal({ isOpen, onClose, onResetScores }) {
                 <Mail className="size-4" />
                 Feedback
               </span>
-              <span className="font-mono text-xs font-normal normal-case text-white/45">
+              <span className="font-mono text-xs font-normal normal-case text-bone/45">
                 vroomfeedback@gmail.com
               </span>
             </a>
@@ -42,7 +42,7 @@ export default function SettingsModal({ isOpen, onClose, onResetScores }) {
                 <Bug className="size-4" />
                 Reportar bug
               </span>
-              <span className="text-xs font-normal normal-case text-white/45">Enviar email</span>
+              <span className="text-xs font-normal normal-case text-bone/45">Enviar email</span>
             </a>
           </Button>
           <Button variant="destructive" className="w-full justify-start" onClick={handleReset}>

@@ -17,7 +17,7 @@ export function createApp() {
     cors({
       origin: env.corsOrigins,
       credentials: true,
-    })
+    }),
   );
   app.use(express.json({ limit: '64kb' }));
   app.use(cookieParser());

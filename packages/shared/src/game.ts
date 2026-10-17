@@ -34,7 +34,9 @@ export function getHint(name: string, revealedLetters: string[]): string {
 /** Letras ainda não reveladas de um nome. */
 export function getAvailableLetters(name: string, revealedLetters: string[]): string[] {
   const visible = new Set(revealedLetters.map((letter) => letter.toLowerCase()));
-  const letters = name.split('').filter((char) => /[a-z]/i.test(char) && !visible.has(char.toLowerCase()));
+  const letters = name
+    .split('')
+    .filter((char) => /[a-z]/i.test(char) && !visible.has(char.toLowerCase()));
 
   return [...new Set(letters.map((letter) => letter.toLowerCase()))];
 }

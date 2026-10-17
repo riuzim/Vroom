@@ -24,5 +24,5 @@ createRoot(document.getElementById('root')).render(
         <Toaster position="top-center" />
       </TooltipProvider>
     </QueryClientProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

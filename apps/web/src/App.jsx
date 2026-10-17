@@ -22,7 +22,7 @@ function PageFallback() {
 export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <div className="flex min-h-screen flex-col bg-ink text-white">
+      <div className="flex min-h-screen flex-col bg-ink text-bone">
         <Header />
         <ErrorBoundary>
           <Suspense fallback={<PageFallback />}>
@@ -37,11 +37,14 @@ export default function App() {
             </Routes>
           </Suspense>
         </ErrorBoundary>
-        <footer className="border-t border-white/10 py-6 text-center text-xs font-semibold text-white/40">
-          Vroom · Feito para quem ama carros ·{' '}
-          <a href="mailto:vroomfeedback@gmail.com" className="transition hover:text-flame">
-            Feedback
-          </a>
+        <footer className="border-t-2 border-bone">
+          <div aria-hidden="true" className="checker h-3" />
+          <p className="px-4 py-6 text-center text-xs font-bold text-bone/40">
+            Vroom · Feito para quem ama carros ·{' '}
+            <a href="mailto:vroomfeedback@gmail.com" className="transition hover:text-flame">
+              Feedback
+            </a>
+          </p>
         </footer>
       </div>
     </BrowserRouter>

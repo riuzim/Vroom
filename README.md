@@ -26,11 +26,11 @@ Vroom/
 └─ pnpm-workspace.yaml
 ```
 
-| Camada | Stack |
-| --- | --- |
+| Camada   | Stack                                                                                                                                    |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | Frontend | React 18, Vite 6, Tailwind CSS 3, Radix UI (padrão shadcn/ui), React Router, TanStack Query, react-hook-form + zod, sonner, lucide-react |
-| Backend | Express + TypeScript, Prisma ORM (SQLite), Zod, bcryptjs, JWT em cookie httpOnly, express-rate-limit |
-| Testes | Vitest (unit no shared, supertest de integração na API, Testing Library no web) |
+| Backend  | Express + TypeScript, Prisma ORM (SQLite), Zod, bcryptjs, JWT em cookie httpOnly, express-rate-limit                                     |
+| Testes   | Vitest (unit no shared, supertest de integração na API, Testing Library no web)                                                          |
 
 ### Anti-cheat
 
@@ -55,27 +55,27 @@ Abra http://localhost:5173/Vroom/ — o Vite faz proxy de `/api` para a API (sem
 
 ### Scripts
 
-| Comando | O que faz |
-| --- | --- |
-| `pnpm dev` | Sobe todos os workspaces em modo watch |
-| `pnpm build` | Build de produção (shared → web + api) |
-| `pnpm test` | Roda todos os testes |
-| `pnpm lint` | ESLint no monorepo inteiro |
-| `pnpm --filter @vroom/api db:migrate` | Cria/aplica migrations (Prisma) |
-| `pnpm --filter @vroom/api db:seed` | Popula o catálogo de carros |
+| Comando                               | O que faz                              |
+| ------------------------------------- | -------------------------------------- |
+| `pnpm dev`                            | Sobe todos os workspaces em modo watch |
+| `pnpm build`                          | Build de produção (shared → web + api) |
+| `pnpm test`                           | Roda todos os testes                   |
+| `pnpm lint`                           | ESLint no monorepo inteiro             |
+| `pnpm --filter @vroom/api db:migrate` | Cria/aplica migrations (Prisma)        |
+| `pnpm --filter @vroom/api db:seed`    | Popula o catálogo de carros            |
 
 ## API
 
-| Rota | Descrição |
-| --- | --- |
-| `GET /api/health` | Healthcheck |
-| `POST /api/auth/register` / `login` / `logout` · `GET /api/auth/me` | Autenticação (JWT em cookie httpOnly) |
-| `POST /api/rounds {mode}` | Inicia/retoma rodada (sem expor o carro) |
-| `GET /api/rounds/active` | Rodada em andamento do usuário |
-| `POST /api/rounds/:id/guess {guess}` | Valida chute no servidor |
-| `POST /api/rounds/:id/skip` | Encerra revelando (0 pontos) |
-| `GET /api/leaderboard?period=all\|today&mode=` | Ranking global agregado |
-| `GET /api/profile/stats` | Estatísticas do jogador logado |
+| Rota                                                                | Descrição                                |
+| ------------------------------------------------------------------- | ---------------------------------------- |
+| `GET /api/health`                                                   | Healthcheck                              |
+| `POST /api/auth/register` / `login` / `logout` · `GET /api/auth/me` | Autenticação (JWT em cookie httpOnly)    |
+| `POST /api/rounds {mode}`                                           | Inicia/retoma rodada (sem expor o carro) |
+| `GET /api/rounds/active`                                            | Rodada em andamento do usuário           |
+| `POST /api/rounds/:id/guess {guess}`                                | Valida chute no servidor                 |
+| `POST /api/rounds/:id/skip`                                         | Encerra revelando (0 pontos)             |
+| `GET /api/leaderboard?period=all\|today&mode=`                      | Ranking global agregado                  |
+| `GET /api/profile/stats`                                            | Estatísticas do jogador logado           |
 
 ## Deploy
 

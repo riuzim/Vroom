@@ -26,8 +26,8 @@ function NavLinks({ onNavigate }) {
           onClick={onNavigate}
           className={({ isActive }) =>
             cn(
-              'rounded-full px-4 py-2 text-sm font-bold transition',
-              isActive ? 'text-flame' : 'text-white/75 hover:text-flame'
+              'rounded-none px-4 py-2 text-sm font-black uppercase transition',
+              isActive ? 'bg-bone text-ink' : 'text-bone/70 hover:bg-bone/10 hover:text-bone',
             )
           }
         >
@@ -45,11 +45,11 @@ export default function Header() {
   const user = data?.user ?? null;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-ink/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b-2 border-bone bg-ink">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link
           to="/"
-          className="font-display text-2xl uppercase tracking-[0.22em] text-white transition hover:text-flame"
+          className="font-display text-2xl uppercase tracking-[0.22em] text-bone transition hover:text-flame"
         >
           Vroom
         </Link>
@@ -63,7 +63,7 @@ export default function Header() {
             href="https://discord.gg/JTDE5eMv"
             target="_blank"
             rel="noreferrer"
-            className="hidden rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-flame/60 hover:text-flame lg:inline-flex"
+            className="hidden rounded-none border-2 border-bone px-4 py-2 text-sm font-bold text-bone transition hover:bg-bone hover:text-ink lg:inline-flex"
           >
             Discord
           </a>
@@ -71,7 +71,7 @@ export default function Header() {
             href="https://github.com/riuzim/Vroom"
             target="_blank"
             rel="noreferrer"
-            className="hidden rounded-full border border-white/10 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-flame/60 hover:text-flame lg:inline-flex"
+            className="hidden rounded-none border-2 border-bone px-4 py-2 text-sm font-bold text-bone transition hover:bg-bone hover:text-ink lg:inline-flex"
           >
             GitHub
           </a>
@@ -90,7 +90,7 @@ export default function Header() {
                   <Avatar className="size-7 border-none">
                     <AvatarFallback className="text-xs">{user.username.charAt(0)}</AvatarFallback>
                   </Avatar>
-                  <span className="hidden max-w-24 truncate font-bold normal-case tracking-normal text-white/85 sm:inline">
+                  <span className="hidden max-w-24 truncate font-bold normal-case tracking-normal text-bone/85 sm:inline">
                     {user.username}
                   </span>
                 </Link>
@@ -126,18 +126,24 @@ export default function Header() {
                 </SheetHeader>
                 <div className="mt-4 flex flex-col gap-4">
                   <NavLinks />
-                  <div className="flex flex-col gap-2 border-t border-white/10 pt-4">
+                  <div className="flex flex-col gap-2 border-t-2 border-bone pt-4">
                     {user ? (
                       <>
                         <Button variant="secondary" asChild>
                           <Link to="/profile">
                             <Avatar className="size-6 border-none">
-                              <AvatarFallback className="text-xs">{user.username.charAt(0)}</AvatarFallback>
+                              <AvatarFallback className="text-xs">
+                                {user.username.charAt(0)}
+                              </AvatarFallback>
                             </Avatar>
                             {user.username}
                           </Link>
                         </Button>
-                        <Button variant="outline" onClick={() => logout.mutate()} disabled={logout.isPending}>
+                        <Button
+                          variant="outline"
+                          onClick={() => logout.mutate()}
+                          disabled={logout.isPending}
+                        >
                           <LogOut className="size-4" />
                           Sair
                         </Button>
@@ -154,7 +160,7 @@ export default function Header() {
                       href="https://discord.gg/JTDE5eMv"
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-full border border-white/10 px-4 py-2.5 text-center text-sm font-semibold text-white/80 transition hover:border-flame/60 hover:text-flame"
+                      className="rounded-none border-2 border-bone px-4 py-2.5 text-center text-sm font-bold text-bone transition hover:bg-bone hover:text-ink"
                     >
                       Discord
                     </a>
@@ -162,7 +168,7 @@ export default function Header() {
                       href="https://github.com/riuzim/Vroom"
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-full border border-white/10 px-4 py-2.5 text-center text-sm font-semibold text-white/80 transition hover:border-flame/60 hover:text-flame"
+                      className="rounded-none border-2 border-bone px-4 py-2.5 text-center text-sm font-bold text-bone transition hover:bg-bone hover:text-ink"
                     >
                       GitHub
                     </a>

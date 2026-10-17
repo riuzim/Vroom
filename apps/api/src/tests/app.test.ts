@@ -60,7 +60,9 @@ describe('Autenticação', () => {
   });
 
   it('rejeita payload inválido', async () => {
-    const res = await request(app).post('/api/auth/register').send({ username: 'x', email: 'nope', password: '1' });
+    const res = await request(app)
+      .post('/api/auth/register')
+      .send({ username: 'x', email: 'nope', password: '1' });
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('Dados inválidos');
   });
@@ -105,13 +107,17 @@ describe('Rodadas server-authoritative', () => {
     const car = await dbCarOf(start.body.round.id);
     await agent.post(`/api/rounds/${start.body.round.id}/guess`).send({ guess: 'chute errado' });
 
-    const correct = await agent.post(`/api/rounds/${start.body.round.id}/guess`).send({ guess: car!.name });
+    const correct = await agent
+      .post(`/api/rounds/${start.body.round.id}/guess`)
+      .send({ guess: car!.name });
     expect(correct.body.result).toBe('correct');
     expect(correct.body.points).toBe(40);
     expect(correct.body.round.carName).toBe(car!.name);
 
     const board = await request(app).get('/api/leaderboard');
-    const entry = board.body.entries.find((item: { username: string }) => item.username === user.username);
+    const entry = board.body.entries.find(
+      (item: { username: string }) => item.username === user.username,
+    );
     expect(entry?.points).toBe(40);
 
     const stats = await agent.get('/api/profile/stats');
@@ -125,12 +131,16 @@ describe('Rodadas server-authoritative', () => {
 
     let last;
     for (let index = 0; index < 5; index += 1) {
-      last = await agent.post(`/api/rounds/${start.body.round.id}/guess`).send({ guess: `errado ${index}` });
+      last = await agent
+        .post(`/api/rounds/${start.body.round.id}/guess`)
+        .send({ guess: `errado ${index}` });
     }
     expect(last!.body.result).toBe('failed');
     expect(last!.body.round.carName).toBeTruthy();
 
-    const extra = await agent.post(`/api/rounds/${start.body.round.id}/guess`).send({ guess: 'qualquer' });
+    const extra = await agent
+      .post(`/api/rounds/${start.body.round.id}/guess`)
+      .send({ guess: 'qualquer' });
     expect(extra.status).toBe(403);
   });
 
@@ -179,7 +189,9 @@ describe('Rodadas server-authoritative', () => {
     expect(start.status).toBe(201);
 
     const car = await dbCarOf(start.body.round.id);
-    const correct = await guest.post(`/api/rounds/${start.body.round.id}/guess`).send({ guess: car!.name });
+    const correct = await guest
+      .post(`/api/rounds/${start.body.round.id}/guess`)
+      .send({ guess: car!.name });
     expect(correct.body.result).toBe('correct');
 
     // Nenhum score pode existir para rodadas de visitante.

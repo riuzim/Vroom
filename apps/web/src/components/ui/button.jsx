@@ -4,16 +4,19 @@ import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-black uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none text-sm font-black uppercase tracking-wide transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 motion-reduce:transition-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground shadow-glow hover:brightness-110',
-        destructive: 'bg-danger text-destructive-foreground hover:brightness-110',
-        outline: 'border border-white/15 bg-transparent text-white/80 hover:border-flame/60 hover:text-flame',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'text-white/80 hover:bg-white/10 hover:text-white',
-        link: 'text-flame underline-offset-4 hover:underline',
+        default:
+          'border-2 border-bone bg-primary text-primary-foreground shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none',
+        destructive:
+          'border-2 border-bone bg-danger text-ink shadow-hard hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-hard-lg active:translate-x-0.5 active:translate-y-0.5 active:shadow-none',
+        outline: 'border-2 border-bone bg-transparent text-bone hover:bg-bone hover:text-ink',
+        secondary: 'border-2 border-bone bg-raised text-bone hover:bg-line',
+        ghost:
+          'border-2 border-transparent text-bone/80 hover:border-line hover:bg-raised hover:text-bone',
+        link: 'border-2 border-transparent text-flame underline-offset-4 hover:underline',
       },
       size: {
         default: 'min-h-11 px-6 py-2',
@@ -26,7 +29,7 @@ const buttonVariants = cva(
       variant: 'default',
       size: 'default',
     },
-  }
+  },
 );
 
 const Button = React.forwardRef(({ className, variant, size, asChild = false, ...props }, ref) => {

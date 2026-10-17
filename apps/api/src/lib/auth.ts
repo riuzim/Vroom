@@ -1,7 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import type { NextFunction, Request, Response } from 'express';
-import { env } from '../env.js';export const AUTH_COOKIE = 'vroom_token';
+import { env } from '../env.js';
+export const AUTH_COOKIE = 'vroom_token';
 const TOKEN_TTL_SECONDS = 7 * 24 * 60 * 60; // 7 dias
 
 export interface AuthUser {

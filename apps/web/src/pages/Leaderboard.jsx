@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Medal, Trophy } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,8 +14,6 @@ const MODE_FILTERS = [
   { value: 'hard', label: 'Hard' },
   { value: 'daily', label: 'Daily' },
 ];
-
-const medalClasses = ['text-flame', 'text-white/70', 'text-mint'];
 
 export default function Leaderboard() {
   const [period, setPeriod] = useState('all');
@@ -31,7 +29,7 @@ export default function Leaderboard() {
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10 sm:px-6">
       <div className="mb-8 flex flex-col items-center gap-3 text-center">
-        <div className="rounded-full bg-panelSoft p-3 text-flame">
+        <div className="rounded-none border-2 border-bone bg-raised p-3 text-flame">
           <Trophy className="size-7" />
         </div>
         <h1 className="font-display text-3xl uppercase tracking-[0.22em]">Ranking global</h1>
@@ -40,11 +38,7 @@ export default function Leaderboard() {
 
       <Card>
         <CardContent className="p-6">
-          <Tabs
-            defaultValue="all"
-            value={period}
-            onValueChange={setPeriod}
-          >
+          <Tabs defaultValue="all" value={period} onValueChange={setPeriod}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <TabsList>
                 <TabsTrigger value="all">Geral</TabsTrigger>
@@ -57,10 +51,10 @@ export default function Leaderboard() {
                     type="button"
                     onClick={() => setMode(filter.value)}
                     className={cn(
-                      'rounded-full border px-3 py-1.5 text-xs font-bold uppercase tracking-wide transition',
+                      'rounded-none border-2 px-3 py-1.5 text-xs font-black uppercase tracking-wide transition',
                       mode === filter.value
-                        ? 'border-flame/60 bg-flame/10 text-flame'
-                        : 'border-white/10 text-white/60 hover:border-flame/40 hover:text-flame'
+                        ? 'border-bone bg-flame text-ink'
+                        : 'border-line text-bone/60 hover:border-bone hover:text-bone',
                     )}
                   >
                     {filter.label}
@@ -77,7 +71,7 @@ export default function Leaderboard() {
                   ))}
                 </div>
               ) : entries.length === 0 ? (
-                <p className="py-8 text-center text-sm text-white/45">
+                <p className="py-8 text-center text-sm text-bone/45">
                   Ninguém pontuou aqui ainda. Que tal ser o primeiro?
                 </p>
               ) : (
@@ -85,19 +79,24 @@ export default function Leaderboard() {
                   {entries.map((entry) => (
                     <li
                       key={`${entry.position}-${entry.username}`}
-                      className="flex items-center justify-between rounded-md bg-white/[0.04] px-4 py-3"
+                      className={cn(
+                        'flex items-center justify-between rounded-none border-2 px-4 py-3',
+                        entry.position <= 3
+                          ? 'border-bone bg-bone text-ink'
+                          : 'border-line bg-raised text-bone/80',
+                      )}
                     >
-                      <span className="flex min-w-0 items-center gap-3 font-bold text-white/55">
+                      <span className="flex min-w-0 items-center gap-3 font-black">
                         {entry.position <= 3 ? (
-                          <Medal className={cn('size-5 shrink-0', medalClasses[entry.position - 1])} />
+                          <span className="font-mono text-xs">0{entry.position}</span>
                         ) : null}
-                        <span className="truncate text-white/90">{entry.username}</span>
+                        <span className="truncate">{entry.username}</span>
                       </span>
                       <span className="flex items-center gap-4">
-                        <span className="text-xs font-semibold text-white/45">
+                        <span className="text-xs font-bold">
                           {entry.rounds} rodada{entry.rounds === 1 ? '' : 's'}
                         </span>
-                        <span className="font-mono text-lg font-black text-white">{entry.points}</span>
+                        <span className="font-mono text-lg font-black">{entry.points}</span>
                       </span>
                     </li>
                   ))}

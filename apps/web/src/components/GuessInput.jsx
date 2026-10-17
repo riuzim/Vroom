@@ -57,14 +57,14 @@ export default function GuessInput({ disabled, onSubmit }) {
       </div>
 
       {isFocused && suggestions.length > 0 && (
-        <ul className="absolute z-30 mt-2 max-h-56 w-full overflow-auto rounded-md border border-white/10 bg-popover shadow-2xl">
+        <ul className="absolute z-30 mt-2 max-h-56 w-full overflow-auto rounded-none border-2 border-bone bg-popover shadow-hard">
           {suggestions.map((name) => (
             <li key={name}>
               <button
                 type="button"
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => pickSuggestion(name)}
-                className="w-full px-4 py-3 text-left text-sm font-semibold text-white/85 transition hover:bg-white/10 hover:text-flame"
+                className="w-full px-4 py-3 text-left text-sm font-bold text-bone/85 transition hover:bg-bone hover:text-ink"
               >
                 {name}
               </button>

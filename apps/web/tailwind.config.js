@@ -45,24 +45,29 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        /* Tokens da marca Vroom */
+        /* Tokens da marca Vroom — paleta "Asfalto 1-bit" */
         ink: 'hsl(var(--ink))',
         panel: 'hsl(var(--panel))',
-        panelSoft: 'hsl(var(--panel-soft))',
+        raised: 'hsl(var(--raised))',
         line: 'hsl(var(--line))',
+        bone: 'hsl(var(--bone))',
         flame: 'hsl(var(--flame))',
-        mint: 'hsl(var(--mint))',
+        acid: 'hsl(var(--acid))',
         danger: 'hsl(var(--danger))',
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        sm: '0px',
+        DEFAULT: '0px',
+        md: '0px',
+        lg: '0px',
+        xl: '0px',
+        '2xl': '0px',
       },
       boxShadow: {
-        glow: '0 0 22px rgba(249, 177, 122, 0.36)',
-        mint: '0 0 22px rgba(142, 240, 193, 0.28)',
-        danger: '0 0 22px rgba(255, 107, 107, 0.28)',
+        hard: '4px 4px 0 0 hsl(var(--bone))',
+        'hard-sm': '2px 2px 0 0 hsl(var(--bone))',
+        'hard-lg': '6px 6px 0 0 hsl(var(--bone))',
+        'hard-flame': '4px 4px 0 0 hsl(var(--flame))',
       },
       keyframes: {
         'accordion-down': {

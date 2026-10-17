@@ -29,11 +29,14 @@ export default function Game() {
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
         <ServerCrash className="size-12 text-flame" />
         <h1 className="font-display text-2xl uppercase tracking-[0.22em]">Servidor offline</h1>
-        <p className="text-sm text-white/60">
-          Não foi possível falar com o servidor do Vroom. Verifique se a API está rodando
-          (<code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">pnpm dev</code>) e tente de novo.
+        <p className="text-sm text-bone/60">
+          Não foi possível falar com o servidor do Vroom. Verifique se a API está rodando (
+          <code className="rounded-none bg-bone/10 px-1.5 py-0.5 text-xs">pnpm dev</code>) e tente
+          de novo.
         </p>
-        <Button variant="outline" onClick={() => window.location.reload()}>Tentar reconectar</Button>
+        <Button variant="outline" onClick={() => window.location.reload()}>
+          Tentar reconectar
+        </Button>
       </main>
     );
   }
@@ -43,9 +46,9 @@ export default function Game() {
       <div className="order-2 grid gap-6 lg:order-1 lg:content-center">
         <ScorePanel title="Best Score" scores={game.bestScores} variant="best" />
         {!game.user && (
-          <Card className="border-flame/25">
-            <CardContent className="gap-2 p-5 text-xs text-white/60">
-              <p className="font-bold text-white/85">Jogando como visitante</p>
+          <Card className="border-flame">
+            <CardContent className="gap-2 p-5 text-xs text-bone/60">
+              <p className="font-bold text-bone/85">Jogando como visitante</p>
               <p className="mt-1">Os pontos não contam para o ranking global.</p>
               <Button variant="outline" size="sm" className="mt-3 w-full" asChild>
                 <Link to="/login">
@@ -73,9 +76,11 @@ export default function Game() {
         ) : game.dailyDone ? (
           <Card>
             <CardContent className="flex flex-col items-center gap-3 p-8 text-center">
-              <CalendarCheck className="size-10 text-mint" />
-              <p className="font-display text-lg uppercase tracking-[0.18em]">Desafio diário concluído</p>
-              <p className="text-sm text-white/60">
+              <CalendarCheck className="size-10 text-acid" />
+              <p className="font-display text-lg uppercase tracking-[0.18em]">
+                Desafio diário concluído
+              </p>
+              <p className="text-sm text-bone/60">
                 {game.status === 'correct'
                   ? `Você acertou o carro de hoje (${game.carName}) e garantiu ${game.points} pontos.`
                   : `O carro de hoje era ${game.carName}.`}
@@ -103,10 +108,7 @@ export default function Game() {
               status={game.status}
             />
 
-            <GuessInput
-              disabled={game.isRoundOver || game.isGuessing}
-              onSubmit={game.guess}
-            />
+            <GuessInput disabled={game.isRoundOver || game.isGuessing} onSubmit={game.guess} />
 
             <div className="flex justify-center">
               <Button
@@ -125,8 +127,8 @@ export default function Game() {
 
       <div className="order-3 grid gap-6 lg:content-center">
         <ScorePanel title="Last Score" scores={game.recentScores} />
-        <div className="rounded-lg border border-white/10 bg-panel p-5 text-sm text-white/55">
-          <p className="font-bold text-white/80">Modo atual</p>
+        <div className="rounded-none border-2 border-line bg-panel p-5 text-sm text-bone/55">
+          <p className="font-bold text-bone/80">Modo atual</p>
           <p className="mt-1">{info.description}</p>
         </div>
       </div>

@@ -56,7 +56,9 @@ const register: AsyncRequestHandler = async (req, res) => {
 
   if (existing) {
     const field = existing.email === body.email ? 'email' : 'username';
-    res.status(409).json({ error: field === 'email' ? 'Email já registrado' : 'Nome de usuário já em uso' });
+    res
+      .status(409)
+      .json({ error: field === 'email' ? 'Email já registrado' : 'Nome de usuário já em uso' });
     return;
   }
 

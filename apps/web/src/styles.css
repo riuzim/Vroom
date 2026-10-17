@@ -14,44 +14,45 @@
 
 @layer base {
   :root {
-    --background: 225 11% 7%;
-    --foreground: 0 0% 98%;
+    --background: 240 7% 6%;
+    --foreground: 45 26% 88%;
 
-    --card: 225 4% 11%;
-    --card-foreground: 0 0% 98%;
+    --card: 240 5% 9%;
+    --card-foreground: 45 26% 88%;
 
-    --popover: 225 6% 9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 240 5% 9%;
+    --popover-foreground: 45 26% 88%;
 
-    --primary: 26 91% 73%;
-    --primary-foreground: 225 11% 7%;
+    --primary: 26 100% 50%;
+    --primary-foreground: 240 7% 6%;
 
-    --secondary: 225 7% 15%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 240 5% 12%;
+    --secondary-foreground: 45 26% 88%;
 
-    --muted: 225 7% 15%;
-    --muted-foreground: 228 9% 64%;
+    --muted: 240 5% 12%;
+    --muted-foreground: 46 5% 52%;
 
-    --accent: 225 9% 18%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 240 5% 12%;
+    --accent-foreground: 45 26% 88%;
 
-    --destructive: 0 84% 71%;
-    --destructive-foreground: 225 11% 7%;
+    --destructive: 0 100% 62%;
+    --destructive-foreground: 240 7% 6%;
 
-    --border: 226 10% 18%;
-    --input: 226 10% 18%;
-    --ring: 26 91% 73%;
+    --border: 45 26% 88%;
+    --input: 45 26% 88%;
+    --ring: 26 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0rem;
 
-    /* Tokens da marca Vroom */
-    --ink: 225 11% 7%;
-    --panel: 225 4% 11%;
-    --panel-soft: 225 7% 15%;
-    --line: 226 13% 23%;
-    --flame: 26 91% 73%;
-    --mint: 151 76% 75%;
-    --danger: 0 84% 71%;
+    /* Tokens da marca Vroom — paleta "Asfalto 1-bit" */
+    --ink: 240 7% 6%;
+    --panel: 240 5% 9%;
+    --raised: 240 5% 12%;
+    --line: 48 5% 18%;
+    --bone: 45 26% 88%;
+    --flame: 26 100% 50%;
+    --acid: 83 88% 52%;
+    --danger: 0 100% 62%;
   }
 
   * {
@@ -60,22 +61,59 @@
   }
 
   html {
-    background: #101114;
+    background: #0e0e10;
   }
 
   body {
     min-width: 320px;
     margin: 0;
-    background:
-      radial-gradient(circle at top left, rgba(249, 177, 122, 0.12), transparent 28rem),
-      radial-gradient(circle at bottom right, rgba(142, 240, 193, 0.08), transparent 24rem),
-      #101114;
-    color: white;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0e0e10;
+    color: hsl(45 26% 88%);
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
   }
 
   button,
   input {
     font: inherit;
+  }
+
+  ::selection {
+    background: hsl(26 100% 50%);
+    color: hsl(240 7% 6%);
+  }
+}
+
+@layer utilities {
+  /* Bandeira quadriculada — células de 8px (tile de 16px) */
+  .checker {
+    background-image: repeating-conic-gradient(#0e0e10 0% 25%, #e8e4d8 0% 50%);
+    background-size: 16px 16px;
+  }
+
+  /* Skeleton 1-bit: xadrez ordenado que avança em steps (sem pulse suave) */
+  @keyframes dither-load {
+    to {
+      background-position: 12px 0;
+    }
+  }
+
+  .dither-skeleton {
+    background-color: hsl(var(--raised));
+    background-image: repeating-conic-gradient(hsl(var(--bone) / 0.08) 0% 25%, transparent 0% 50%);
+    background-size: 12px 12px;
+    animation: dither-load 0.9s steps(2) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dither-skeleton {
+      animation: none;
+    }
   }
 }

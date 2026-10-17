@@ -7,7 +7,14 @@ import { LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { useLogin } from '@/hooks/useAuth';
 
 const loginSchema = z.object({
@@ -37,7 +44,7 @@ export default function Login() {
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-4 py-16">
       <div className="mb-8 text-center">
         <h1 className="font-display text-3xl uppercase tracking-[0.22em]">Entrar</h1>
-        <p className="mt-2 text-sm text-white/55">Salve seus scores no ranking global.</p>
+        <p className="mt-2 text-sm text-bone/55">Salve seus scores no ranking global.</p>
       </div>
 
       <Card>
@@ -51,7 +58,12 @@ export default function Login() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="voce@email.com" autoComplete="email" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="voce@email.com"
+                        autoComplete="email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -64,7 +76,12 @@ export default function Login() {
                   <FormItem>
                     <FormLabel>Senha</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••" autoComplete="current-password" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="••••••"
+                        autoComplete="current-password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -76,7 +93,7 @@ export default function Login() {
               </Button>
             </form>
           </Form>
-          <p className="mt-4 text-center text-sm text-white/55">
+          <p className="mt-4 text-center text-sm text-bone/55">
             Não tem conta?{' '}
             <Link to="/register" className="font-bold text-flame hover:underline">
               Registre-se

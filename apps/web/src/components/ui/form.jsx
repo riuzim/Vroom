@@ -50,7 +50,14 @@ FormItem.displayName = 'FormItem';
 
 const FormLabel = React.forwardRef(({ className, ...props }, ref) => {
   const { error, formItemId } = useFormField();
-  return <Label ref={ref} className={cn(error && 'text-danger', className)} htmlFor={formItemId} {...props} />;
+  return (
+    <Label
+      ref={ref}
+      className={cn(error && 'text-danger', className)}
+      htmlFor={formItemId}
+      {...props}
+    />
+  );
 });
 FormLabel.displayName = 'FormLabel';
 
@@ -70,7 +77,14 @@ FormControl.displayName = 'FormControl';
 
 const FormDescription = React.forwardRef(({ className, ...props }, ref) => {
   const { formDescriptionId } = useFormField();
-  return <p ref={ref} id={formDescriptionId} className={cn('text-sm text-white/50', className)} {...props} />;
+  return (
+    <p
+      ref={ref}
+      id={formDescriptionId}
+      className={cn('text-sm text-bone/50', className)}
+      {...props}
+    />
+  );
 });
 FormDescription.displayName = 'FormDescription';
 
@@ -83,11 +97,25 @@ const FormMessage = React.forwardRef(({ className, children, ...props }, ref) =>
   }
 
   return (
-    <p ref={ref} id={formMessageId} className={cn('text-sm font-semibold text-danger', className)} {...props}>
+    <p
+      ref={ref}
+      id={formMessageId}
+      className={cn('text-sm font-semibold text-danger', className)}
+      {...props}
+    >
       {body}
     </p>
   );
 });
 FormMessage.displayName = 'FormMessage';
 
-export { useFormField, Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage };
+export {
+  useFormField,
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+};

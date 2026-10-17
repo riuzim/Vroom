@@ -7,7 +7,14 @@ import { UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { useRegister } from '@/hooks/useAuth';
 
 const registerSchema = z
@@ -49,7 +56,7 @@ export default function Register() {
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-4 py-16">
       <div className="mb-8 text-center">
         <h1 className="font-display text-3xl uppercase tracking-[0.22em]">Criar conta</h1>
-        <p className="mt-2 text-sm text-white/55">Guarde seu progresso e dispute o ranking.</p>
+        <p className="mt-2 text-sm text-bone/55">Guarde seu progresso e dispute o ranking.</p>
       </div>
 
       <Card>
@@ -76,7 +83,12 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="voce@email.com" autoComplete="email" {...field} />
+                      <Input
+                        type="email"
+                        placeholder="voce@email.com"
+                        autoComplete="email"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -89,7 +101,12 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Senha</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••" autoComplete="new-password" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="••••••"
+                        autoComplete="new-password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -102,7 +119,12 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Confirmar senha</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••" autoComplete="new-password" {...field} />
+                      <Input
+                        type="password"
+                        placeholder="••••••"
+                        autoComplete="new-password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -114,7 +136,7 @@ export default function Register() {
               </Button>
             </form>
           </Form>
-          <p className="mt-4 text-center text-sm text-white/55">
+          <p className="mt-4 text-center text-sm text-bone/55">
             Já tem conta?{' '}
             <Link to="/login" className="font-bold text-flame hover:underline">
               Entrar

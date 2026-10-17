@@ -132,7 +132,11 @@ const startRound: AsyncRequestHandler = async (req, res) => {
 
   // Higiene: rounds de visitantes abandonados há mais de 2h.
   await prisma.round.deleteMany({
-    where: { userId: null, status: 'playing', startedAt: { lt: new Date(Date.now() - 2 * 3600_000) } },
+    where: {
+      userId: null,
+      status: 'playing',
+      startedAt: { lt: new Date(Date.now() - 2 * 3600_000) },
+    },
   });
 
   const round = await prisma.round.create({
@@ -221,7 +225,8 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
   // Errou — consome tentativa, revela letra e aumenta a nitidez.
   const revealed = JSON.parse(active.revealedLetters) as string[];
   const available = getAvailableLetters(active.car.name, revealed);
-  const letter = available.length > 0 ? available[Math.floor(Math.random() * available.length)] : null;
+  const letter =
+    available.length > 0 ? available[Math.floor(Math.random() * available.length)] : null;
   const nextRevealed = letter ? [...revealed, letter] : revealed;
   const nextAttemptsUsed = active.attemptsUsed + 1;
 
