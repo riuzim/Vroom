@@ -18,7 +18,7 @@ export default function CarStage({ car, blur, isHardMode, status }) {
       <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-black">
         {!isLoaded && !hasFailed && <Skeleton className="absolute inset-0 z-10 h-full w-full" />}
         {hasFailed && (
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-bone/30">
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-bone/50">
             <Car className="size-14" />
             <p className="text-sm font-bold">Não foi possível carregar a imagem</p>
           </div>

@@ -41,7 +41,7 @@ export default function Profile() {
 
       {isLoading ? (
         <Card>
-          <CardContent className="p-10 text-center text-sm text-bone/45">Carregando...</CardContent>
+          <CardContent className="p-10 text-center text-sm text-bone/55">Carregando...</CardContent>
         </Card>
       ) : user ? (
         <Card>
@@ -54,7 +54,7 @@ export default function Profile() {
                 <p className="font-display text-xl uppercase tracking-[0.18em]">{user.username}</p>
                 <p className="text-sm text-bone/55">{user.email}</p>
                 {user.createdAt && (
-                  <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-bone/40 sm:justify-start">
+                  <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-bone/50 sm:justify-start">
                     <CalendarDays className="size-3.5" />
                     Pilotando desde{' '}
                     {new Date(user.createdAt).toLocaleDateString('pt-BR', {
@@ -111,17 +111,17 @@ export default function Profile() {
             ) : (
               <div className="grid grid-cols-3 gap-4">
                 <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                  <p className="text-xs font-black uppercase tracking-wide text-bone/45">Pontos</p>
+                  <p className="text-xs font-black uppercase tracking-wide text-bone/55">Pontos</p>
                   <p className="mt-1 font-mono text-2xl font-black text-flame">
                     {stats.totalPoints}
                   </p>
                 </div>
                 <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                  <p className="text-xs font-black uppercase tracking-wide text-bone/45">Rodadas</p>
+                  <p className="text-xs font-black uppercase tracking-wide text-bone/55">Rodadas</p>
                   <p className="mt-1 font-mono text-2xl font-black">{stats.roundsPlayed}</p>
                 </div>
                 <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                  <p className="text-xs font-black uppercase tracking-wide text-bone/45">
+                  <p className="text-xs font-black uppercase tracking-wide text-bone/55">
                     Melhor rodada
                   </p>
                   <p className="mt-1 font-mono text-2xl font-black text-acid">{stats.bestRound}</p>
@@ -139,11 +139,11 @@ export default function Profile() {
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
               <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                <p className="text-xs font-black uppercase tracking-wide text-bone/45">Rodadas</p>
+                <p className="text-xs font-black uppercase tracking-wide text-bone/55">Rodadas</p>
                 <p className="mt-1 font-mono text-3xl font-black">{roundsPlayed}</p>
               </div>
               <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                <p className="text-xs font-black uppercase tracking-wide text-bone/45">
+                <p className="text-xs font-black uppercase tracking-wide text-bone/55">
                   Melhor streak
                 </p>
                 <p className="mt-1 font-mono text-3xl font-black text-flame">{bestStreak}</p>

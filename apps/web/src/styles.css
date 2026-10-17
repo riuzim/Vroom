@@ -88,6 +88,42 @@
     background: hsl(26 100% 50%);
     color: hsl(240 7% 6%);
   }
+
+  /* Autofill do Chrome/Edge: sem isso o browser pinta fundo pálido + texto
+     preto por cima do tema escuro (texto ilegível). Hack padrão de UI dark. */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-text-fill-color: hsl(45 26% 88%);
+    caret-color: hsl(45 26% 88%);
+    -webkit-box-shadow: 0 0 0 1000px hsl(240 5% 9%) inset !important;
+    transition: background-color 9999s ease-out;
+  }
+
+  /* Scrollbar 1-bit: reta e quadrada, thumb bone que acende flame no hover */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(45 26% 88% / 0.35) hsl(240 5% 9%);
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(240 5% 9%);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(45 26% 88% / 0.35);
+    border: 2px solid hsl(240 5% 9%);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(26 100% 50%);
+  }
 }
 
 @layer utilities {

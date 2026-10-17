@@ -12,7 +12,7 @@ export default function ScorePanel({
       <CardContent className="p-5">
         <h2 className="text-sm font-black uppercase tracking-wide text-flame">{title}</h2>
         <ol className="mt-4 space-y-3">
-          {scores.length === 0 && <li className="text-sm text-bone/45">{emptyLabel}</li>}
+          {scores.length === 0 && <li className="text-sm text-bone/55">{emptyLabel}</li>}
           {scores.map((score, index) => {
             const isTop = variant === 'best' && index < 3;
             return (

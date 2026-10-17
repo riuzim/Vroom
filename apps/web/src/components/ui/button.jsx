@@ -15,7 +15,7 @@ const buttonVariants = cva(
         outline: 'border-2 border-bone bg-transparent text-bone hover:bg-bone hover:text-ink',
         secondary: 'border-2 border-bone bg-raised text-bone hover:bg-line',
         ghost:
-          'border-2 border-transparent text-bone/80 hover:border-line hover:bg-raised hover:text-bone',
+          'border-2 border-transparent text-bone/80 hover:border-bone/50 hover:bg-raised hover:text-bone',
         link: 'border-2 border-transparent text-flame underline-offset-4 hover:underline',
       },
       size: {

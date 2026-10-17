@@ -71,7 +71,7 @@ export default function Leaderboard() {
                   ))}
                 </div>
               ) : entries.length === 0 ? (
-                <p className="py-8 text-center text-sm text-bone/45">
+                <p className="py-8 text-center text-sm text-bone/55">
                   Ninguém pontuou aqui ainda. Que tal ser o primeiro?
                 </p>
               ) : (

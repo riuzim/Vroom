@@ -39,7 +39,7 @@ export default function App() {
         </ErrorBoundary>
         <footer className="border-t-2 border-bone">
           <div aria-hidden="true" className="checker h-3" />
-          <p className="px-4 py-6 text-center text-xs font-bold text-bone/40">
+          <p className="px-4 py-6 text-center text-xs font-bold text-bone/50">
             Vroom · Feito para quem ama carros ·{' '}
             <a href="mailto:vroomfeedback@gmail.com" className="transition hover:text-flame">
               Feedback
