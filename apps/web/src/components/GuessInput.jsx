@@ -1,8 +1,13 @@
 import { useMemo, useState } from 'react';
-import { carNames } from '../data/cars';
+import { Send } from 'lucide-react';
+import { carNames } from '@/data/cars';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function GuessInput({ disabled, onSubmit }) {
   const [guess, setGuess] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
+
   const suggestions = useMemo(() => {
     const value = guess.trim().toLowerCase();
 
@@ -10,9 +15,7 @@ export default function GuessInput({ disabled, onSubmit }) {
       return [];
     }
 
-    return carNames
-      .filter((name) => name.toLowerCase().includes(value))
-      .slice(0, 6);
+    return carNames.filter((name) => name.toLowerCase().includes(value)).slice(0, 6);
   }, [guess]);
 
   function handleSubmit(event) {
@@ -25,35 +28,42 @@ export default function GuessInput({ disabled, onSubmit }) {
 
     onSubmit(value);
     setGuess('');
+    setIsFocused(false);
+  }
+
+  function pickSuggestion(name) {
+    onSubmit(name);
+    setGuess('');
+    setIsFocused(false);
   }
 
   return (
     <form onSubmit={handleSubmit} className="relative">
       <div className="flex flex-col gap-3 sm:flex-row">
-        <input
+        <Input
           value={guess}
           onChange={(event) => setGuess(event.target.value)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           disabled={disabled}
           autoComplete="off"
           placeholder="Digite o nome do carro"
-          className="min-h-12 flex-1 rounded-md border border-white/10 bg-panelSoft px-4 text-base font-semibold text-white outline-none transition placeholder:text-white/35 focus:border-flame focus:ring-4 focus:ring-flame/10 disabled:cursor-not-allowed disabled:opacity-60"
+          aria-label="Seu chute"
         />
-        <button
-          type="submit"
-          disabled={disabled || !guess.trim()}
-          className="min-h-12 rounded-md bg-flame px-6 text-sm font-black uppercase tracking-wide text-ink shadow-glow transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
-        >
+        <Button type="submit" disabled={disabled || !guess.trim()} className="sm:min-w-32">
+          <Send className="size-4" />
           Chutar
-        </button>
+        </Button>
       </div>
 
-      {suggestions.length > 0 && (
-        <ul className="absolute z-30 mt-2 max-h-56 w-full overflow-auto rounded-md border border-white/10 bg-panel shadow-2xl">
+      {isFocused && suggestions.length > 0 && (
+        <ul className="absolute z-30 mt-2 max-h-56 w-full overflow-auto rounded-md border border-white/10 bg-popover shadow-2xl">
           {suggestions.map((name) => (
             <li key={name}>
               <button
                 type="button"
-                onClick={() => setGuess(name)}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => pickSuggestion(name)}
                 className="w-full px-4 py-3 text-left text-sm font-semibold text-white/85 transition hover:bg-white/10 hover:text-flame"
               >
                 {name}

@@ -13,7 +13,49 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 225 11% 7%;
+    --foreground: 0 0% 98%;
+
+    --card: 225 4% 11%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 225 6% 9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 26 91% 73%;
+    --primary-foreground: 225 11% 7%;
+
+    --secondary: 225 7% 15%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 225 7% 15%;
+    --muted-foreground: 228 9% 64%;
+
+    --accent: 225 9% 18%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 84% 71%;
+    --destructive-foreground: 225 11% 7%;
+
+    --border: 226 10% 18%;
+    --input: 226 10% 18%;
+    --ring: 26 91% 73%;
+
+    --radius: 0.5rem;
+
+    /* Tokens da marca Vroom */
+    --ink: 225 11% 7%;
+    --panel: 225 4% 11%;
+    --panel-soft: 225 7% 15%;
+    --line: 226 13% 23%;
+    --flame: 26 91% 73%;
+    --mint: 151 76% 75%;
+    --danger: 0 84% 71%;
+  }
+
   * {
+    @apply border-border;
     box-sizing: border-box;
   }
 

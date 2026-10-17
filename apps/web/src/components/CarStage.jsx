@@ -1,14 +1,37 @@
+import { useEffect, useState } from 'react';
+import { Car } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+
 export default function CarStage({ car, blur, isHardMode, status }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasFailed, setHasFailed] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(false);
+    setHasFailed(false);
+  }, [car.imageUrl]);
+
   const filter = `blur(${blur}px)${isHardMode ? ' grayscale(100%) contrast(1.08)' : ''}`;
 
   return (
     <section className="relative overflow-hidden rounded-lg border border-white/10 bg-panel p-3 shadow-2xl">
       <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-black">
+        {!isLoaded && !hasFailed && <Skeleton className="absolute inset-0 z-10 h-full w-full" />}
+        {hasFailed && (
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-white/30">
+            <Car className="size-14" />
+            <p className="text-sm font-bold">Não foi possível carregar a imagem</p>
+          </div>
+        )}
         <img
           src={car.imageUrl}
           alt="Carro para adivinhar"
           draggable="false"
-          className="h-full w-full select-none object-cover transition duration-700"
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setHasFailed(true)}
+          className={`h-full w-full select-none object-cover transition duration-700 ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
           style={{ filter }}
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-white/5" />

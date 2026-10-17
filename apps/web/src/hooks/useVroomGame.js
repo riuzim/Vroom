@@ -8,33 +8,38 @@ import {
   normalizeGuess,
   pickRandomCar,
 } from '@vroom/shared';
-import { cars } from '../data/cars';
+import { cars } from '@/data/cars';
+import { loadLocalScores, saveLocalScores, SCORES_CHANGED_EVENT } from '@/lib/localScores';
 
-const SCORE_STORAGE_KEY = 'vroom:scores';
-
-function loadScores() {
-  try {
-    const stored = JSON.parse(localStorage.getItem(SCORE_STORAGE_KEY));
-    return Array.isArray(stored) ? stored.filter(Number.isFinite) : [];
-  } catch {
-    return [];
-  }
-}
-
-export function useVroomGame() {
+/**
+ * Loop de jogo local (Fase 1). Na Fase 3 a validação dos chutes e o estado da
+ * rodada migram para o servidor (server-authoritative) — este hook passa a ser
+ * um cliente da API.
+ */
+export function useVroomGame(mode = 'classic') {
   const [currentCar, setCurrentCar] = useState(() => pickRandomCar(cars));
   const [score, setScore] = useState(0);
-  const [scores, setScores] = useState(loadScores);
+  const [scores, setScores] = useState(loadLocalScores);
   const [blur, setBlur] = useState(INITIAL_BLUR);
   const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
   const [revealedLetters, setRevealedLetters] = useState([]);
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('idle');
-  const [isHardMode, setIsHardMode] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
 
+  const isHardMode = mode === 'hard';
+  const isRoundOver = status === 'correct' || status === 'failed' || status === 'skipped';
+
   useEffect(() => {
-    localStorage.setItem(SCORE_STORAGE_KEY, JSON.stringify(scores));
+    function onScoresChanged() {
+      setScores(loadLocalScores());
+    }
+    window.addEventListener(SCORES_CHANGED_EVENT, onScoresChanged);
+    return () => window.removeEventListener(SCORES_CHANGED_EVENT, onScoresChanged);
+  }, []);
+
+  useEffect(() => {
+    saveLocalScores(scores);
   }, [scores]);
 
   const bestScores = useMemo(
@@ -49,57 +54,76 @@ export function useVroomGame() {
 
   const hint = useMemo(() => getHint(currentCar.name, revealedLetters), [currentCar, revealedLetters]);
 
-  const nextRound = useCallback((previousCar = currentCar) => {
-    setCurrentCar(pickRandomCar(cars, previousCar));
-    setBlur(INITIAL_BLUR);
-    setAttemptsLeft(MAX_ATTEMPTS);
-    setRevealedLetters([]);
-    setMessage('');
-    setStatus('idle');
-    setIsRevealed(false);
-  }, [currentCar]);
+  const nextRound = useCallback(
+    (previousCar = currentCar) => {
+      setCurrentCar(pickRandomCar(cars, previousCar));
+      setBlur(INITIAL_BLUR);
+      setAttemptsLeft(MAX_ATTEMPTS);
+      setRevealedLetters([]);
+      setMessage('');
+      setStatus('idle');
+      setIsRevealed(false);
+    },
+    [currentCar]
+  );
 
-  const submitGuess = useCallback((guess) => {
-    if (!guess.trim() || status === 'correct') {
-      return;
-    }
-
-    if (normalizeGuess(guess) === normalizeGuess(currentCar.name)) {
-      setScore((value) => value + 1);
-      setMessage(`Acertou: ${currentCar.name}`);
-      setStatus('correct');
-      setIsRevealed(true);
-      window.setTimeout(() => nextRound(currentCar), 1200);
-      return;
-    }
-
-    const nextAttempts = attemptsLeft - 1;
-    const nextBlur = Math.max(0, blur - BLUR_STEP);
-    const availableLetters = getAvailableLetters(currentCar.name, revealedLetters);
-    const letter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
-    const nextLetters = letter ? [...revealedLetters, letter] : revealedLetters;
-
-    setBlur(nextBlur);
-    setRevealedLetters(nextLetters);
-    setStatus('wrong');
-
-    if (nextAttempts <= 0) {
-      setMessage(`Fim de rodada. Era ${currentCar.name}.`);
-      setAttemptsLeft(0);
+  const endRound = useCallback(
+    (previousCar, endMessage, endStatus) => {
+      setMessage(endMessage);
+      setStatus(endStatus);
       setIsRevealed(true);
       setScores((values) => [...values, score]);
       setScore(0);
-      window.setTimeout(() => nextRound(currentCar), 1600);
+      window.setTimeout(() => nextRound(previousCar), 1600);
+    },
+    [nextRound, score]
+  );
+
+  const submitGuess = useCallback(
+    (guess) => {
+      if (!guess.trim() || status === 'correct' || status === 'failed' || status === 'skipped') {
+        return;
+      }
+
+      if (normalizeGuess(guess) === normalizeGuess(currentCar.name)) {
+        setScore((value) => value + 1);
+        setMessage(`Acertou: ${currentCar.name}`);
+        setStatus('correct');
+        setIsRevealed(true);
+        window.setTimeout(() => nextRound(currentCar), 1200);
+        return;
+      }
+
+      const nextAttempts = attemptsLeft - 1;
+      const nextBlur = Math.max(0, blur - BLUR_STEP);
+      const availableLetters = getAvailableLetters(currentCar.name, revealedLetters);
+      const letter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
+      const nextLetters = letter ? [...revealedLetters, letter] : revealedLetters;
+
+      setBlur(nextBlur);
+      setRevealedLetters(nextLetters);
+      setStatus('wrong');
+
+      if (nextAttempts <= 0) {
+        setAttemptsLeft(0);
+        endRound(currentCar, `Fim de rodada. Era ${currentCar.name}.`, 'failed');
+        return;
+      }
+
+      setAttemptsLeft(nextAttempts);
+      setMessage(
+        `Errou. ${nextAttempts} tentativa${nextAttempts === 1 ? '' : 's'} restante${nextAttempts === 1 ? '' : 's'}.`
+      );
+    },
+    [attemptsLeft, blur, currentCar, endRound, nextRound, revealedLetters, status]
+  );
+
+  const skip = useCallback(() => {
+    if (status === 'correct' || status === 'failed' || status === 'skipped') {
       return;
     }
-
-    setAttemptsLeft(nextAttempts);
-    setMessage(`Errou. ${nextAttempts} tentativa${nextAttempts === 1 ? '' : 's'} restante${nextAttempts === 1 ? '' : 's'}.`);
-  }, [attemptsLeft, blur, currentCar, nextRound, revealedLetters, score, status]);
-
-  function resetScores() {
-    setScores([]);
-  }
+    endRound(currentCar, `Pulou. Era ${currentCar.name}.`, 'skipped');
+  }, [currentCar, endRound, status]);
 
   return {
     attemptsLeft,
@@ -108,12 +132,13 @@ export function useVroomGame() {
     currentCar,
     hint,
     isHardMode,
+    isRoundOver,
     message,
+    mode,
     recentScores,
-    resetScores,
     score,
+    skip,
     status,
     submitGuess,
-    toggleHardMode: () => setIsHardMode((value) => !value),
   };
 }
