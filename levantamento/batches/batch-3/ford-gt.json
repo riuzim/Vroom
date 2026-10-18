@@ -1,0 +1,19 @@
+{
+  "name": "Ford GT",
+  "brand": "Ford",
+  "model": "Ford GT (2nd gen, 2017-2022)",
+  "category": "sport",
+  "years": "2017-2022 (MY2018)",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/2018_Ford_GT_Gen2.jpg/1280px-2018_Ford_GT_Gen2.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1e/2018_Ford_GT_Gen2.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:2018_Ford_GT_Gen2.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Calreyn88",
+  "mime": "image/jpeg",
+  "dimensions": "4101x2061",
+  "matchEvidence": "filename '2018 Ford GT Gen2'; ImageDescription 'Ford GT'; Categories: Self-published work|Ford GT (2nd generation)|Ford GT (SH66 MEE)",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "2nd-gen GT (2017-2022), MY2018 — matches hint option '2017+'. Alternatives: 2006 1st-gen Warwick photo (Dietmar Rabich) valid but lower tech; 'Ford GT (1st generation) coupes Motorworld' rejected (two cars in frame); Heritage Edition variants available."
+}

@@ -36,6 +36,20 @@ Vroom/
 
 O loop de jogo é **server-authoritative**: o servidor sorteia o carro, guarda o estado da rodada (tentativas, letras reveladas, blur) e valida cada chute. A resposta **só viaja no payload quando a rodada encerra** — verificado por teste de integração.
 
+### Catálogo de carros (100 carros, imagens no banco)
+
+As imagens **não vêm de imgur nem de nenhum host externo em runtime**: os bytes (JPEG/PNG, lado maior ≤1280px) são gravados como BLOB no SQLite e servidos pela própria API em `GET /api/cars/:id/image`. Cada carro carrega sua proveniência — `brand`, `model` (geração exata), `years`, `author`, `license`, `filePageUrl` — herdada do levantamento verificado no Wikimedia Commons (licenças livres; ver `levantamento/RELATORIO.md`).
+
+Fluxo de manutenção do catálogo (só para quem for editar a lista de carros):
+
+| Comando                | O que faz                                                                                     |
+| ---------------------- | --------------------------------------------------------------------------------------------- |
+| `pnpm catalog`         | Valida `levantamento/batches/` e gera `shared/cars.ts`, `shared/names.ts` e o catálogo JSON   |
+| `pnpm catalog:images`  | Baixa as imagens do Commons para `apps/api/prisma/car-images/` (cache commitado no repo)      |
+| `pnpm --filter @vroom/api db:seed` | Grava os bytes do cache como BLOB + atribuição no banco                         |
+
+O cache de imagens fica versionado no repositório, então a seed funciona **100% offline** — a internet só é necessária ao (re)coletar imagens novas.
+
 ## Rodando localmente
 
 Pré-requisitos: Node 20+ e [pnpm](https://pnpm.io) 10+.
@@ -43,7 +57,7 @@ Pré-requisitos: Node 20+ e [pnpm](https://pnpm.io) 10+.
 ```bash
 pnpm install
 
-# banco + seed dos carros (apps/api/prisma/dev.db)
+# banco + seed dos carros (apps/api/prisma/dev.db) — imagens vêm do cache local
 pnpm --filter @vroom/api db:migrate
 pnpm --filter @vroom/api db:seed
 
@@ -69,6 +83,7 @@ Abra http://localhost:5173/Vroom/ — o Vite faz proxy de `/api` para a API (sem
 | Rota                                                                | Descrição                                |
 | ------------------------------------------------------------------- | ---------------------------------------- |
 | `GET /api/health`                                                   | Healthcheck                              |
+| `GET /api/cars/:id/image`                                           | Bytes da imagem do carro, direto do banco (BLOB, cache imutável) |
 | `POST /api/auth/register` / `login` / `logout` · `GET /api/auth/me` | Autenticação (JWT em cookie httpOnly)    |
 | `POST /api/rounds {mode}`                                           | Inicia/retoma rodada (sem expor o carro) |
 | `GET /api/rounds/active`                                            | Rodada em andamento do usuário           |
@@ -79,7 +94,8 @@ Abra http://localhost:5173/Vroom/ — o Vite faz proxy de `/api` para a API (sem
 
 ## Deploy
 
-- **API**: qualquer host Node (Render, Railway, Fly.io). Defina `DATABASE_URL`, `JWT_SECRET`, `PORT` e `CORS_ORIGIN` (veja `apps/api/.env.example`). Rode `pnpm --filter @vroom/api db:deploy && pnpm --filter @vroom/api run db:seed` no primeiro deploy.
+- **API**: qualquer host Node (Render, Railway, Fly.io). Defina `DATABASE_URL`, `JWT_SECRET`, `PORT` e `CORS_ORIGIN` (veja `apps/api/.env.example`). Rode `pnpm --filter @vroom/api db:deploy && pnpm --filter @vroom/api run db:seed` no primeiro deploy — as imagens estão no repo (`apps/api/prisma/car-images/`), então a seed não precisa de internet.
+- **Atribuição de licença**: as fotos do catálogo são licenças livres do Wikimedia Commons. O app exibe autor/licença ao fim de cada rodada (com link para a página `File:`), e o registro completo de proveniência fica em `levantamento/catalogo-vroom.json`.
 - **Web**: build estático (`pnpm --filter @vroom/web build` → `apps/web/dist`). No host, configure `VITE_API_URL` apontando para a API (no build). O GitHub Pages já tem workflow (`.github/workflows/deploy.yml`) — crie o secret `VITE_API_URL` para apontar para sua API em produção.
 - **SQLite → PostgreSQL**: o schema é agnóstico a provider (sem enums). Para trocar, mude `provider = "postgresql"` no `schema.prisma`, aponte `DATABASE_URL` e rode `db:migrate` novamente.
 
@@ -88,7 +104,7 @@ Abra http://localhost:5173/Vroom/ — o Vite faz proxy de `/api` para a API (sem
 ## Testes
 
 ```bash
-pnpm test   # 33 testes: regras de jogo (13), integração da API (14), smoke do web (6)
+pnpm test   # 48 testes: regras de jogo (15), integração da API (27), smoke do web (6)
 ```
 
 A suíte de integração cobre auth, o fluxo completo de rodadas, o bloqueio do daily após o fim, visitante sem pontuação e — o mais importante — **que o payload inicial nunca contém o nome do carro**.

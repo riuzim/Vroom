@@ -15,7 +15,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useLogin } from '@/hooks/useAuth';
+import { useLogin, useGoogleLogin } from '@/hooks/useAuth';
+import GoogleLoginButton from '@/components/GoogleLoginButton';
 
 const loginSchema = z.object({
   email: z.string().email('Informe um email válido'),
@@ -25,6 +26,7 @@ const loginSchema = z.object({
 export default function Login() {
   const navigate = useNavigate();
   const login = useLogin();
+  const googleLogin = useGoogleLogin();
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
@@ -32,6 +34,16 @@ export default function Login() {
 
   function onSubmit(values) {
     login.mutate(values, {
+      onSuccess: () => {
+        toast.success('De volta ao cockpit. Bora!');
+        navigate('/');
+      },
+      onError: (error) => toast.error(error.message),
+    });
+  }
+
+  function onGoogleSuccess(credential) {
+    googleLogin.mutate(credential, {
       onSuccess: () => {
         toast.success('De volta ao cockpit. Bora!');
         navigate('/');
@@ -95,6 +107,18 @@ export default function Login() {
               </Button>
             </form>
           </Form>
+          <div className="relative my-4" aria-hidden="true">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-bone/55">ou</span>
+            </div>
+          </div>
+          <GoogleLoginButton
+            onSuccess={onGoogleSuccess}
+            onError={(error) => toast.error(error.message)}
+          />
           <p className="mt-4 text-center text-sm text-bone/55">
             Não tem conta?{' '}
             <Link

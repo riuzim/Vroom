@@ -1,0 +1,19 @@
+{
+  "name": "Ferrari Testarossa",
+  "brand": "Ferrari",
+  "model": "Testarossa (1984-1991)",
+  "category": "supercar",
+  "years": "1984-1991",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/1988_Ferrari_Testarossa.jpg/1280px-1988_Ferrari_Testarossa.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/2a/1988_Ferrari_Testarossa.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:1988_Ferrari_Testarossa.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "xYoshii_",
+  "mime": "image/jpeg",
+  "dimensions": "4032x3024",
+  "matchEvidence": "filename '1988 Ferrari Testarossa'; ImageDescription '1988 Ferrari Testarossa photographed in Scottsdale, Arizona, United States.'; Categories: Ferrari Testarossa|Self-published work|Black Ferrari coupes|1980s black coupes",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "1988 Testarossa, original flat-side-strake generation (1984-1991); not a 512 TR (1992-1996). 512 TR would also count as same family per instructions, but this is the original Testarossa."
+}

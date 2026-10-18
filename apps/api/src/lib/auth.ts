@@ -17,6 +17,15 @@ declare module 'express-serve-static-core' {
   }
 }
 
+/**
+ * Hash fixo (senha inexistente) usado para igualar o tempo de resposta
+ * do login quando o email NÃO existe — sem isso, quem mede o tempo
+ * descobre quais emails têm conta (timing oracle).
+ */
+const DUMMY_HASH = bcrypt.hashSync('vroom-dummy-password', 10);
+
+export const dummyHash = DUMMY_HASH;
+
 export function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
 }
@@ -34,7 +43,10 @@ export function signToken(userId: number): string {
 export function setAuthCookie(res: Response, token: string): void {
   res.cookie(AUTH_COOKIE, token, {
     httpOnly: true,
-    sameSite: 'lax',
+    // Produção (ex.: GitHub Pages ↔ API em domínios distintos) exige
+    // SameSite=None para o cookie cruzar sites; None exige Secure.
+    // Dev usa Lax porque o proxy do Vite é same-origin.
+    sameSite: env.isProduction ? 'none' : 'lax',
     secure: env.isProduction,
     maxAge: TOKEN_TTL_SECONDS * 1000,
     path: '/',
@@ -42,7 +54,13 @@ export function setAuthCookie(res: Response, token: string): void {
 }
 
 export function clearAuthCookie(res: Response): void {
-  res.clearCookie(AUTH_COOKIE, { path: '/' });
+  // clearCookie precisa das MESMAS flags para remover de fato o cookie.
+  res.clearCookie(AUTH_COOKIE, {
+    httpOnly: true,
+    sameSite: env.isProduction ? 'none' : 'lax',
+    secure: env.isProduction,
+    path: '/',
+  });
 }
 
 /** Decodifica o cookie de autenticação se presente; nunca rejeita. */
@@ -55,7 +73,9 @@ export function optionalAuth(req: Request, _res: Response, next: NextFunction): 
   }
 
   try {
-    const payload = jwt.verify(token, env.JWT_SECRET);
+    // Pin explícito do algoritmo: sem isso o atacante pode mandar
+    // um token HS256/RS256/none manipulado (confusion attack).
+    const payload = jwt.verify(token, env.JWT_SECRET, { algorithms: ['HS256'] });
 
     if (payload && typeof payload === 'object' && typeof payload.sub === 'string') {
       // Nome/email ficam vazios aqui: as rotas que precisam recarregam do banco.

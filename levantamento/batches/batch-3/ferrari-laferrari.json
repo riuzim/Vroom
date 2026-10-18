@@ -1,0 +1,19 @@
+{
+  "name": "Ferrari LaFerrari",
+  "brand": "Ferrari",
+  "model": "LaFerrari (2013-2016)",
+  "category": "supercar",
+  "years": "2013-2016",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/2014_Ferrari_LaFerrari.jpg/1280px-2014_Ferrari_LaFerrari.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/b/b2/2014_Ferrari_LaFerrari.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:2014_Ferrari_LaFerrari.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "DestinationFearFan",
+  "mime": "image/jpeg",
+  "dimensions": "4160x3120",
+  "matchEvidence": "filename '2014 Ferrari LaFerrari'; ImageDescription 'Ferrari LaFerrari'; Categories: Ferrari LaFerrari|Self-published work",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "MY2014 LaFerrari coupé (2013-2016); not the Aperta roadster. Exactly the model requested."
+}

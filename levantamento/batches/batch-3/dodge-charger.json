@@ -1,0 +1,19 @@
+{
+  "name": "Dodge Charger",
+  "brand": "Dodge",
+  "model": "Charger R/T (2nd gen, 1968-1970)",
+  "category": "muscle",
+  "years": "1968-1970 (MY1968)",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/1968_Dodge_Charger_R_T.jpg/1280px-1968_Dodge_Charger_R_T.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/5d/1968_Dodge_Charger_R_T.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:1968_Dodge_Charger_R_T.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Calreyn88",
+  "mime": "image/jpeg",
+  "dimensions": "3386x1920",
+  "matchEvidence": "filename '1968 Dodge Charger R T'; ImageDescription 'Dodge Charger'; Categories: Self-published work|United States specification automobiles in the United Kingdom|1968 Dodge Charger R/T",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "Chose the classic 1968-70 2nd gen era (allowed by hint: 2006+ OR classic 1968-70); R/T = top V8 trim, MY1968 with hidden headlights. Modern alternatives (2015 SRT8, 2023 Hellcat) valid but passed. REJECTED 'Dodge-Charger-1969-Front.jpg' (420x205 < 800px, no artist)."
+}

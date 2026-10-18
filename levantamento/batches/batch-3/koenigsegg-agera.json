@@ -1,0 +1,19 @@
+{
+  "name": "Koenigsegg Agera",
+  "brand": "Koenigsegg",
+  "model": "Agera (2010-2013)",
+  "category": "supercar",
+  "years": "2010-2013",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/2011_Koenigsegg_Agera_5.0.jpg/1280px-2011_Koenigsegg_Agera_5.0.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e6/2011_Koenigsegg_Agera_5.0.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:2011_Koenigsegg_Agera_5.0.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Vauxford",
+  "mime": "image/jpeg",
+  "dimensions": "4856x3641",
+  "matchEvidence": "filename '2011 Koenigsegg Agera 5.0'; ImageDescription '2011 Koenigsegg Agera 5.0 Taken at the Salon Privé Concours d'Elegance Classic Car Motor Show 2019, Blenheim Palace'; Categories: Koenigsegg Agera|Self-published work|Photographs by Vauxford — Salon Privé 2019",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "Base Agera 5.0 (V8), MY2011; base variant ran 2010-2013 before R/S/RS continued the family to 2018. Variant noted per instructions (Agera/R/RS accepted)."
+}

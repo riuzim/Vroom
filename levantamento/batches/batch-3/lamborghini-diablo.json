@@ -1,0 +1,19 @@
+{
+  "name": "Lamborghini Diablo",
+  "brand": "Lamborghini",
+  "model": "Diablo SV (1995-1999)",
+  "category": "supercar",
+  "years": "1995-1999",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Lamborghini_Diablo_SV_1998.jpg/1280px-Lamborghini_Diablo_SV_1998.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Lamborghini_Diablo_SV_1998.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:Lamborghini_Diablo_SV_1998.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Calreyn88",
+  "mime": "image/jpeg",
+  "dimensions": "11666x8750",
+  "matchEvidence": "filename 'Lamborghini Diablo SV 1998'; ImageDescription 'Lamborghini Diablo'; Categories: Lamborghini Diablo|Lamborghini Diablo SV",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "SV (Sport Veloce) variant, 1998 model year (SV built 1995-1999); Diablo generation ran 1990-2001. Variant accepted per instructions. Street car, not the SV-R race version."
+}

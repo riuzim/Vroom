@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { INITIAL_BLUR, MAX_ATTEMPTS } from '@vroom/shared';
-import { api } from '@/lib/api';
+import { api, apiUrl } from '@/lib/api';
 import { useMe } from '@/hooks/useAuth';
 import { loadLocalScores, saveLocalScores, useLocalScores } from '@/lib/localScores';
 
@@ -130,10 +130,11 @@ export function useVroomGame(mode = 'classic') {
     bestScores,
     blur: round?.blur ?? INITIAL_BLUR,
     carName: round?.carName ?? null,
+    carCredits: round?.carCredits ?? null,
     dailyDone,
     guess: guessMutation.mutate,
     hint: round?.hint ?? '',
-    imageUrl: round?.imageUrl ?? null,
+    imageUrl: round?.imagePath ? apiUrl(round.imagePath) : null,
     isError: roundQuery.isError,
     isLoading: roundQuery.isLoading,
     isGuessing: guessMutation.isPending,

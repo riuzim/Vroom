@@ -1,0 +1,19 @@
+{
+  "name": "Honda S2000",
+  "brand": "Honda",
+  "model": "S2000 (AP1)",
+  "category": "jdm",
+  "years": "1999-2003",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/1999_Honda_S2000_convertible_%2823433984964%29.jpg/1280px-1999_Honda_S2000_convertible_%2823433984964%29.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/16/1999_Honda_S2000_convertible_%2823433984964%29.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:1999_Honda_S2000_convertible_(23433984964).jpg",
+  "license": "CC BY 2.0",
+  "author": "Jeremy (Flickr, jeremyg3030)",
+  "mime": "image/jpeg",
+  "dimensions": "4752x3168",
+  "matchEvidence": "filename '1999 Honda S2000 convertible'; ImageDescription 'Honda S2000'; Categories: 1999 Honda automobiles|Honda S2000 (AP1)",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "AP1 generation (1999-2003), 1999 model year, within the hinted 1999-2009 range. Exterior convertible shot. Flickr image reviewed by FlickreviewR."
+}

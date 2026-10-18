@@ -1,0 +1,19 @@
+{
+  "name": "Dodge Challenger",
+  "brand": "Dodge",
+  "model": "Challenger SRT Hellcat (3rd gen, 2008-2023)",
+  "category": "muscle",
+  "years": "2008-2023 (MY2018)",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/2018_Dodge_Challenger_SRT_Hellcat.jpg/1280px-2018_Dodge_Challenger_SRT_Hellcat.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/eb/2018_Dodge_Challenger_SRT_Hellcat.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:2018_Dodge_Challenger_SRT_Hellcat.jpg",
+  "license": "CC BY 4.0",
+  "author": "Calreyn88",
+  "mime": "image/jpeg",
+  "dimensions": "3232x1950",
+  "matchEvidence": "filename '2018 Dodge Challenger SRT Hellcat'; ImageDescription 'Dodge Challenger'; Categories: Dodge Challenger SRT Hellcat|Self-published work|United States specification automobiles in the United Kingdom",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "3rd-gen Challenger (2008-2023) as preferred by the hint; SRT Hellcat trim (707hp 6.2L), MY2018. Show photo. Alternatives rejected: none needed (2024 Hellcat also valid; 1970 RT classic available)."
+}

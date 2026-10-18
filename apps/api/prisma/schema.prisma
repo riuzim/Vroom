@@ -11,7 +11,10 @@ model User {
   id           Int      @id @default(autoincrement())
   username     String   @unique
   email        String   @unique
-  passwordHash String
+  // Nulo para contas criadas via login do Google (sem senha local).
+  passwordHash String?
+  // "sub" do Google do usuário; nulo para contas de email/senha.
+  googleId     String?  @unique
   createdAt    DateTime @default(now())
   rounds       Round[]
   scores       Score[]
@@ -20,7 +23,21 @@ model User {
 model Car {
   id        Int      @id @default(autoincrement())
   name      String   @unique
-  imageUrl  String
+  brand     String
+  /// Designação precisa do modelo/geração (ex.: "Skyline GT-R (R34)").
+  model     String
+  category  String
+  /// Anos de produção da geração retratada.
+  years     String
+  /// Bytes da imagem (JPEG/PNG, lado maior ≤1280px) — o jogo NÃO depende de
+  /// host externo em runtime; a imagem é servida por /api/cars/:id/image.
+  imageData Bytes
+  imageMime String   @default("image/jpeg")
+  /// Proveniência/atribuição (Wikimedia Commons) — compliance de licença.
+  sourceUrl   String
+  filePageUrl String
+  author      String
+  license     String
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   rounds    Round[]
@@ -64,4 +81,7 @@ model Score {
   @@index([userId])
   @@index([createdAt])
   @@index([mode])
+  /// Guarda dupla contra race de acertos paralelos: no máximo UM score
+  /// por rodada, mesmo sob requisições simultâneas.
+  @@unique([roundId])
 }

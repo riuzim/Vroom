@@ -1,0 +1,19 @@
+{
+  "name": "Mazda MX-5",
+  "brand": "Mazda",
+  "model": "MX-5 Miata (NA)",
+  "category": "sport",
+  "years": "1989-1997",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/1990_Mazda_MX-5_Miata_in_Classic_Red%2C_Front_Left%2C_05-29-2022.jpg/1280px-1990_Mazda_MX-5_Miata_in_Classic_Red%2C_Front_Left%2C_05-29-2022.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/5/53/1990_Mazda_MX-5_Miata_in_Classic_Red%2C_Front_Left%2C_05-29-2022.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:1990_Mazda_MX-5_Miata_in_Classic_Red,_Front_Left,_05-29-2022.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Elise240SX",
+  "mime": "image/jpeg",
+  "dimensions": "4129x2273",
+  "matchEvidence": "filename '1990 Mazda MX-5 Miata in Classic Red, Front Left'; ImageDescription '1990 Mazda MX-5 Miata photographed in Sault Ste. Marie, Ontario, Canada.'; Categories: Mazda MX-5 (NA)|Red Mazda convertibles|1990 Mazda automobiles",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "Chose NA generation (1st gen, 1989-1997) as hinted; also known as Miata (US) / Eunos Roadster (Japan). 1990 model year, Classic Red. Front-left 3/4 exterior shot."
+}

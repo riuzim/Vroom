@@ -1,0 +1,19 @@
+{
+  "name": "Volvo XC90",
+  "brand": "Volvo",
+  "model": "XC90 II",
+  "category": "suv",
+  "years": "2015-2025",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/2016_Volvo_XC90%2C_cph.jpg/1280px-2016_Volvo_XC90%2C_cph.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/84/2016_Volvo_XC90%2C_cph.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:2016_Volvo_XC90,_cph.jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "Mr.choppers",
+  "mime": "image/jpeg",
+  "dimensions": "3084x2176",
+  "matchEvidence": "File '2016 Volvo XC90, cph.jpg'; ImageDescription: 'A 2016 Volvo XC90 on delivery plates in Denmark.'; Categories: 'Volvo XC90 (2015)' (2nd generation), '2016 Volvo automobiles'.",
+  "existing": true,
+  "currentImgurUrl": "https://i.imgur.com/LN6pNe9.jpg",
+  "status": "ok",
+  "notes": "2nd-generation XC90 (2015+) chosen per hint; photo shows a 2016 model year car in Denmark. Category 'Volvo XC90 (2015)' confirms generation. Alternatives rejected: 'At World of Volvo 2026' series (life-size LEGO models); backup option was 2024 London's Air Ambulance XC90 (livery)."
+}

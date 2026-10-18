@@ -36,8 +36,8 @@ describe('getAvailableLetters', () => {
 
 describe('pickRandomCar', () => {
   const cars = [
-    { name: 'Alfa A', imageUrl: 'x' },
-    { name: 'Bravo B', imageUrl: 'y' },
+    { name: 'Alfa A', imagePath: '/api/cars/1/image' },
+    { name: 'Bravo B', imagePath: '/api/cars/2/image' },
   ];
 
   it('evita repetir o carro atual quando há opções', () => {

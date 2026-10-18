@@ -1,0 +1,19 @@
+{
+  "name": "Bugatti Veyron",
+  "brand": "Bugatti",
+  "model": "Veyron 16.4 (2005-2011)",
+  "category": "supercar",
+  "years": "2005-2011",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Bugatti_Veyron_16.4_%282%29.jpg/1280px-Bugatti_Veyron_16.4_%282%29.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/96/Bugatti_Veyron_16.4_%282%29.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:Bugatti_Veyron_16.4_(2).jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Alexandre Prevot",
+  "mime": "image/jpeg",
+  "dimensions": "4000x2667",
+  "matchEvidence": "filename 'Bugatti Veyron 16.4 (2)'; ImageDescription 'Année : 2006 Châssis n° : 795094 Production n° : 94/450' (2006 Veyron 16.4); Categories: Bugatti Veyron|Flickr images reviewed by FlickreviewR 2",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "Veyron 16.4, MY2006 (chassis 795094, unit 94/450 per description). Base 16.4 variant 2005-2011; not Super Sport (2010-2015). Variant accepted per instructions."
+}

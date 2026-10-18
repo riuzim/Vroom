@@ -1,6 +1,7 @@
 export interface Car {
   name: string;
-  imageUrl: string;
+  /** Caminho local da imagem servido pela própria API (ex.: /api/cars/1/image). */
+  imagePath: string;
 }
 
 /** Normaliza um chute: caixa baixa, sem acentos, sem hífens/pontuação, espaços simples. */

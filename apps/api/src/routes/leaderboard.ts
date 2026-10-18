@@ -1,10 +1,22 @@
+import rateLimit from 'express-rate-limit';
 import { Router } from 'express';
 import { z } from 'zod';
 import type { AsyncRequestHandler } from '../middleware/asyncHandler.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
+import { env } from '../env.js';
 import { prisma } from '../lib/prisma.js';
 
 const leaderboardRouter = Router();
+
+/** groupBy é consulta pesada: sem teto, script drena CPU do banco. */
+const leaderboardLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 60,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  skip: () => env.isTest,
+  message: { error: 'Muitas consultas ao ranking. Aguarde um pouco.' },
+});
 
 const querySchema = z.object({
   period: z.enum(['all', 'today']).default('all'),
@@ -52,6 +64,6 @@ const leaderboard: AsyncRequestHandler = async (req, res) => {
   res.json({ entries });
 };
 
-leaderboardRouter.get('/', asyncHandler(leaderboard));
+leaderboardRouter.get('/', leaderboardLimiter, asyncHandler(leaderboard));
 
 export default leaderboardRouter;

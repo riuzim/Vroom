@@ -1,0 +1,19 @@
+{
+  "name": "Toyota Celica",
+  "brand": "Toyota",
+  "model": "Celica GT-S (T230, ZZT231)",
+  "category": "jdm",
+  "years": "1999-2006",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/2002_Toyota_Celica_GT-S_in_Super_White%2C_front_right%2C_4-14-2022.jpg/1280px-2002_Toyota_Celica_GT-S_in_Super_White%2C_front_right%2C_4-14-2022.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/d4/2002_Toyota_Celica_GT-S_in_Super_White%2C_front_right%2C_4-14-2022.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:2002_Toyota_Celica_GT-S_in_Super_White,_front_right,_4-14-2022.jpg",
+  "license": "CC0",
+  "author": "Cutlass",
+  "mime": "image/jpeg",
+  "dimensions": "3744x2459",
+  "matchEvidence": "filename '2002 Toyota Celica GT-S in Super White, front right'; ImageDescription 'A 2002 Toyota Celica GT-S in Super White ... 1.8L I4 engine'; Categories: 2002 Toyota automobiles|Toyota Celica (T230, pre-facelift)|White Toyota coupes",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "6th generation T230 (1999-2006) chosen, 2002 GT-S trim (US market, ZZT231). Front-right 3/4 exterior."
+}

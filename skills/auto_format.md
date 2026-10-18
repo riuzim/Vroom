@@ -5,6 +5,7 @@ description: >-
 ---
 
 ## Usage
+
 ```
 bash skills/auto_format.sh
 ```

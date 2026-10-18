@@ -1,0 +1,19 @@
+{
+  "name": "Audi RS6",
+  "brand": "Audi",
+  "model": "RS6 (C5)",
+  "category": "sport",
+  "years": "2002-2004",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/2003_Audi_RS6_1.jpg/1280px-2003_Audi_RS6_1.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/94/2003_Audi_RS6_1.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:2003_Audi_RS6_1.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Calreyn88",
+  "mime": "image/jpeg",
+  "dimensions": "4000x2410",
+  "matchEvidence": "File '2003 Audi RS6 1.jpg'; ImageDescription: 'Audi RS6'; Categories: 'Audi RS6', 'Bicester Heritage Scramble in October 2025'.",
+  "existing": true,
+  "currentImgurUrl": "https://i.imgur.com/7Y86HOC.png",
+  "status": "ok",
+  "notes": "2003 model year — first-generation RS6 (C5, 2002-2004); hint allows any generation (C5-C8), C5 chosen. Photographed at Bicester Heritage Scramble, England; body style (saloon/Avant) not stated in metadata. Tuned/custom files (GR25, Monaco, LE) avoided."
+}

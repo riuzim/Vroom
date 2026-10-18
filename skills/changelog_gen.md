@@ -5,6 +5,7 @@ description: >-
 ---
 
 ## Usage
+
 ```
 bash skills/changelog_gen.sh
 ```

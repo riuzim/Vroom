@@ -1,0 +1,19 @@
+{
+  "name": "Pagani Zonda",
+  "brand": "Pagani",
+  "model": "Zonda C12 (1999-2002)",
+  "category": "supercar",
+  "years": "1999-2002",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Pagani_Zonda_C12_RHD.jpg/1280px-Pagani_Zonda_C12_RHD.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Pagani_Zonda_C12_RHD.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:Pagani_Zonda_C12_RHD.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "MrWalkr",
+  "mime": "image/jpeg",
+  "dimensions": "4808x3199",
+  "matchEvidence": "filename 'Pagani Zonda C12 RHD'; ImageDescription 'A Pagani Zonda C12 taken at the Carhuna Pop-Up Museum.'; Categories: Pagani Zonda|Self-published work",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "Original Zonda C12 variant (1999-2002), right-hand-drive example, photographed at Carhuna Pop-Up Museum. Variant accepted per instructions (C12/F/S all OK). Street car, not a track-only Revolución."
+}

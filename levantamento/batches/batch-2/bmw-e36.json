@@ -1,0 +1,19 @@
+{
+  "name": "BMW E36",
+  "brand": "BMW",
+  "model": "3 Series (E36)",
+  "category": "sedan",
+  "years": "1990-1998",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/1995_BMW_325i_Sedan%2C_front_left%2C_08-10-2022.jpg/1280px-1995_BMW_325i_Sedan%2C_front_left%2C_08-10-2022.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/1995_BMW_325i_Sedan%2C_front_left%2C_08-10-2022.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:1995_BMW_325i_Sedan,_front_left,_08-10-2022.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "MercurySable99",
+  "mime": "image/jpeg",
+  "dimensions": "5056x2932",
+  "matchEvidence": "File '1995 BMW 325i Sedan, front left, 08-10-2022.jpg'; ImageDescription: '1995 BMW 325i Sedan photographed in New Castle, Pennsylvania. Finished in Jet Black.'; Categories: 'BMW 325 E36', '1995 BMW automobiles', 'Black BMW sedans'.",
+  "existing": true,
+  "currentImgurUrl": "https://i.imgur.com/AqEDxds.png",
+  "status": "ok",
+  "notes": "1995 BMW 325i Sedan (US-spec, 4-door) — exactly 3 Series E36 (1990-1998) per hint, sedan body matching the category. 'Category:BMW 3 Series (E36)' does not exist on Commons; file comes from Category:BMW_325_E36. Cabriolet, Compact, touring, race and replica files rejected by name."
+}

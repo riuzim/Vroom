@@ -1,0 +1,19 @@
+{
+  "name": "Tesla Model 3",
+  "brand": "Tesla",
+  "model": "Model 3 (2017-2023, pre-facelift)",
+  "category": "ev",
+  "years": "2017-2023",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Tesla_Model_3_Washington_DC_Metro_Area%2C_USA_%281%29.jpg/1280px-Tesla_Model_3_Washington_DC_Metro_Area%2C_USA_%281%29.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/6/65/Tesla_Model_3_Washington_DC_Metro_Area%2C_USA_%281%29.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:Tesla_Model_3_Washington_DC_Metro_Area,_USA_(1).jpg",
+  "license": "CC BY 4.0",
+  "author": "OWS Photography",
+  "mime": "image/jpeg",
+  "dimensions": "2700x2160",
+  "matchEvidence": "filename 'Tesla Model 3 Washington DC Metro Area, USA (1)'; ImageDescription 'Tesla Model 3 Washington DC, USA'; Categories: Self-published work|Tesla automobiles in the United States|Tesla Model 3 (2017–2023)",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "First-generation body (2017-2023, pre-Highland facelift) — the most recognizable Model 3, matches hint '2017+'. US-spec street photo. Alternatives passed: 2023 Highland (Alexander-93 4538x3028), 2024 Highland Goodwood (Calreyn88 16320x10000), 2019 Performance AWD (Calreyn88)."
+}

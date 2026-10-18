@@ -18,6 +18,15 @@ export function useLogin() {
   });
 }
 
+/** Login com Google: recebe o ID token (credential) validado pela API. */
+export function useGoogleLogin() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (credential) => api.post('/api/auth/google', { credential }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['me'] }),
+  });
+}
+
 export function useRegister() {
   const queryClient = useQueryClient();
   return useMutation({

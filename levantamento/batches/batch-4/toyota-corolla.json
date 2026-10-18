@@ -1,0 +1,19 @@
+{
+  "name": "Toyota Corolla",
+  "brand": "Toyota",
+  "model": "Corolla (E210) sedan LE",
+  "category": "sedan",
+  "years": "2019-present (2020 model year)",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/2020_Toyota_Corolla_LE_standard_front%2C_5.25.19.jpg/1280px-2020_Toyota_Corolla_LE_standard_front%2C_5.25.19.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/06/2020_Toyota_Corolla_LE_standard_front%2C_5.25.19.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:2020_Toyota_Corolla_LE_standard_front,_5.25.19.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Kevauto",
+  "mime": "image/jpeg",
+  "dimensions": "4588x2515",
+  "matchEvidence": "File:2020 Toyota Corolla LE standard front, 5.25.19.jpg | ImageDescription: 'A 2020 Toyota Corolla LE photographed in Kew Gardens Hills, Queens, New York' | Categories: 'Blue Toyota sedans|2020 Toyota automobiles|Toyota Corolla (E210, North America) sedan'",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "Chose current-generation E210 sedan (2019+), 2020 model year LE trim, per hint preferring a recent sedan. Real-world street photo (Queens, NY) rather than auto-show shot; categories confirm Toyota Corolla (E210, North America) sedan. Gasoline LE rather than Hybrid variant."
+}

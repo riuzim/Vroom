@@ -5,6 +5,7 @@ description: >-
 ---
 
 ## Usage
+
 ```
 bash skills/dependency_scan.sh
 ```

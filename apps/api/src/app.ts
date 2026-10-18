@@ -1,9 +1,12 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import { env } from './env.js';
 import { optionalAuth } from './lib/auth.js';
 import authRouter from './routes/auth.js';
+import carsRouter from './routes/cars.js';
 import healthRouter from './routes/health.js';
 import leaderboardRouter from './routes/leaderboard.js';
 import profileRouter from './routes/profile.js';
@@ -13,18 +16,46 @@ import { errorHandler, notFoundHandler } from './middleware/error.js';
 export function createApp() {
   const app = express();
 
+  // Menos superfície de reconhecimento do stack.
+  app.disable('x-powered-by');
+
+  // Atrás de um proxy (nginx/Render), req.ip seria sempre o IP do proxy —
+  // todos os rate limiters compartilhariam um único balde. Confiar em N hops
+  // configurados (nunca 'true' indiscriminado) devolve o IP real do cliente.
+  if (env.trustProxy !== false) {
+    app.set('trust proxy', env.trustProxy);
+  }
+
   app.use(
     cors({
       origin: env.corsOrigins,
       credentials: true,
     }),
   );
+  // Headers de segurança para uma API JSON: nosniff, frameguard, hsts etc.
+  // CSP fica desativada (payload é JSON, não documento navegável).
+  app.use(helmet({ contentSecurityPolicy: false }));
+
+  // Teto global anti-DoS por IP, acima dos limites por rota.
+  app.use(
+    '/api',
+    rateLimit({
+      windowMs: 60 * 1000,
+      limit: 300,
+      standardHeaders: 'draft-7',
+      legacyHeaders: false,
+      skip: () => env.isTest,
+      message: { error: 'Muitas requisições. Calma aí, piloto.' },
+    }),
+  );
+
   app.use(express.json({ limit: '64kb' }));
   app.use(cookieParser());
   app.use(optionalAuth);
 
   app.use('/api/health', healthRouter);
   app.use('/api/auth', authRouter);
+  app.use('/api/cars', carsRouter);
   app.use('/api/rounds', roundsRouter);
   app.use('/api/leaderboard', leaderboardRouter);
   app.use('/api/profile', profileRouter);

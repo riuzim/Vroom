@@ -1,5 +1,10 @@
 const API_BASE = import.meta.env.VITE_API_URL ?? '';
 
+/** Monta a URL absoluta de um caminho da API (respeita VITE_API_URL). */
+export function apiUrl(path) {
+  return `${API_BASE}${path}`;
+}
+
 async function request(path, options = {}) {
   let response;
   try {

@@ -1,0 +1,19 @@
+{
+  "name": "Audi R8",
+  "brand": "Audi",
+  "model": "R8 Coupé 4.2 FSI quattro (Type 42)",
+  "category": "supercar",
+  "years": "2007-2015",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Audi_R8_Coup%C3%A9_4.2_FSI_quattro_%282008%29_%2854873478657%29.jpg/1280px-Audi_R8_Coup%C3%A9_4.2_FSI_quattro_%282008%29_%2854873478657%29.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Audi_R8_Coup%C3%A9_4.2_FSI_quattro_%282008%29_%2854873478657%29.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:Audi_R8_Coup%C3%A9_4.2_FSI_quattro_(2008)_(54873478657).jpg",
+  "license": "CC0",
+  "author": "Charles from Port Chester, New York",
+  "mime": "image/jpeg",
+  "dimensions": "5320x3521",
+  "matchEvidence": "File 'Audi R8 Coupé 4.2 FSI quattro (2008) (54873478657).jpg'; ImageDescription: 'Audi R8 Coupé 4.2 FSI quattro (2008)'; Categories: 'Audi R8'.",
+  "existing": true,
+  "currentImgurUrl": "https://i.imgur.com/6SYSpld.jpg",
+  "status": "ok",
+  "notes": "1st-generation R8 (Type 42, 2007-2015) chosen per hint (preferred generation); base Coupé 4.2 V8 FSI quattro, model year 2008, photographed in Connecticut. Rejected by name: 'R8 LMS', 'Safety Car', 'GT3 body', 'Track car' files (race versions) and 2nd-gen (2016+) files."
+}

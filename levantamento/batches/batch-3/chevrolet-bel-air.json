@@ -1,0 +1,19 @@
+{
+  "name": "Chevrolet Bel Air",
+  "brand": "Chevrolet",
+  "model": "Bel Air Sport Coupe (tri-five, 1955-1957)",
+  "category": "classic",
+  "years": "1955-1957 (MY1957)",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/1957_Chevrolet_Bel_Air_%2866943%29.jpg/1280px-1957_Chevrolet_Bel_Air_%2866943%29.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e0/1957_Chevrolet_Bel_Air_%2866943%29.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:1957_Chevrolet_Bel_Air_(66943).jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Calreyn88",
+  "mime": "image/jpeg",
+  "dimensions": "3952x2305",
+  "matchEvidence": "filename '1957 Chevrolet Bel Air (66943)'; ImageDescription 'Chevrolet Bel Air'; Categories: Self-published work|1957 Chevrolet Bel Air Sport Coupe|London Concours 2022",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "MY1957 Sport Coupe — matches hint 'prefira 1955-1957' (tri-five era); photo at London Concours 2022. REJECTED '1957 Chevrolet Bel Air - 01.jpg': its categories reveal the car is a 1957 Chevrolet TWO-TEN, a different model. Alternatives passed: 1955 2-Door Sedan (Novoklimov, CC BY 4.0), 1957 Sport Coupe in rally motion (Ermell)."
+}

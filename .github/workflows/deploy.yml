@@ -18,14 +18,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Actions pinadas por commit SHA (tags são mutáveis). MAJOR comentado acima.
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
           cache: pnpm
@@ -33,13 +34,30 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build shared package
+        run: pnpm --filter @vroom/shared build
+
+      - name: Generate Prisma client
+        run: pnpm --filter @vroom/api exec prisma generate
+
+      - name: Tests
+        run: pnpm -r test
+
+      - name: Audit de dependências (bloqueia em críticas)
+        run: pnpm audit --audit-level critical
+
       - name: Build
         run: pnpm --filter @vroom/web build
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
+      # GitHub Pages não reescreve rotas: deep links (/Vroom/game/daily etc.)
+      # precisam cair no index.html (SPA fallback).
+      - name: SPA fallback (404.html)
+        run: cp apps/web/dist/index.html apps/web/dist/404.html
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: apps/web/dist
 
@@ -52,4 +70,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

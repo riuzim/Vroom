@@ -1,0 +1,19 @@
+{
+  "name": "Mitsubishi Eclipse",
+  "brand": "Mitsubishi",
+  "model": "Eclipse (2G)",
+  "category": "jdm",
+  "years": "1995-1999",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%2C_Mitsubishi_Eclipse_%D0%B2%D0%BE_%D0%B4%D0%B2%D0%BE%D1%80%D0%B5_%D0%9F%D0%B0%D0%BD%D1%84%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0_114.jpg/1280px-%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%2C_Mitsubishi_Eclipse_%D0%B2%D0%BE_%D0%B4%D0%B2%D0%BE%D1%80%D0%B5_%D0%9F%D0%B0%D0%BD%D1%84%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0_114.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/19/%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B%2C_Mitsubishi_Eclipse_%D0%B2%D0%BE_%D0%B4%D0%B2%D0%BE%D1%80%D0%B5_%D0%9F%D0%B0%D0%BD%D1%84%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0_114.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B,_Mitsubishi_Eclipse_%D0%B2%D0%BE_%D0%B4%D0%B2%D0%BE%D1%80%D0%B5_%D0%9F%D0%B0%D0%BD%D1%84%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0_114.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Nikolai Bulykin",
+  "mime": "image/jpeg",
+  "dimensions": "4967x3311",
+  "matchEvidence": "File 'Алматы, Mitsubishi Eclipse во дворе Панфилова 114.jpg'; ImageDescription: 'Mitsubishi Eclipse II in a backyard of 114, Panfilov Street, Almaty, Kazakhstan.'; Categories: 'Mitsubishi Eclipse (PJ platform)'.",
+  "existing": true,
+  "currentImgurUrl": "https://i.imgur.com/F5jfyBQ.jpg",
+  "status": "ok",
+  "notes": "2nd-generation Eclipse (1995-1999, PJ platform) chosen per hint preference for 1G/2G (1989-1999); Commons quality-assessed photo of the car parked in an Almaty courtyard. Fallback (3G 2000-2005) also verified: File:Mitsubishi-Eclipse-hatch.jpg (1200x640, PD, IFCAR). Rejected: all 'Eclipse Cross' files (different model, crossover)."
+}

@@ -1,0 +1,19 @@
+{
+  "name": "Ford Bronco",
+  "brand": "Ford",
+  "model": "Bronco (6th gen, 2021+)",
+  "category": "suv",
+  "years": "2021+ (photo 2023)",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Ford_Bronco_%286th_generation%29_1X7A6831.jpg/1280px-Ford_Bronco_%286th_generation%29_1X7A6831.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Ford_Bronco_%286th_generation%29_1X7A6831.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:Ford_Bronco_(6th_generation)_1X7A6831.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Alexander-93",
+  "mime": "image/jpeg",
+  "dimensions": "3987x2966",
+  "matchEvidence": "filename 'Ford Bronco (6th generation) 1X7A6831'; ImageDescription 'Ford Bronco (6th generation) in Stuttgart-Vaihingen'; Categories: Ford Bronco (6th generation)|User Alexander Migl - Stuttgart-Vaihingen in March 2023|Automobiles with license plates of Stuttgart",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "Chose new 6th gen (2021+) era. TRAP avoided: '2022 Ford Bronco 2.jpg' is actually Bronco Sport per its categories (different model — rejected); Wildtrak file rejected (close-up of pre-production demonstrator). Backup: 'Ford Bronco (U725) Washington DC' (OWS Photography, CC BY 4.0); classic 1980s Eddie Bauer also available."
+}

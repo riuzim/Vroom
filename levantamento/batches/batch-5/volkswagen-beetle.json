@@ -1,0 +1,19 @@
+{
+  "name": "Volkswagen Beetle",
+  "brand": "Volkswagen",
+  "model": "Type 1 (Fusca/Käfer)",
+  "category": "classic",
+  "years": "1938–2003 (exemplar 1981)",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Volkswagen_beetle_81.jpg/1280px-Volkswagen_beetle_81.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/7/77/Volkswagen_beetle_81.jpg",
+  "filePageUrl": "https://commons.wikimedia.org/wiki/File:Volkswagen_beetle_81.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Ricardo Gatica Esteban",
+  "mime": "image/jpeg",
+  "dimensions": "4608x3456",
+  "matchEvidence": "File:Volkswagen beetle 81.jpg; ImageDescription: 'volkswagen beetle año 1981'; Categories: Volkswagen Type 1, 1981 Volkswagen automobiles",
+  "existing": false,
+  "currentImgurUrl": "",
+  "status": "ok",
+  "notes": "Dica pedia o Fusca CLÁSSICO (Tipo 1, 1938-2003); escolhida unidade 1981 (era documentada por desc 'año 1981' + cat '1981 Volkswagen automobiles' + cat Type 1 — não é o New Beetle A5). Ângulo não documentado nos metadados, mas arquivo é foto de carro individual. Alternativos: '2022-05-08 VW-Käfer.jpg' (6000x4000, ano não documentado), 'Beautiful Volkswagen beetle side view.jpg' (perfil, Nigéria)."
+}
