@@ -12,12 +12,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useVroomGame } from '@/hooks/useVroomGame.js';
 
 const MODE_INFO = {
-  classic: { label: 'Classic', description: 'Cores liberadas — nitidez a cada erro.' },
-  hard: { label: 'Hard', description: 'Preto e branco, pontos em dobro.', badge: '2x pontos' },
-  daily: {
-    label: 'Daily',
-    description: 'Um carro por dia para todo mundo — uma rodada, sem segunda chance.',
-  },
+  classic: { label: 'Classic' },
+  hard: { label: 'Hard', badge: '2x pontos' },
+  daily: { label: 'Daily' },
 };
 
 export default function Game() {
@@ -32,9 +29,7 @@ export default function Game() {
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
         <ServerCrash className="size-12 text-flame" />
         <h1 className="font-display text-2xl uppercase tracking-[0.22em]">Servidor offline</h1>
-        <p className="text-sm text-bone/60">
-          O servidor do Vroom não respondeu. Verifique sua conexão e tente de novo.
-        </p>
+        <p className="text-sm text-bone/60">Verifique sua conexão e tente de novo.</p>
         <Button variant="outline" onClick={() => window.location.reload()}>
           Tentar reconectar
         </Button>
@@ -88,11 +83,10 @@ export default function Game() {
               <p className="text-sm text-bone/60">
                 {game.roundStatus === 'correct'
                   ? game.user
-                    ? `Você cravou o carro de hoje (${game.carName}) e garantiu ${game.points} pontos no ranking.`
-                    : 'Você cravou o carro de hoje! Pontos de convidado não contam no ranking — entre para pontuar de verdade.'
+                    ? `Você cravou: ${game.carName} · +${game.points} pontos no ranking.`
+                    : `Você cravou: ${game.carName}. Entre para pontuar no ranking.`
                   : `O carro de hoje era ${game.carName}.`}
               </p>
-              <p className="text-sm font-bold text-flame">Amanhã tem pista nova — passa aqui.</p>
               <Button variant="outline" size="sm" asChild>
                 <Link to="/game/classic">Treinar no Classic</Link>
               </Button>
@@ -117,33 +111,42 @@ export default function Game() {
               carName={game.carName}
             />
 
+            {game.carCredits && (
+              <p className="text-center text-xs leading-relaxed text-bone/50">
+                {game.carCredits.brand} {game.carCredits.model} ({game.carCredits.years}) — foto:{' '}
+                <a
+                  className="underline underline-offset-2 hover:text-bone/80"
+                  href={game.carCredits.filePageUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {game.carCredits.author}
+                </a>
+                , {game.carCredits.license} · imagens guardadas no banco do Vroom
+              </p>
+            )}
+
             <GuessInput
               disabled={game.isRoundOver || game.isGuessing || game.isSkipping}
               onSubmit={game.guess}
+              hideSuggestions={mode === 'hard'}
             />
 
-            <div className="flex flex-col items-center gap-1.5">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={game.skip}
-                disabled={game.isRoundOver || game.isGuessing || game.isSkipping}
-              >
-                <SkipForward className="size-4" />
-                Pular carro
-              </Button>
-              <p className="text-xs text-bone/60">Pular encerra sua sequência atual</p>
-            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={game.skip}
+              disabled={game.isRoundOver || game.isGuessing || game.isSkipping}
+            >
+              <SkipForward className="size-4" />
+              Pular carro
+            </Button>
           </>
         )}
       </section>
 
       <div className="order-3 grid gap-6 lg:content-center">
         <ScorePanel title="Últimas sequências" scores={game.recentScores} />
-        <div className="rounded-none border-2 border-line bg-panel p-5 text-sm text-bone/55">
-          <p className="font-bold text-bone/80">Modo atual</p>
-          <p className="mt-1">{info.description}</p>
-        </div>
       </div>
     </main>
   );

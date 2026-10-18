@@ -4,12 +4,16 @@ import { carNames } from '@vroom/shared';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-export default function GuessInput({ disabled, onSubmit }) {
+export default function GuessInput({ disabled, onSubmit, hideSuggestions = false }) {
   const [guess, setGuess] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
   const suggestions = useMemo(() => {
+    if (hideSuggestions) {
+      return [];
+    }
+
     const value = guess.trim().toLowerCase();
 
     if (!value) {
@@ -17,7 +21,7 @@ export default function GuessInput({ disabled, onSubmit }) {
     }
 
     return carNames.filter((name) => name.toLowerCase().includes(value)).slice(0, 6);
-  }, [guess]);
+  }, [guess, hideSuggestions]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -39,6 +43,13 @@ export default function GuessInput({ disabled, onSubmit }) {
   }
 
   function handleKeyDown(event) {
+    if (event.key === 'Escape') {
+      setIsFocused(false);
+      setHighlightedIndex(-1);
+      event.target.blur();
+      return;
+    }
+
     if (!isFocused || suggestions.length === 0) {
       return;
     }
@@ -49,10 +60,6 @@ export default function GuessInput({ disabled, onSubmit }) {
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
       setHighlightedIndex((index) => (index <= 0 ? suggestions.length - 1 : index - 1));
-    } else if (event.key === 'Escape') {
-      setIsFocused(false);
-      setHighlightedIndex(-1);
-      event.target.blur();
     } else if (event.key === 'Enter' && highlightedIndex >= 0) {
       event.preventDefault();
       pickSuggestion(suggestions[highlightedIndex]);
@@ -75,9 +82,13 @@ export default function GuessInput({ disabled, onSubmit }) {
           autoComplete="off"
           placeholder="Manda o nome do carro"
           aria-label="Seu chute"
-          aria-autocomplete="list"
-          aria-controls="guess-suggestions"
-          aria-expanded={isFocused && suggestions.length > 0}
+          {...(hideSuggestions
+            ? {}
+            : {
+                'aria-autocomplete': 'list',
+                'aria-controls': 'guess-suggestions',
+                'aria-expanded': isFocused && suggestions.length > 0,
+              })}
         />
         <Button type="submit" disabled={disabled || !guess.trim()} className="sm:min-w-32">
           <Send className="size-4" />

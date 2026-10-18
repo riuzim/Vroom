@@ -74,7 +74,7 @@ export default function Leaderboard() {
               ) : isError ? (
                 <div className="flex flex-col items-center gap-3 py-8 text-center">
                   <p className="text-sm text-bone/55">
-                    O ranking não chegou pelo rádio. Checa a conexão e tenta de novo.
+                    O ranking não carregou. Checa a conexão e tenta de novo.
                   </p>
                   <button
                     type="button"
@@ -86,7 +86,7 @@ export default function Leaderboard() {
                 </div>
               ) : entries.length === 0 ? (
                 <p className="py-8 text-center text-sm text-bone/55">
-                  Ninguém cravou tempo aqui ainda. O grid é todo seu.
+                  Ninguém pontuou ainda. O grid é todo seu.
                 </p>
               ) : (
                 <ol className="space-y-2">

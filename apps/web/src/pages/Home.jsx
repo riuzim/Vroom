@@ -11,7 +11,7 @@ const modes = [
     mode: 'classic',
     icon: Car,
     title: 'Classic',
-    description: 'Cores liberadas, nitidez a cada erro. Erra com estilo.',
+    description: 'Cores liberadas, nitidez a cada erro.',
     cta: 'Largar no Classic',
   },
   {
@@ -26,9 +26,8 @@ const modes = [
     mode: 'daily',
     icon: CalendarDays,
     title: 'Daily',
-    description:
-      'Todo mundo vê o mesmo carro, uma rodada por dia. Chute com cabeça — não tem segunda chance.',
-    cta: 'Fazer o Daily de hoje',
+    description: 'Todo mundo vê o mesmo carro, uma rodada por dia.',
+    cta: 'Jogar o Daily',
   },
 ];
 
@@ -55,14 +54,13 @@ export default function Home() {
     <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
       <section className="mx-auto max-w-3xl text-center">
         <Badge variant="outline" className="mb-5">
-          5 chutes · 1 carro · 0 dicas grátis
+          5 chutes · 1 carro
         </Badge>
         <h1 className="font-display text-5xl uppercase tracking-[0.22em] text-bone sm:text-6xl">
           Vroom
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base text-bone/60 sm:text-lg">
-          Um carro lendário escondido no borrão. Você tem 5 chutes para provar que manja de máquina
-          — errar dá dica, acertar de primeira dá status.
+          Uma imagem borrada. Um carro lendário. 5 chutes para acertar.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Button size="lg" asChild>
