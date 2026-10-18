@@ -39,12 +39,37 @@ export default function App() {
         </ErrorBoundary>
         <footer className="border-t-2 border-bone">
           <div aria-hidden="true" className="checker h-3" />
-          <p className="px-4 py-6 text-center text-xs font-bold text-bone/50">
-            Vroom · Feito para quem ama carros ·{' '}
-            <a href="mailto:vroomfeedback@gmail.com" className="transition hover:text-flame">
-              Feedback
-            </a>
-          </p>
+          <div className="px-4 py-6 text-center text-xs font-bold text-bone/60">
+            <p className="font-mono uppercase tracking-wide">
+              Vroom · feito no box por quem ama carros
+            </p>
+            <p className="mt-2 flex items-center justify-center gap-3">
+              <a
+                href="mailto:vroomfeedback@gmail.com"
+                className="transition hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+              >
+                Feedback
+              </a>
+              <span aria-hidden="true">·</span>
+              <a
+                href="https://discord.gg/JTDE5eMv"
+                target="_blank"
+                rel="noreferrer"
+                className="transition hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+              >
+                Discord
+              </a>
+              <span aria-hidden="true">·</span>
+              <a
+                href="https://github.com/riuzim/Vroom"
+                target="_blank"
+                rel="noreferrer"
+                className="transition hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+              >
+                GitHub
+              </a>
+            </p>
+          </div>
         </footer>
       </div>
     </BrowserRouter>

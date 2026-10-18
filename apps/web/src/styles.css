@@ -104,7 +104,7 @@
   /* Scrollbar 1-bit: reta e quadrada, thumb bone que acende flame no hover */
   * {
     scrollbar-width: thin;
-    scrollbar-color: hsl(45 26% 88% / 0.35) hsl(240 5% 9%);
+    scrollbar-color: hsl(45 26% 88% / 0.45) hsl(240 5% 9%);
   }
 
   ::-webkit-scrollbar {
@@ -117,7 +117,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: hsl(45 26% 88% / 0.35);
+    background: hsl(45 26% 88% / 0.45);
     border: 2px solid hsl(240 5% 9%);
   }
 

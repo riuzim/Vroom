@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 export default function ScorePanel({
   title,
   scores,
-  emptyLabel = 'Ainda sem scores',
+  emptyLabel = 'Ainda sem sequências',
   variant = 'default',
 }) {
   return (

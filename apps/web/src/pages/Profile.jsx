@@ -17,12 +17,16 @@ export default function Profile() {
   const scores = useLocalScores();
 
   const user = data?.user ?? null;
-  const { data: statsData, isLoading: statsLoading, isError: statsError, refetch: refetchStats } =
-    useQuery({
-      queryKey: ['stats'],
-      queryFn: () => api.get('/api/profile/stats'),
-      enabled: !!user,
-    });
+  const {
+    data: statsData,
+    isLoading: statsLoading,
+    isError: statsError,
+    refetch: refetchStats,
+  } = useQuery({
+    queryKey: ['stats'],
+    queryFn: () => api.get('/api/profile/stats'),
+    enabled: !!user,
+  });
 
   const stats = statsData?.stats ?? null;
   const roundsPlayed = scores.length;
@@ -30,7 +34,7 @@ export default function Profile() {
 
   function handleLogout() {
     logout.mutate(undefined, {
-      onSuccess: () => toast.success('Sessão encerrada. Até logo!'),
+      onSuccess: () => toast.success('Boxes fechados. Até a próxima!'),
     });
   }
 
@@ -42,7 +46,11 @@ export default function Profile() {
 
       {isLoading ? (
         <Card>
-          <CardContent className="p-10 text-center text-sm text-bone/55">Carregando...</CardContent>
+          <CardContent className="grid gap-3 p-10">
+            <Skeleton className="h-16 w-full" />
+            <Skeleton className="h-16 w-full" />
+            <Skeleton className="h-16 w-full" />
+          </CardContent>
         </Card>
       ) : isError ? (
         <Card>
@@ -66,7 +74,7 @@ export default function Profile() {
                 <p className="font-display text-xl uppercase tracking-[0.18em]">{user.username}</p>
                 <p className="text-sm text-bone/55">{user.email}</p>
                 {user.createdAt && (
-                  <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-bone/50 sm:justify-start">
+                  <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-bone/60 sm:justify-start">
                     <CalendarDays className="size-3.5" />
                     Pilotando desde{' '}
                     {new Date(user.createdAt).toLocaleDateString('pt-BR', {
@@ -143,31 +151,29 @@ export default function Profile() {
             <CardDescription>Seus pontos registrados no servidor.</CardDescription>
           </CardHeader>
           <CardContent>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                  <p className="text-xs font-black uppercase tracking-wide text-bone/55">Pontos</p>
-                  <p className="mt-1 font-mono text-2xl font-black text-flame">
-                    {stats.totalPoints}
-                  </p>
-                </div>
-                <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                  <p className="text-xs font-black uppercase tracking-wide text-bone/55">Rodadas</p>
-                  <p className="mt-1 font-mono text-2xl font-black">{stats.roundsPlayed}</p>
-                </div>
-                <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                  <p className="text-xs font-black uppercase tracking-wide text-bone/55">
-                    Melhor rodada
-                  </p>
-                  <p className="mt-1 font-mono text-2xl font-black text-acid">{stats.bestRound}</p>
-                </div>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
+                <p className="text-xs font-black uppercase tracking-wide text-bone/55">Pontos</p>
+                <p className="mt-1 font-mono text-2xl font-black text-flame">{stats.totalPoints}</p>
               </div>
+              <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
+                <p className="text-xs font-black uppercase tracking-wide text-bone/55">Rodadas</p>
+                <p className="mt-1 font-mono text-2xl font-black">{stats.roundsPlayed}</p>
+              </div>
+              <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
+                <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+                  Melhor rodada (pontos)
+                </p>
+                <p className="mt-1 font-mono text-2xl font-black text-acid">{stats.bestRound}</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       ) : (
         <Card className="mt-6">
           <CardHeader>
             <CardTitle className="text-lg">Suas estatísticas locais</CardTitle>
-            <CardDescription>Rodadas encerradas neste navegador.</CardDescription>
+            <CardDescription>Suas sequências encerradas neste navegador.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
@@ -177,7 +183,7 @@ export default function Profile() {
               </div>
               <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
                 <p className="text-xs font-black uppercase tracking-wide text-bone/55">
-                  Melhor streak
+                  Maior sequência (acertos seguidos)
                 </p>
                 <p className="mt-1 font-mono text-3xl font-black text-flame">{bestStreak}</p>
               </div>

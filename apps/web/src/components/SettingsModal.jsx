@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Bug, Mail, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -10,9 +11,16 @@ import {
 } from '@/components/ui/dialog';
 
 export default function SettingsModal({ isOpen, onClose, onResetScores }) {
+  const [isConfirming, setIsConfirming] = useState(false);
+
   function handleReset() {
+    if (!isConfirming) {
+      setIsConfirming(true);
+      return;
+    }
     onResetScores?.();
-    toast.success('Histórico de scores limpo.');
+    toast.success('Sequências zeradas. Todo campeão já recomeçou do zero.');
+    setIsConfirming(false);
     onClose();
   }
 
@@ -47,7 +55,7 @@ export default function SettingsModal({ isOpen, onClose, onResetScores }) {
           </Button>
           <Button variant="destructive" className="w-full justify-start" onClick={handleReset}>
             <Trash2 className="size-4" />
-            Limpar histórico de scores
+            {isConfirming ? 'Confirmar limpeza?' : 'Limpar sequências salvas'}
           </Button>
         </div>
       </DialogContent>

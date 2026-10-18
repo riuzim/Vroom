@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { LogIn, LogOut, Menu, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -17,24 +17,32 @@ const navItems = [
 ];
 
 function NavLinks({ onNavigate }) {
+  const location = useLocation();
+
   return (
     <div className="flex flex-col gap-1 md:flex-row md:items-center md:gap-1">
-      {navItems.map((item) => (
-        <NavLink
-          key={item.to}
-          to={item.to}
-          end={item.to === '/'}
-          onClick={onNavigate}
-          className={({ isActive }) =>
-            cn(
-              'rounded-none px-4 py-2 text-sm font-black uppercase transition',
+      {navItems.map((item) => {
+        const isActive =
+          item.to === '/'
+            ? location.pathname === '/'
+            : item.to === '/game/classic'
+              ? location.pathname.startsWith('/game')
+              : location.pathname.startsWith(item.to);
+
+        return (
+          <Link
+            key={item.to}
+            to={item.to}
+            onClick={onNavigate}
+            className={cn(
+              'rounded-none px-4 py-2 text-sm font-black uppercase transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none',
               isActive ? 'bg-flame text-ink' : 'text-bone/70 hover:bg-bone/10 hover:text-bone',
-            )
-          }
-        >
-          {item.label}
-        </NavLink>
-      ))}
+            )}
+          >
+            {item.label}
+          </Link>
+        );
+      })}
     </div>
   );
 }
@@ -47,7 +55,7 @@ export default function Header() {
 
   function handleLogout() {
     logout.mutate(undefined, {
-      onSuccess: () => toast.success('Sessão encerrada. Até logo!'),
+      onSuccess: () => toast.success('Boxes fechados. Até a próxima!'),
       onError: (error) => toast.error(error.message),
     });
   }
@@ -57,7 +65,7 @@ export default function Header() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link
           to="/"
-          className="font-display text-2xl uppercase tracking-[0.22em] text-bone transition hover:text-flame"
+          className="font-display text-2xl uppercase tracking-[0.22em] text-bone transition-[color,letter-spacing] duration-200 hover:text-flame hover:tracking-[0.3em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
         >
           Vroom
         </Link>
@@ -71,7 +79,7 @@ export default function Header() {
             href="https://discord.gg/JTDE5eMv"
             target="_blank"
             rel="noreferrer"
-            className="hidden rounded-none border-2 border-bone px-4 py-2 text-sm font-bold text-bone transition hover:bg-bone hover:text-ink lg:inline-flex"
+            className="hidden rounded-none border-2 border-bone px-4 py-2 text-sm font-bold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none lg:inline-flex"
           >
             Discord
           </a>
@@ -79,7 +87,7 @@ export default function Header() {
             href="https://github.com/riuzim/Vroom"
             target="_blank"
             rel="noreferrer"
-            className="hidden rounded-none border-2 border-bone px-4 py-2 text-sm font-bold text-bone transition hover:bg-bone hover:text-ink lg:inline-flex"
+            className="hidden rounded-none border-2 border-bone px-4 py-2 text-sm font-bold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none lg:inline-flex"
           >
             GitHub
           </a>
@@ -98,7 +106,7 @@ export default function Header() {
                   <Avatar className="size-7 border-none">
                     <AvatarFallback className="text-xs">{user.username.charAt(0)}</AvatarFallback>
                   </Avatar>
-                  <span className="hidden max-w-24 truncate font-bold normal-case tracking-normal text-bone/85 sm:inline">
+                  <span className="hidden max-w-24 truncate font-bold normal-case tracking-normal sm:inline">
                     {user.username}
                   </span>
                 </Link>
@@ -168,7 +176,7 @@ export default function Header() {
                       href="https://discord.gg/JTDE5eMv"
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-none border-2 border-bone px-4 py-2.5 text-center text-sm font-bold text-bone transition hover:bg-bone hover:text-ink"
+                      className="rounded-none border-2 border-bone px-4 py-2.5 text-center text-sm font-bold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
                     >
                       Discord
                     </a>
@@ -176,7 +184,7 @@ export default function Header() {
                       href="https://github.com/riuzim/Vroom"
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-none border-2 border-bone px-4 py-2.5 text-center text-sm font-bold text-bone transition hover:bg-bone hover:text-ink"
+                      className="rounded-none border-2 border-bone px-4 py-2.5 text-center text-sm font-bold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
                     >
                       GitHub
                     </a>

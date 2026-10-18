@@ -6,20 +6,22 @@ export default function GameInfo({ attemptsLeft, hint, message, score, status })
       ? 'border-2 border-danger bg-panel text-danger'
       : status === 'correct'
         ? 'border-2 border-acid bg-panel text-acid'
-        : status === 'failed' || status === 'skipped'
+        : status === 'failed'
           ? 'border-2 border-danger bg-panel text-danger'
-          : 'border-2 border-line bg-panel text-bone/60';
+          : status === 'skipped'
+            ? 'border-2 border-flame bg-panel text-flame'
+            : 'border-2 border-line bg-panel text-bone/60';
 
   return (
     <div className="grid gap-3 sm:grid-cols-[auto,1fr]">
       <div className="rounded-none border-2 border-bone bg-flame px-5 py-4 text-center text-ink shadow-hard">
-        <p className="text-xs font-black uppercase tracking-wide opacity-70">Score</p>
+        <p className="text-xs font-black uppercase tracking-wide">Sequência</p>
         <p className="font-mono text-3xl font-black">{score}</p>
       </div>
       <div className={`rounded-none px-5 py-4 ${statusClass}`}>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <p className="text-sm font-bold">Tentativas: {attemptsLeft}</p>
+            <p className="text-sm font-bold">Chutes: {attemptsLeft}</p>
             <div className="flex gap-1" aria-hidden="true">
               {Array.from({ length: MAX_ATTEMPTS }, (_, index) => (
                 <span

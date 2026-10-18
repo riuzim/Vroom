@@ -81,13 +81,13 @@ export function useVroomGame(mode = 'classic') {
       if (data.result === 'correct') {
         setSessionScore((value) => value + 1);
         if (user && data.points > 0) {
-          toast.success(`+${data.points} pontos no ranking!`);
+          toast.success(`+${data.points} pts cravados no ranking.`);
         }
         scheduleNext(1400);
       } else if (data.result === 'failed') {
         recordEndedRound(sessionScore);
         setSessionScore(0);
-        scheduleNext(1800);
+        scheduleNext(4000);
       }
     },
     onError: (error) => toast.error(error.message),
@@ -144,6 +144,7 @@ export function useVroomGame(mode = 'classic') {
     mode,
     points: round?.points ?? null,
     recentScores,
+    roundStatus: round?.status ?? 'idle',
     score: sessionScore,
     skip: skipMutation.mutate,
     status,

@@ -52,10 +52,10 @@ export default function Leaderboard() {
                     aria-pressed={mode === filter.value}
                     onClick={() => setMode(filter.value)}
                     className={cn(
-                      'rounded-none border-2 px-3 py-1.5 text-xs font-black uppercase tracking-wide transition',
+                      'rounded-none border-2 px-3 py-1.5 text-xs font-black uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none',
                       mode === filter.value
                         ? 'border-bone bg-flame text-ink'
-                        : 'border-line text-bone/60 hover:border-bone hover:text-bone',
+                        : 'border-bone/30 text-bone/60 hover:border-bone hover:text-bone',
                     )}
                   >
                     {filter.label}
@@ -74,19 +74,19 @@ export default function Leaderboard() {
               ) : isError ? (
                 <div className="flex flex-col items-center gap-3 py-8 text-center">
                   <p className="text-sm text-bone/55">
-                    Não foi possível carregar o ranking. Verifique sua conexão.
+                    O ranking não chegou pelo rádio. Checa a conexão e tenta de novo.
                   </p>
                   <button
                     type="button"
                     onClick={() => refetch()}
-                    className="rounded-none border-2 border-bone px-4 py-1.5 text-xs font-black uppercase tracking-wide transition hover:bg-bone hover:text-ink"
+                    className="rounded-none border-2 border-bone px-4 py-1.5 text-xs font-black uppercase tracking-wide transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
                   >
                     Tentar novamente
                   </button>
                 </div>
               ) : entries.length === 0 ? (
                 <p className="py-8 text-center text-sm text-bone/55">
-                  Ninguém pontuou aqui ainda. Que tal ser o primeiro?
+                  Ninguém cravou tempo aqui ainda. O grid é todo seu.
                 </p>
               ) : (
                 <ol className="space-y-2">

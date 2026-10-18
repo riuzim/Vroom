@@ -45,7 +45,7 @@ export default function Register() {
     const { confirmPassword: _confirm, ...body } = values;
     register.mutate(body, {
       onSuccess: () => {
-        toast.success('Conta criada. Bom jogo!');
+        toast.success('Conta criada. Agora seus pontos contam.');
         navigate('/');
       },
       onError: (error) => toast.error(error.message),
@@ -138,7 +138,10 @@ export default function Register() {
           </Form>
           <p className="mt-4 text-center text-sm text-bone/55">
             Já tem conta?{' '}
-            <Link to="/login" className="font-bold text-flame hover:underline">
+            <Link
+              to="/login"
+              className="font-bold text-flame transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+            >
               Entrar
             </Link>
           </p>

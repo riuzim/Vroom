@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { GAME_MODES } from '@vroom/shared';
-import { CalendarCheck, LogIn, ServerCrash, SkipForward } from 'lucide-react';
+import { CalendarCheck, CalendarX, LogIn, ServerCrash, SkipForward } from 'lucide-react';
 import CarStage from '@/components/CarStage.jsx';
 import GameInfo from '@/components/GameInfo.jsx';
 import GuessInput from '@/components/GuessInput.jsx';
@@ -12,9 +12,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useVroomGame } from '@/hooks/useVroomGame.js';
 
 const MODE_INFO = {
-  classic: { label: 'Classic', description: 'Imagem colorida com blur progressivo.' },
-  hard: { label: 'Hard', description: 'Imagem em preto e branco.', badge: '2x pontos' },
-  daily: { label: 'Daily', description: 'Um carro por dia para todo mundo — uma rodada por dia.' },
+  classic: { label: 'Classic', description: 'Cores liberadas — nitidez a cada erro.' },
+  hard: { label: 'Hard', description: 'Preto e branco, pontos em dobro.', badge: '2x pontos' },
+  daily: {
+    label: 'Daily',
+    description: 'Um carro por dia para todo mundo — uma rodada, sem segunda chance.',
+  },
 };
 
 export default function Game() {
@@ -30,9 +33,7 @@ export default function Game() {
         <ServerCrash className="size-12 text-flame" />
         <h1 className="font-display text-2xl uppercase tracking-[0.22em]">Servidor offline</h1>
         <p className="text-sm text-bone/60">
-          Não foi possível falar com o servidor do Vroom. Verifique se a API está rodando (
-          <code className="rounded-none bg-bone/10 px-1.5 py-0.5 text-xs">pnpm dev</code>) e tente
-          de novo.
+          O servidor do Vroom não respondeu. Verifique sua conexão e tente de novo.
         </p>
         <Button variant="outline" onClick={() => window.location.reload()}>
           Tentar reconectar
@@ -44,11 +45,11 @@ export default function Game() {
   return (
     <main className="mx-auto grid w-full max-w-7xl flex-1 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[17rem,1fr,17rem] lg:px-8 lg:py-8">
       <div className="order-2 grid gap-6 lg:order-1 lg:content-center">
-        <ScorePanel title="Best Score" scores={game.bestScores} variant="best" />
+        <ScorePanel title="Melhor sequência" scores={game.bestScores} variant="best" />
         {!game.user && (
           <Card className="border-flame">
             <CardContent className="gap-2 p-5 text-xs text-bone/60">
-              <p className="font-bold text-bone/85">Jogando como visitante</p>
+              <p className="font-bold text-bone/85">Jogando de convidado</p>
               <p className="mt-1">Os pontos não contam para o ranking global.</p>
               <Button variant="outline" size="sm" className="mt-3 w-full" asChild>
                 <Link to="/login">
@@ -76,18 +77,24 @@ export default function Game() {
         ) : game.dailyDone ? (
           <Card>
             <CardContent className="flex flex-col items-center gap-3 p-8 text-center">
-              <CalendarCheck className="size-10 text-acid" />
+              {game.roundStatus === 'correct' ? (
+                <CalendarCheck className="size-10 text-acid" />
+              ) : (
+                <CalendarX className="size-10 text-danger" />
+              )}
               <p className="font-display text-lg uppercase tracking-[0.18em]">
-                Desafio diário concluído
+                Bandeirada no desafio de hoje
               </p>
               <p className="text-sm text-bone/60">
-                {game.status === 'correct'
-                  ? `Você acertou o carro de hoje (${game.carName}) e garantiu ${game.points} pontos.`
+                {game.roundStatus === 'correct'
+                  ? game.user
+                    ? `Você cravou o carro de hoje (${game.carName}) e garantiu ${game.points} pontos no ranking.`
+                    : 'Você cravou o carro de hoje! Pontos de convidado não contam no ranking — entre para pontuar de verdade.'
                   : `O carro de hoje era ${game.carName}.`}
               </p>
-              <p className="text-sm font-bold text-flame">Volte amanhã para um novo desafio!</p>
+              <p className="text-sm font-bold text-flame">Amanhã tem pista nova — passa aqui.</p>
               <Button variant="outline" size="sm" asChild>
-                <Link to="/game/classic">Jogar Classic</Link>
+                <Link to="/game/classic">Treinar no Classic</Link>
               </Button>
             </CardContent>
           </Card>
@@ -106,6 +113,8 @@ export default function Game() {
               blur={game.blur}
               isHardMode={game.isHardMode}
               status={game.status}
+              label={info.label}
+              carName={game.carName}
             />
 
             <GuessInput
@@ -113,7 +122,7 @@ export default function Game() {
               onSubmit={game.guess}
             />
 
-            <div className="flex justify-center">
+            <div className="flex flex-col items-center gap-1.5">
               <Button
                 variant="ghost"
                 size="sm"
@@ -123,13 +132,14 @@ export default function Game() {
                 <SkipForward className="size-4" />
                 Pular carro
               </Button>
+              <p className="text-xs text-bone/60">Pular encerra sua sequência atual</p>
             </div>
           </>
         )}
       </section>
 
       <div className="order-3 grid gap-6 lg:content-center">
-        <ScorePanel title="Last Score" scores={game.recentScores} />
+        <ScorePanel title="Últimas sequências" scores={game.recentScores} />
         <div className="rounded-none border-2 border-line bg-panel p-5 text-sm text-bone/55">
           <p className="font-bold text-bone/80">Modo atual</p>
           <p className="mt-1">{info.description}</p>

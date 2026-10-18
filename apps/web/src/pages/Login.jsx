@@ -33,7 +33,7 @@ export default function Login() {
   function onSubmit(values) {
     login.mutate(values, {
       onSuccess: () => {
-        toast.success('Bem-vindo de volta!');
+        toast.success('De volta ao cockpit. Bora!');
         navigate('/');
       },
       onError: (error) => toast.error(error.message),
@@ -44,7 +44,9 @@ export default function Login() {
     <main className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-4 py-16">
       <div className="mb-8 text-center">
         <h1 className="font-display text-3xl uppercase tracking-[0.22em]">Entrar</h1>
-        <p className="mt-2 text-sm text-bone/55">Salve seus scores no ranking global.</p>
+        <p className="mt-2 text-sm text-bone/55">
+          Entre para guardar seus pontos no ranking global.
+        </p>
       </div>
 
       <Card>
@@ -95,7 +97,10 @@ export default function Login() {
           </Form>
           <p className="mt-4 text-center text-sm text-bone/55">
             Não tem conta?{' '}
-            <Link to="/register" className="font-bold text-flame hover:underline">
+            <Link
+              to="/register"
+              className="font-bold text-flame transition hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+            >
               Registre-se
             </Link>
           </p>

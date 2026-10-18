@@ -52,6 +52,7 @@ export default function GuessInput({ disabled, onSubmit }) {
     } else if (event.key === 'Escape') {
       setIsFocused(false);
       setHighlightedIndex(-1);
+      event.target.blur();
     } else if (event.key === 'Enter' && highlightedIndex >= 0) {
       event.preventDefault();
       pickSuggestion(suggestions[highlightedIndex]);
@@ -72,7 +73,7 @@ export default function GuessInput({ disabled, onSubmit }) {
           onKeyDown={handleKeyDown}
           disabled={disabled}
           autoComplete="off"
-          placeholder="Digite o nome do carro"
+          placeholder="Manda o nome do carro"
           aria-label="Seu chute"
           aria-autocomplete="list"
           aria-controls="guess-suggestions"
@@ -98,8 +99,8 @@ export default function GuessInput({ disabled, onSubmit }) {
                 onClick={() => pickSuggestion(name)}
                 className={
                   index === highlightedIndex
-                    ? 'w-full px-4 py-3 text-left text-sm font-bold bg-bone text-ink transition'
-                    : 'w-full px-4 py-3 text-left text-sm font-bold text-bone/85 transition hover:bg-bone hover:text-ink'
+                    ? 'w-full px-4 py-3 text-left text-sm font-bold bg-bone/10 text-flame transition focus-visible:outline-none focus-visible:bg-bone/10 focus-visible:text-flame motion-reduce:transition-none'
+                    : 'w-full px-4 py-3 text-left text-sm font-bold text-bone/85 transition hover:bg-bone/10 hover:text-flame focus-visible:outline-none focus-visible:bg-bone/10 focus-visible:text-flame motion-reduce:transition-none'
                 }
               >
                 {name}
