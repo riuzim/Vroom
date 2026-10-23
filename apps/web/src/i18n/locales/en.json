@@ -1,0 +1,192 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "feedback": "Feedback"
+  },
+  "nav": {
+    "home": "Home",
+    "play": "Play",
+    "leaderboard": "Leaderboard",
+    "login": "Sign in",
+    "logout": "Sign out",
+    "settings": "Open settings",
+    "menu": "Open menu",
+    "profile": "View profile"
+  },
+  "home": {
+    "badge": "Car guessing game",
+    "tagline": "One blurry photo. One legendary car. You get 5 guesses to prove you know cars.",
+    "playClassic": "Play Classic",
+    "seeLeaderboard": "View leaderboard",
+    "play": "Play {{mode}}",
+    "soon": "Coming soon",
+    "x2points": "2x points",
+    "modes": {
+      "classic": {
+        "title": "Classic",
+        "description": "Full-color image that gets sharper with every miss."
+      },
+      "hard": {
+        "title": "Hard",
+        "description": "Black and white — no color shortcuts. Double points."
+      },
+      "daily": {
+        "title": "Daily",
+        "description": "One car per day for everyone. One round per day — choose wisely."
+      }
+    },
+    "steps": {
+      "silhouette": {
+        "title": "Look at the silhouette",
+        "description": "The image starts completely blurred."
+      },
+      "hints": {
+        "title": "Guess and earn hints",
+        "description": "Every miss reveals a letter and more detail."
+      },
+      "attempts": {
+        "title": "5 attempts",
+        "description": "Get it right before you run out of attempts."
+      }
+    }
+  },
+  "game": {
+    "mode": {
+      "classic": {
+        "label": "Classic",
+        "description": "Full-color image with progressive blur."
+      },
+      "hard": {
+        "label": "Hard",
+        "description": "Black and white image.",
+        "badge": "2x points"
+      },
+      "daily": {
+        "label": "Daily",
+        "description": "One car per day for everyone — one round per day."
+      }
+    },
+    "score": "Score",
+    "attempts": "Attempts: {{count}}",
+    "initialMessage": "Look closely at the silhouette and take your shot.",
+    "correctBanner": "Nice! Next car coming up",
+    "imageError": "Couldn't load the image",
+    "carAlt": "Car to guess",
+    "guessPlaceholder": "Type the car name",
+    "guessLabel": "Your guess",
+    "guessButton": "Guess",
+    "skip": "Skip car",
+    "currentMode": "Current mode",
+    "guestTitle": "Playing as guest",
+    "guestBody": "Your points don't count towards the global leaderboard.",
+    "guestCta": "Sign in to earn points",
+    "serverDownTitle": "Server offline",
+    "serverDownBody": "Couldn't reach the Vroom server. Make sure the API is running (pnpm dev) and try again.",
+    "reconnect": "Try to reconnect",
+    "dailyDoneTitle": "Daily challenge complete",
+    "dailyDoneCorrect": "You got today's car ({{name}}) and earned {{points}} points.",
+    "dailyDoneFailed": "Today's car was {{name}}.",
+    "dailyDoneTomorrow": "Come back tomorrow for a new challenge!",
+    "playClassic": "Play Classic",
+    "pointsEarned": "+{{points}} points on the leaderboard!",
+    "messages": {
+      "correct": "Correct: {{name}}",
+      "wrong_one": "Miss. {{count}} attempt left.",
+      "wrong_other": "Miss. {{count}} attempts left.",
+      "failed": "Round over. It was {{name}}.",
+      "skipped": "Skipped. It was {{name}}."
+    }
+  },
+  "scores": {
+    "best": "Best Score",
+    "last": "Last Score",
+    "empty": "No scores yet"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Feedback, bugs and your local data.",
+    "feedback": "Feedback",
+    "reportBug": "Report a bug",
+    "sendEmail": "Send email",
+    "clearScores": "Clear score history",
+    "scoresCleared": "Score history cleared.",
+    "language": "Language"
+  },
+  "leaderboard": {
+    "title": "Global leaderboard",
+    "badge": "Points from registered players",
+    "allTime": "All-time",
+    "today": "Today",
+    "modeAll": "All",
+    "rounds_one": "{{count}} round",
+    "rounds_other": "{{count}} rounds",
+    "empty": "No one has scored here yet. How about being the first?"
+  },
+  "auth": {
+    "loginTitle": "Sign in",
+    "loginSubtitle": "Save your scores to the global leaderboard.",
+    "registerTitle": "Create account",
+    "registerSubtitle": "Keep your progress and compete for the leaderboard.",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "loginButton": "Sign in",
+    "loggingIn": "Signing in...",
+    "registerButton": "Create account",
+    "creating": "Creating...",
+    "noAccount": "No account yet?",
+    "registerLink": "Register",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Sign in",
+    "welcomeBack": "Welcome back!",
+    "accountCreated": "Account created. Enjoy the game!",
+    "loggedOut": "Signed out. See you soon!",
+    "validation": {
+      "usernameMin": "Username needs at least 3 characters",
+      "usernameMax": "Max of 20 characters",
+      "usernameFormat": "Only letters, numbers and _",
+      "emailInvalid": "Enter a valid email",
+      "passwordMin": "Password needs at least 6 characters",
+      "passwordMismatch": "Passwords don't match"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "memberSince": "Racing since {{date}}",
+    "guestBadge": "Guest",
+    "guestCta": "Create an account to save your progress on the server and compete for the global leaderboard.",
+    "createAccount": "Create account",
+    "ranking": "Leaderboard",
+    "rankingSubtitle": "Your server-recorded points.",
+    "points": "Points",
+    "roundsPlayed": "Rounds",
+    "bestRound": "Best round",
+    "localTitle": "Your local stats",
+    "localSubtitle": "Rounds finished in this browser.",
+    "rounds": "Rounds",
+    "bestStreak": "Best streak"
+  },
+  "errorBoundary": {
+    "title": "Oops, something broke",
+    "body": "Something crashed unexpectedly. Try reloading the page — if it keeps happening, report the bug via the feedback email.",
+    "reload": "Reload"
+  },
+  "footer": {
+    "madeWith": "Made for people who love cars"
+  },
+  "apiErrors": {
+    "NETWORK_ERROR": "Can't reach the server. Check your internet connection and try again.",
+    "VALIDATION_ERROR": "Invalid data",
+    "EMAIL_TAKEN": "Email already registered",
+    "USERNAME_TAKEN": "Username already taken",
+    "INVALID_CREDENTIALS": "Wrong email or password",
+    "RATE_LIMITED": "Too many attempts. Wait a few minutes and try again.",
+    "NOT_AUTHENTICATED": "You need to sign in to do this.",
+    "ROUND_NOT_FOUND": "Round not found",
+    "ROUND_ENDED": "This round is already over",
+    "ROUND_NOT_YOURS": "This round isn't yours",
+    "CATALOG_EMPTY": "Car catalog is empty — run the seed.",
+    "GUESS_RATE_LIMITED": "Too many guesses in a row. Take a breath."
+  }
+}

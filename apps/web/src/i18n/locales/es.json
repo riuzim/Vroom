@@ -1,0 +1,192 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "feedback": "Comentarios"
+  },
+  "nav": {
+    "home": "Inicio",
+    "play": "Jugar",
+    "leaderboard": "Ranking",
+    "login": "Iniciar sesión",
+    "logout": "Salir",
+    "settings": "Abrir configuración",
+    "menu": "Abrir menú",
+    "profile": "Ver perfil"
+  },
+  "home": {
+    "badge": "Juego de adivinar coches",
+    "tagline": "Una imagen borrosa. Un coche legendario. Tienes 5 intentos para demostrar que entiendes de coches.",
+    "playClassic": "Jugar Classic",
+    "seeLeaderboard": "Ver ranking",
+    "play": "Jugar {{mode}}",
+    "soon": "Muy pronto",
+    "x2points": "2x puntos",
+    "modes": {
+      "classic": {
+        "title": "Classic",
+        "description": "Imagen a color que se ve más nítida con cada fallo."
+      },
+      "hard": {
+        "title": "Hard",
+        "description": "Blanco y negro, sin trampa del color. Puntos dobles."
+      },
+      "daily": {
+        "title": "Daily",
+        "description": "Un coche por día para todo el mundo. Una ronda por día — elige bien."
+      }
+    },
+    "steps": {
+      "silhouette": {
+        "title": "Mira la silueta",
+        "description": "La imagen empieza totalmente borrosa."
+      },
+      "hints": {
+        "title": "Arriesga y gana pistas",
+        "description": "Cada fallo revela una letra y más nitidez."
+      },
+      "attempts": {
+        "title": "5 intentos",
+        "description": "Acerta antes de quedarte sin intentos."
+      }
+    }
+  },
+  "game": {
+    "mode": {
+      "classic": {
+        "label": "Classic",
+        "description": "Imagen a color con desenfoque progresivo."
+      },
+      "hard": {
+        "label": "Hard",
+        "description": "Imagen en blanco y negro.",
+        "badge": "2x puntos"
+      },
+      "daily": {
+        "label": "Daily",
+        "description": "Un coche por día para todo el mundo — una ronda por día."
+      }
+    },
+    "score": "Score",
+    "attempts": "Intentos: {{count}}",
+    "initialMessage": "Observa bien la silueta y lanza tu intento.",
+    "correctBanner": "¡Bien! Viene el próximo coche",
+    "imageError": "No se pudo cargar la imagen",
+    "carAlt": "Coche para adivinar",
+    "guessPlaceholder": "Escribe el nombre del coche",
+    "guessLabel": "Tu intento",
+    "guessButton": "Arriesgar",
+    "skip": "Saltar coche",
+    "currentMode": "Modo actual",
+    "guestTitle": "Jugando como invitado",
+    "guestBody": "Los puntos no cuentan para el ranking global.",
+    "guestCta": "Inicia sesión y suma puntos",
+    "serverDownTitle": "Servidor no disponible",
+    "serverDownBody": "No se pudo contactar el servidor de Vroom. Verifica que la API esté corriendo (pnpm dev) e inténtalo otra vez.",
+    "reconnect": "Intentar reconectar",
+    "dailyDoneTitle": "Desafío diario completado",
+    "dailyDoneCorrect": "Acertaste el coche de hoy ({{name}}) y ganaste {{points}} puntos.",
+    "dailyDoneFailed": "El coche de hoy era {{name}}.",
+    "dailyDoneTomorrow": "¡Vuelve mañana para un nuevo desafío!",
+    "playClassic": "Jugar Classic",
+    "pointsEarned": "¡+{{points}} puntos en el ranking!",
+    "messages": {
+      "correct": "Correcto: {{name}}",
+      "wrong_one": "Fallaste. Te queda {{count}} intento.",
+      "wrong_other": "Fallaste. Te quedan {{count}} intentos.",
+      "failed": "Fin de la ronda. Era {{name}}.",
+      "skipped": "Saltaste. Era {{name}}."
+    }
+  },
+  "scores": {
+    "best": "Best Score",
+    "last": "Last Score",
+    "empty": "Todavía sin puntajes"
+  },
+  "settings": {
+    "title": "Configuración",
+    "description": "Comentarios, bugs y tus datos locales.",
+    "feedback": "Comentarios",
+    "reportBug": "Reportar un bug",
+    "sendEmail": "Enviar email",
+    "clearScores": "Limpiar historial de puntajes",
+    "scoresCleared": "Historial de puntajes limpio.",
+    "language": "Idioma"
+  },
+  "leaderboard": {
+    "title": "Ranking global",
+    "badge": "Puntos de quienes juegan con cuenta",
+    "allTime": "General",
+    "today": "Hoy",
+    "modeAll": "Todos",
+    "rounds_one": "{{count}} ronda",
+    "rounds_other": "{{count}} rondas",
+    "empty": "Nadie ha puntuado aquí todavía. ¿Y si eres el primero?"
+  },
+  "auth": {
+    "loginTitle": "Iniciar sesión",
+    "loginSubtitle": "Guarda tus puntajes en el ranking global.",
+    "registerTitle": "Crear cuenta",
+    "registerSubtitle": "Guarda tu progreso y compite por el ranking.",
+    "username": "Nombre de usuario",
+    "email": "Email",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "loginButton": "Iniciar sesión",
+    "loggingIn": "Ingresando...",
+    "registerButton": "Crear cuenta",
+    "creating": "Creando...",
+    "noAccount": "¿No tienes cuenta?",
+    "registerLink": "Regístrate",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "loginLink": "Iniciar sesión",
+    "welcomeBack": "¡Bienvenido de nuevo!",
+    "accountCreated": "¡Cuenta creada. Buen juego!",
+    "loggedOut": "Sesión cerrada. ¡Hasta pronto!",
+    "validation": {
+      "usernameMin": "El nombre necesita al menos 3 caracteres",
+      "usernameMax": "Máximo de 20 caracteres",
+      "usernameFormat": "Solo letras, números y _",
+      "emailInvalid": "Ingresa un email válido",
+      "passwordMin": "La contraseña necesita al menos 6 caracteres",
+      "passwordMismatch": "Las contraseñas no coinciden"
+    }
+  },
+  "profile": {
+    "title": "Perfil",
+    "memberSince": "Pilotando desde {{date}}",
+    "guestBadge": "Invitado",
+    "guestCta": "Crea una cuenta para guardar tu progreso en el servidor y competir en el ranking global.",
+    "createAccount": "Crear cuenta",
+    "ranking": "Ranking",
+    "rankingSubtitle": "Tus puntos registrados en el servidor.",
+    "points": "Puntos",
+    "roundsPlayed": "Rondas",
+    "bestRound": "Mejor ronda",
+    "localTitle": "Tus estadísticas locales",
+    "localSubtitle": "Rondas terminadas en este navegador.",
+    "rounds": "Rondas",
+    "bestStreak": "Mejor racha"
+  },
+  "errorBoundary": {
+    "title": "Ups, algo se rompió",
+    "body": "Algo falló inesperadamente. Intenta recargar la página — si persiste, reporta el bug por el email de comentarios.",
+    "reload": "Recargar"
+  },
+  "footer": {
+    "madeWith": "Hecho para quienes aman los coches"
+  },
+  "apiErrors": {
+    "NETWORK_ERROR": "Sin conexión con el servidor. Revisa tu internet e inténtalo otra vez.",
+    "VALIDATION_ERROR": "Datos inválidos",
+    "EMAIL_TAKEN": "Email ya registrado",
+    "USERNAME_TAKEN": "Nombre de usuario ya en uso",
+    "INVALID_CREDENTIALS": "Email o contraseña incorrectos",
+    "RATE_LIMITED": "Demasiados intentos. Espera unos minutos y vuelve a intentarlo.",
+    "NOT_AUTHENTICATED": "Necesitas iniciar sesión para hacer esto.",
+    "ROUND_NOT_FOUND": "Ronda no encontrada",
+    "ROUND_ENDED": "Esta ronda ya terminó",
+    "ROUND_NOT_YOURS": "Esta ronda no es tuya",
+    "CATALOG_EMPTY": "Catálogo de coches vacío — ejecuta el seed.",
+    "GUESS_RATE_LIMITED": "Demasiados intentos seguidos. Respira un poco."
+  }
+}
