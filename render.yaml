@@ -31,6 +31,10 @@ services:
       # Front no GitHub Pages: CORS aceita só esta origem
       - key: CORS_ORIGIN
         value: https://riuzim.github.io
+      # Render fica na frente de um proxy de 1 hop; sem isso o rate-limit
+      # vê todos os clientes como um único IP (X-Forwarded-For ignorado).
+      - key: TRUST_PROXY
+        value: "1"
       # Secretos — o valor é preenchido no painel do Render (sync: false)
       - key: DATABASE_URL
         sync: false
