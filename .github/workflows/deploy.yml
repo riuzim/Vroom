@@ -50,6 +50,9 @@ jobs:
         run: pnpm --filter @vroom/web build
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          # Client ID OAuth é público por design (fica no HTML de qualquer
+          # site com login Google). Secret vazio usa o do projeto atual.
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID || '350618645405-d0gnaqppgke03hsin3bs916qm52blm72.apps.googleusercontent.com' }}
 
       # GitHub Pages não reescreve rotas: deep links (/Vroom/game/daily etc.)
       # precisam cair no index.html (SPA fallback).

@@ -32,8 +32,8 @@ const adsenseClient = process.env.VITE_ADSENSE_CLIENT || '';
 //   (+ pagead2/tpc.googlesyndication.com quando AdSense ativo)
 // - frame-src: botão do Google renderiza iframe de accounts.google.com
 //   (+ doubleclick/tpc quando AdSense ativo)
-// - img-src: imagens de carros vêm da própria API (BLOB no banco) — 'self'
-//   cobre dev (proxy) e produção; sem hosts externos de imagem
+// - img-src: imagens de carros vêm da própria API (BYTEA no banco) — 'self'
+//   cobre dev (proxy); em produção a origem da API entra explicitamente
 // - connect-src: própria origem + API (quando remota) + validação do Google
 const cspDirectives = [
   "default-src 'self'",
@@ -44,7 +44,7 @@ const cspDirectives = [
   }`,
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
-  `img-src 'self' data: blob:${
+  `img-src 'self' data: blob:${apiOrigin ? ` ${apiOrigin}` : ''}${
     adsenseClient
       ? ' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://www.google.com'
       : ''
