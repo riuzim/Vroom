@@ -1,0 +1,40 @@
+# Blueprint do Render — sobe a API do Vroom (apps/api) como Web Service.
+#
+# Como usar: dashboard.render.com → New → Blueprint → conecte o repositório
+# riuzim/Vroom → o Blueprint lê este arquivo → você só preencha os valores
+# SECRETOS no painel (DATABASE_URL, JWT_SECRET, GOOGLE_CLIENT_ID).
+# Docs: https://render.com/docs/blueprints
+
+services:
+  - type: web
+    name: vroom-api
+    runtime: node
+    plan: free
+    region: oregon # mesma região do banco Supabase (AWS us-west-2)
+    buildCommand: >-
+      corepack enable &&
+      NODE_ENV=development pnpm install --frozen-lockfile &&
+      pnpm --filter @vroom/shared build &&
+      pnpm --filter @vroom/api db:generate &&
+      pnpm --filter @vroom/api build
+    # devDependencies são necessárias no build (tsc, prisma CLI, shared);
+    # NODE_ENV=development acima garante que o pnpm não as pule.
+    startCommand: node apps/api/dist/index.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # Runtime — nenhum segredo aqui
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      # Front no GitHub Pages: CORS aceita só esta origem
+      - key: CORS_ORIGIN
+        value: https://riuzim.github.io
+      # Secretos — o valor é preenchido no painel do Render (sync: false)
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
