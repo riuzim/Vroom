@@ -14,7 +14,7 @@ const modes = [
     icon: Car,
     title: 'Classic',
     description: 'Cores liberadas, nitidez a cada erro.',
-    cta: 'Largar no Classic',
+    cta: 'Jogar Classic',
   },
   {
     mode: 'hard',
@@ -22,7 +22,7 @@ const modes = [
     title: 'Hard',
     description: 'Preto e branco, sem trapaça de cor. Pontos em dobro.',
     badge: '2x pontos',
-    cta: 'Encarar o Hard',
+    cta: 'Jogar Hard',
   },
   {
     mode: 'daily',
@@ -37,33 +37,30 @@ const steps = [
   {
     icon: Eye,
     title: 'Olhe a silhueta',
-    description: 'Nasce em borrão total. Só a silhueta pra te guiar.',
+    description: 'A foto começa totalmente borrada.',
   },
   {
     icon: Lightbulb,
     title: 'Chute e ganhe dicas',
-    description: 'Erra o chute e o jogo entrega: uma letra e mais nitidez.',
+    description: 'Cada erro revela uma letra e mais nitidez.',
   },
   {
     icon: Timer,
     title: '5 chutes',
-    description: 'Acerte antes de zerar os chutes. Bandeirada é com você.',
+    description: 'Acerte antes de acabarem os chutes.',
   },
 ];
 
 export default function Home() {
   usePageMeta({
-    title: 'Vroom — 5 chutes até a bandeirada',
+    title: 'Vroom — Jogo de adivinhar carros',
     description:
-      'Um carro lendário escondido no borrão. 5 chutes, dicas a cada erro e um ranking global — prove que você manja de carros.',
+      'Adivinhe o carro pela foto borrada. 5 chutes, dicas a cada erro e ranking global.',
   });
 
   return (
     <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
       <section className="mx-auto max-w-3xl text-center">
-        <Badge variant="outline" className="mb-5">
-          5 chutes · 1 carro
-        </Badge>
         <h1 className="font-display text-5xl uppercase tracking-[0.22em] text-bone sm:text-6xl">
           Vroom
         </h1>
@@ -74,13 +71,13 @@ export default function Home() {
           <Button size="lg" asChild>
             <Link to="/game/classic">
               <Play className="size-5" />
-              Bora pro grid
+              Jogar agora
             </Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
             <Link to="/leaderboard">
               <Trophy className="size-5" />
-              Ver o pódio
+              Ranking
             </Link>
           </Button>
         </div>

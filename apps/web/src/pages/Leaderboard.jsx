@@ -23,8 +23,7 @@ export default function Leaderboard() {
 
   usePageMeta({
     title: 'Ranking global — Vroom',
-    description:
-      'Ranking global do Vroom: pontos por modo e período. Crie conta e dispute o pódio.',
+    description: 'Ranking global do Vroom: pontos por modo e período. Crie conta para disputar.',
   });
 
   const { data, isLoading, isError, refetch } = useQuery({

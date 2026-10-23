@@ -46,12 +46,12 @@ export default function CookieBanner() {
     <div
       role="dialog"
       aria-label="Consentimento de cookies"
-      className="fixed inset-x-0 bottom-0 z-50 border-t-2 border-flame bg-ink text-bone shadow-[0_-8px_24px_rgba(0,0,0,0.5)]"
+      className="fixed inset-x-0 bottom-0 z-50 border-t-2 border-flame bg-ink text-bone shadow-[0_-8px_0_0_rgba(0,0,0,0.6)]"
     >
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <p className="text-sm leading-relaxed text-bone/80">
-          Usamos cookies essenciais para o site funcionar (sessão de login). Cookies
-          de publicidade e análise só são usados com o seu consentimento.{' '}
+          Usamos cookies essenciais para o site funcionar (sessão de login). Cookies de publicidade
+          e análise só são usados com o seu consentimento.{' '}
           <Link
             to="/cookies"
             className="font-bold text-flame underline-offset-4 hover:underline motion-reduce:transition-none"
@@ -93,7 +93,7 @@ export default function CookieBanner() {
             <button
               type="button"
               onClick={saveChoices}
-              className={`mt-3 rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:brightness-110 motion-reduce:transition-none ${focusRing}`}
+              className={`mt-3 rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:shadow-none motion-reduce:transition-none ${focusRing}`}
             >
               Salvar escolhas
             </button>
@@ -103,7 +103,7 @@ export default function CookieBanner() {
             <button
               type="button"
               onClick={acceptAll}
-              className={`rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:brightness-110 motion-reduce:transition-none ${focusRing}`}
+              className={`rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:shadow-none motion-reduce:transition-none ${focusRing}`}
             >
               Aceitar tudo
             </button>

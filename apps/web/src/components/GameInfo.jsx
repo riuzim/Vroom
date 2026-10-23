@@ -33,9 +33,7 @@ export default function GameInfo({ attemptsLeft, hint, message, score, status })
           </div>
           <p className="font-mono text-sm tracking-[0.18em] text-bone">{hint}</p>
         </div>
-        <p className="mt-2 min-h-5 text-sm font-semibold">
-          {message || 'Olhe bem a silhueta e mande seu chute.'}
-        </p>
+        <p className="mt-2 min-h-5 text-sm font-semibold">{message}</p>
       </div>
     </div>
   );

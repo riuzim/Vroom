@@ -53,7 +53,7 @@ export default function Register() {
     const { confirmPassword: _confirm, ...body } = values;
     register.mutate(body, {
       onSuccess: () => {
-        toast.success('Conta criada. Agora seus pontos contam.');
+        toast.success('Conta criada.');
         navigate('/');
       },
       onError: (error) => toast.error(error.message),
@@ -63,7 +63,7 @@ export default function Register() {
   function onGoogleSuccess(credential) {
     googleLogin.mutate(credential, {
       onSuccess: () => {
-        toast.success('Conta criada. Agora seus pontos contam.');
+        toast.success('Conta criada.');
         navigate('/');
       },
       onError: (error) => toast.error(error.message),
@@ -88,7 +88,7 @@ export default function Register() {
                   <FormItem>
                     <FormLabel>Nome de usuário</FormLabel>
                     <FormControl>
-                      <Input placeholder="piloto" autoComplete="username" {...field} />
+                      <Input placeholder="seu nome" autoComplete="username" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

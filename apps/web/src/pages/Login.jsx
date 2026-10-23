@@ -31,7 +31,8 @@ export default function Login() {
 
   usePageMeta({
     title: 'Entrar — Vroom',
-    description: 'Entre com conta, e-mail ou Google para salvar seu progresso e disputar o ranking do Vroom.',
+    description:
+      'Entre com conta, e-mail ou Google para salvar seu progresso e disputar o ranking do Vroom.',
   });
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -41,7 +42,7 @@ export default function Login() {
   function onSubmit(values) {
     login.mutate(values, {
       onSuccess: () => {
-        toast.success('De volta ao cockpit. Bora!');
+        toast.success('Você entrou.');
         navigate('/');
       },
       onError: (error) => toast.error(error.message),
@@ -51,7 +52,7 @@ export default function Login() {
   function onGoogleSuccess(credential) {
     googleLogin.mutate(credential, {
       onSuccess: () => {
-        toast.success('De volta ao cockpit. Bora!');
+        toast.success('Você entrou.');
         navigate('/');
       },
       onError: (error) => toast.error(error.message),

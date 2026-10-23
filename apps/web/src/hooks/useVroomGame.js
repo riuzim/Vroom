@@ -81,7 +81,7 @@ export function useVroomGame(mode = 'classic') {
       if (data.result === 'correct') {
         setSessionScore((value) => value + 1);
         if (user && data.points > 0) {
-          toast.success(`+${data.points} pts cravados no ranking.`);
+          toast.success(`+${data.points} pontos no ranking.`);
         }
         scheduleNext(1400);
       } else if (data.result === 'failed') {

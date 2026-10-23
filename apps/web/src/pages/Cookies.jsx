@@ -25,10 +25,9 @@ export default function Cookies() {
       </p>
 
       <p className="mt-6 text-sm leading-relaxed text-bone/80">
-        Cookies essenciais (sessão de login) dispensam consentimento e não podem ser
-        desativados. Todas as outras categorias vêm desativadas por padrão e só são
-        ativadas com o seu consentimento explícito — padrão exigido pela LGPD e pelo
-        guia de cookies da ANPD.
+        Cookies essenciais (sessão de login) dispensam consentimento e não podem ser desativados.
+        Todas as outras categorias vêm desativadas por padrão e só são ativadas com o seu
+        consentimento explícito — padrão exigido pela LGPD e pelo guia de cookies da ANPD.
       </p>
 
       <h2 className="mt-8 font-display text-xl uppercase tracking-wide">Categorias</h2>
@@ -45,39 +44,47 @@ export default function Cookies() {
             <tr>
               <td className="p-3 font-bold">Essenciais</td>
               <td className="p-3">
-                <code className="font-mono text-xs">vroom_token</code> — sessão de login
-                (JWT httpOnly, 7 dias, removido ao sair).{' '}
+                <code className="font-mono text-xs">vroom_token</code> — sessão de login (JWT
+                httpOnly, 7 dias, removido ao sair).{' '}
                 <code className="font-mono text-xs">vroom:scores</code> e{' '}
-                <code className="font-mono text-xs">vroom:consent</code> — pontuação
-                local e a sua escolha de cookies (localStorage, só no seu navegador).
+                <code className="font-mono text-xs">vroom:consent</code> — pontuação local e a sua
+                escolha de cookies (localStorage, só no seu navegador).
               </td>
               <td className="p-3">Não exigido (art. 7º, V LGPD)</td>
             </tr>
             <tr>
               <td className="p-3 font-bold">Publicidade</td>
               <td className="p-3">
-                Cookies do Google AdSense e parceiros para veicular e medir anúncios
-                (incl. personalização com base em visitas anteriores). Saiba mais na{' '}
-                <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noreferrer" className={focusClasses}>
+                Cookies do Google AdSense e parceiros para veicular e medir anúncios (incl.
+                personalização com base em visitas anteriores). Saiba mais na{' '}
+                <a
+                  href="https://policies.google.com/technologies/ads"
+                  target="_blank"
+                  rel="noreferrer"
+                  className={focusClasses}
+                >
                   página do Google
                 </a>
                 .
               </td>
               <td className="p-3">
                 Opt-in —{' '}
-                <strong>{consent.decided ? (consent.advertising ? 'ativado' : 'desativado') : 'pendente'}</strong>
+                <strong>
+                  {consent.decided ? (consent.advertising ? 'ativado' : 'desativado') : 'pendente'}
+                </strong>
               </td>
             </tr>
             <tr>
               <td className="p-3 font-bold">Análise</td>
               <td className="p-3">
-                Estatísticas de uso para melhorar o jogo. Nenhuma ferramenta ativa hoje;
-                se alguma for adicionada, será listada aqui e exigirá novo
-                consentimento.
+                Estatísticas de uso para melhorar o jogo. Nenhuma ferramenta ativa hoje; se alguma
+                for adicionada, será listada aqui e exigirá novo consentimento.
               </td>
               <td className="p-3">
                 Opt-in —{' '}
-                <strong>{consent.decided ? (consent.analytics ? 'ativado' : 'desativado') : 'pendente'}</strong>
+                <strong>
+                  {consent.decided ? (consent.analytics ? 'ativado' : 'desativado') : 'pendente'}
+                </strong>
               </td>
             </tr>
           </tbody>
@@ -86,27 +93,42 @@ export default function Cookies() {
 
       <h2 className="mt-8 font-display text-xl uppercase tracking-wide">Gerenciar preferências</h2>
       <p className="mt-2 text-sm leading-relaxed text-bone/80">
-        Você pode rever sua escolha a qualquer momento — o banner aparece de novo e
-        nada é ativado sem o seu "sim". Alternativas externas: navegador em modo
-        privado, configurações de cookies do próprio navegador,{' '}
-        <a href="https://adssettings.google.com" target="_blank" rel="noreferrer" className={focusClasses}>
+        Você pode rever sua escolha a qualquer momento — o banner aparece de novo e nada é ativado
+        sem o seu "sim". Alternativas externas: navegador em modo privado, configurações de cookies
+        do próprio navegador,{' '}
+        <a
+          href="https://adssettings.google.com"
+          target="_blank"
+          rel="noreferrer"
+          className={focusClasses}
+        >
           Configurações de anúncios do Google
         </a>
         ,{' '}
-        <a href="https://www.aboutads.info/choices" target="_blank" rel="noreferrer" className={focusClasses}>
+        <a
+          href="https://www.aboutads.info/choices"
+          target="_blank"
+          rel="noreferrer"
+          className={focusClasses}
+        >
           aboutads.info
         </a>{' '}
         e{' '}
-        <a href="https://www.youronlinechoices.eu" target="_blank" rel="noreferrer" className={focusClasses}>
+        <a
+          href="https://www.youronlinechoices.eu"
+          target="_blank"
+          rel="noreferrer"
+          className={focusClasses}
+        >
           youronlinechoices.eu
         </a>
-        . Para visitantes do Espaço Econômico Europeu/Reino Unido, a plataforma de
-        consentimento certificada do Google (CMP) pode exibir seu próprio aviso.
+        . Para visitantes do Espaço Econômico Europeu/Reino Unido, a plataforma de consentimento
+        certificada do Google (CMP) pode exibir seu próprio aviso.
       </p>
       <button
         type="button"
         onClick={reopenBanner}
-        className={`mt-4 rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:brightness-110 motion-reduce:transition-none ${focusRing}`}
+        className={`mt-4 rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:shadow-none motion-reduce:transition-none ${focusRing}`}
       >
         Revisar preferências de cookies
       </button>

@@ -19,7 +19,7 @@ export default function SettingsModal({ isOpen, onClose, onResetScores }) {
       return;
     }
     onResetScores?.();
-    toast.success('Sequências zeradas. Todo campeão já recomeçou do zero.');
+    toast.success('Sequências apagadas.');
     setIsConfirming(false);
     onClose();
   }

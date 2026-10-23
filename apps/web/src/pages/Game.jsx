@@ -78,17 +78,17 @@ export default function Game() {
                 <CalendarX className="size-10 text-danger" />
               )}
               <p className="font-display text-lg uppercase tracking-[0.18em]">
-                Bandeirada no desafio de hoje
+                Desafio de hoje concluído
               </p>
               <p className="text-sm text-bone/60">
                 {game.roundStatus === 'correct'
                   ? game.user
-                    ? `Você cravou: ${game.carName} · +${game.points} pontos no ranking.`
-                    : `Você cravou: ${game.carName}. Entre para pontuar no ranking.`
+                    ? `Você acertou: ${game.carName} · +${game.points} pontos no ranking.`
+                    : `Você acertou: ${game.carName}. Entre para pontuar no ranking.`
                   : `O carro de hoje era ${game.carName}.`}
               </p>
               <Button variant="outline" size="sm" asChild>
-                <Link to="/game/classic">Treinar no Classic</Link>
+                <Link to="/game/classic">Jogar Classic</Link>
               </Button>
             </CardContent>
           </Card>
@@ -122,7 +122,7 @@ export default function Game() {
                 >
                   {game.carCredits.author}
                 </a>
-                , {game.carCredits.license} · imagens guardadas no banco do Vroom
+                , {game.carCredits.license}
               </p>
             )}
 

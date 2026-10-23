@@ -55,7 +55,7 @@ export default function Header() {
 
   function handleLogout() {
     logout.mutate(undefined, {
-      onSuccess: () => toast.success('Boxes fechados. Até a próxima!'),
+      onSuccess: () => toast.success('Você saiu da conta.'),
       onError: (error) => toast.error(error.message),
     });
   }

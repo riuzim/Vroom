@@ -59,9 +59,7 @@ export default function App() {
         <footer className="border-t-2 border-bone">
           <div aria-hidden="true" className="checker h-3" />
           <div className="px-4 py-6 text-center text-xs font-bold text-bone/60">
-            <p className="font-mono uppercase tracking-wide">
-              Vroom · feito no box por quem ama carros
-            </p>
+            <p className="font-mono uppercase tracking-wide">Vroom · feito para quem ama carros</p>
             <p className="mt-2 flex flex-wrap items-center justify-center gap-3">
               <a href="mailto:vroomfeedback@gmail.com" className={footerLinkClasses}>
                 Feedback
