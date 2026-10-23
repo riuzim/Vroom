@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Car } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function CarStage({ car, blur, isHardMode, status, label = 'Classic', carName }) {
+  const { t } = useTranslation();
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasFailed, setHasFailed] = useState(false);
 
@@ -20,12 +22,12 @@ export default function CarStage({ car, blur, isHardMode, status, label = 'Class
         {hasFailed && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-bone/70">
             <Car className="size-14" />
-            <p className="text-sm font-bold">Não foi possível carregar a imagem</p>
+            <p className="text-sm font-bold">{t('game.imageError')}</p>
           </div>
         )}
         <img
           src={car.imageUrl}
-          alt="Carro para adivinhar"
+          alt={t('game.carAlt')}
           draggable="false"
           onLoad={() => setIsLoaded(true)}
           onError={() => setHasFailed(true)}
@@ -48,10 +50,10 @@ export default function CarStage({ car, blur, isHardMode, status, label = 'Class
             }`}
           >
             {status === 'correct'
-              ? 'Boa! Próximo carro chegando'
+              ? t('game.bannerCorrect')
               : carName
-                ? `Era ${carName}. Próximo carro chegando`
-                : 'Próximo carro chegando'}
+                ? t('game.bannerReveal', { name: carName })
+                : t('game.bannerNext')}
           </div>
         )}
       </div>

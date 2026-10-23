@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 /**
  * Figura 1-bit com dithering ordenado (matriz Bayer 4×4).
  * Corpo em "bone" via currentColor; faixa e lanterna em flame.
@@ -5,11 +7,12 @@
  * (valores < 8 e < 4) como tiles de 4×4 células.
  */
 export default function DitherCar({ className }) {
+  const { t } = useTranslation();
   return (
     <svg
       viewBox="0 0 48 18"
       role="img"
-      aria-label="Silhueta 1-bit de um carro esportivo com dithering"
+      aria-label={t('ditherCar.ariaLabel')}
       shapeRendering="crispEdges"
       className={className}
     >

@@ -2,22 +2,24 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { LogIn, LogOut, Menu, Settings } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { useLogout, useMe } from '@/hooks/useAuth';
 import { clearLocalScores } from '@/lib/localScores';
+import { apiErrorMessage } from '@/lib/api';
 import SettingsModal from '@/components/SettingsModal.jsx';
 
-const navItems = [
-  { to: '/', label: 'Início' },
-  { to: '/game/classic', label: 'Jogar' },
-  { to: '/leaderboard', label: 'Ranking' },
-];
-
 function NavLinks({ onNavigate }) {
+  const { t } = useTranslation();
   const location = useLocation();
+  const navItems = [
+    { to: '/', label: t('nav.home') },
+    { to: '/game/classic', label: t('nav.play') },
+    { to: '/leaderboard', label: t('nav.leaderboard') },
+  ];
 
   return (
     <div className="flex flex-col gap-1 md:flex-row md:items-center md:gap-1">
@@ -48,6 +50,7 @@ function NavLinks({ onNavigate }) {
 }
 
 export default function Header() {
+  const { t } = useTranslation();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { data } = useMe();
   const logout = useLogout();
@@ -55,8 +58,8 @@ export default function Header() {
 
   function handleLogout() {
     logout.mutate(undefined, {
-      onSuccess: () => toast.success('Você saiu da conta.'),
-      onError: (error) => toast.error(error.message),
+      onSuccess: () => toast.success(t('auth.loggedOut')),
+      onError: (error) => toast.error(apiErrorMessage(t, error)),
     });
   }
 
@@ -87,14 +90,14 @@ export default function Header() {
             variant="ghost"
             size="icon"
             onClick={() => setIsSettingsOpen(true)}
-            aria-label="Abrir configurações"
+            aria-label={t('nav.openSettings')}
           >
             <Settings className="size-5" />
           </Button>
           {user ? (
             <>
               <Button variant="ghost" size="sm" asChild className="gap-2 px-2">
-                <Link to="/profile" aria-label="Ver perfil">
+                <Link to="/profile" aria-label={t('nav.viewProfile')}>
                   <Avatar className="size-7 border-none">
                     <AvatarFallback className="text-xs">{user.username.charAt(0)}</AvatarFallback>
                   </Avatar>
@@ -106,7 +109,7 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Sair"
+                aria-label={t('nav.logout')}
                 onClick={handleLogout}
                 disabled={logout.isPending}
               >
@@ -117,14 +120,14 @@ export default function Header() {
             <Button variant="outline" size="sm" asChild className="hidden sm:inline-flex">
               <Link to="/login">
                 <LogIn className="size-4" />
-                Entrar
+                {t('nav.login')}
               </Link>
             </Button>
           )}
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" aria-label="Abrir menu">
+                <Button variant="ghost" size="icon" aria-label={t('nav.openMenu')}>
                   <Menu className="size-5" />
                 </Button>
               </SheetTrigger>
@@ -153,14 +156,14 @@ export default function Header() {
                           disabled={logout.isPending}
                         >
                           <LogOut className="size-4" />
-                          Sair
+                          {t('nav.logout')}
                         </Button>
                       </>
                     ) : (
                       <Button variant="outline" asChild>
                         <Link to="/login">
                           <LogIn className="size-4" />
-                          Entrar
+                          {t('nav.login')}
                         </Link>
                       </Button>
                     )}

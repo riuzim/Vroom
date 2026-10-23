@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react';
 import { Send } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { carNames } from '@vroom/shared';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 export default function GuessInput({ disabled, onSubmit, hideSuggestions = false }) {
+  const { t } = useTranslation();
   const [guess, setGuess] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
@@ -80,8 +82,8 @@ export default function GuessInput({ disabled, onSubmit, hideSuggestions = false
           onKeyDown={handleKeyDown}
           disabled={disabled}
           autoComplete="off"
-          placeholder="Manda o nome do carro"
-          aria-label="Seu chute"
+          placeholder={t('game.guessPlaceholder')}
+          aria-label={t('game.guessLabel')}
           {...(hideSuggestions
             ? {}
             : {
@@ -92,7 +94,7 @@ export default function GuessInput({ disabled, onSubmit, hideSuggestions = false
         />
         <Button type="submit" disabled={disabled || !guess.trim()} className="sm:min-w-32">
           <Send className="size-4" />
-          Chutar
+          {t('game.guessButton')}
         </Button>
       </div>
 

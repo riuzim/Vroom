@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useConsent } from '@/lib/consent';
 
 /**
@@ -27,6 +28,7 @@ function loadAdsScript(client) {
 }
 
 export default function AdSlot({ slot, className = '', minHeight = 280, ...rest }) {
+  const { t } = useTranslation();
   const consent = useConsent();
   const client = import.meta.env.VITE_ADSENSE_CLIENT;
   const enabled = Boolean(client) && consent.decided && consent.advertising;
@@ -50,9 +52,9 @@ export default function AdSlot({ slot, className = '', minHeight = 280, ...rest 
   if (!enabled) return null;
 
   return (
-    <aside className={`w-full ${className}`} aria-label="Publicidade" {...rest}>
+    <aside className={`w-full ${className}`} aria-label={t('ads.label')} {...rest}>
       <p className="mb-1 text-center font-mono text-[10px] uppercase tracking-widest text-bone/40">
-        Publicidade
+        {t('ads.label')}
       </p>
       <div style={{ minHeight }} className="border-2 border-line bg-raised">
         <ins

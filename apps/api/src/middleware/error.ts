@@ -5,7 +5,7 @@ export const notFoundHandler: RequestHandler = (req, res) => {
   // Mensagem genérica: não reflete a URL de volta (evita fingerprint
   // e ecos de input do usuário). O detalhe fica só no log do servidor.
   console.warn(`[api] rota não encontrada: ${req.method} ${req.originalUrl}`);
-  res.status(404).json({ error: 'Rota não encontrada' });
+  res.status(404).json({ error: 'Rota não encontrada', code: 'NOT_FOUND' });
 };
 
 export const errorHandler: ErrorRequestHandler = (error, _req, res, next) => {
@@ -18,6 +18,7 @@ export const errorHandler: ErrorRequestHandler = (error, _req, res, next) => {
   if (error instanceof ZodError) {
     res.status(400).json({
       error: 'Dados inválidos',
+      code: 'VALIDATION_ERROR',
       details: error.issues.map((issue) => ({
         field: issue.path.join('.'),
         message: issue.message,
@@ -29,18 +30,18 @@ export const errorHandler: ErrorRequestHandler = (error, _req, res, next) => {
   // body-parser sinaliza JSON malformado/payload grande com status 400 —
   // respeitar error.status evita transformar erro de cliente em 500 ruidoso.
   if (error instanceof SyntaxError && 'status' in error && error.status === 400) {
-    res.status(400).json({ error: 'Requisição inválida: JSON malformado.' });
+    res.status(400).json({ error: 'Requisição inválida: JSON malformado.', code: 'BAD_REQUEST' });
     return;
   }
 
   if (typeof error === 'object' && error !== null && 'status' in error) {
     const status = (error as { status?: unknown }).status;
     if (typeof status === 'number' && status >= 400 && status < 500) {
-      res.status(status).json({ error: 'Requisição inválida.' });
+      res.status(status).json({ error: 'Requisição inválida.', code: 'BAD_REQUEST' });
       return;
     }
   }
 
   console.error('[api] erro não tratado:', error);
-  res.status(500).json({ error: 'Erro interno do servidor' });
+  res.status(500).json({ error: 'Erro interno do servidor', code: 'INTERNAL_ERROR' });
 };

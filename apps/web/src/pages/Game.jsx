@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { GAME_MODES } from '@vroom/shared';
+import { useTranslation } from 'react-i18next';
 import { CalendarCheck, CalendarX, LogIn, ServerCrash, SkipForward } from 'lucide-react';
 import CarStage from '@/components/CarStage.jsx';
 import GameInfo from '@/components/GameInfo.jsx';
@@ -11,16 +12,17 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useVroomGame } from '@/hooks/useVroomGame.js';
 
-const MODE_INFO = {
-  classic: { label: 'Classic' },
-  hard: { label: 'Hard', badge: '2x pontos' },
-  daily: { label: 'Daily' },
+// Nomes dos modos são marca própria do jogo — iguais em todos os idiomas.
+const MODE_LABELS = {
+  classic: 'Classic',
+  hard: 'Hard',
+  daily: 'Daily',
 };
 
 export default function Game() {
   const { mode: rawMode } = useParams();
   const mode = GAME_MODES.includes(rawMode) ? rawMode : 'classic';
-  const info = MODE_INFO[mode];
+  const { t } = useTranslation();
 
   const game = useVroomGame(mode);
 
@@ -28,10 +30,12 @@ export default function Game() {
     return (
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
         <ServerCrash className="size-12 text-flame" />
-        <h1 className="font-display text-2xl uppercase tracking-[0.22em]">Servidor offline</h1>
-        <p className="text-sm text-bone/60">Verifique sua conexão e tente de novo.</p>
+        <h1 className="font-display text-2xl uppercase tracking-[0.22em]">
+          {t('game.serverDownTitle')}
+        </h1>
+        <p className="text-sm text-bone/60">{t('game.serverDownBody')}</p>
         <Button variant="outline" onClick={() => window.location.reload()}>
-          Tentar reconectar
+          {t('game.reconnect')}
         </Button>
       </main>
     );
@@ -40,16 +44,16 @@ export default function Game() {
   return (
     <main className="mx-auto grid w-full max-w-7xl flex-1 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[17rem,1fr,17rem] lg:px-8 lg:py-8">
       <div className="order-2 grid gap-6 lg:order-1 lg:content-center">
-        <ScorePanel title="Melhor sequência" scores={game.bestScores} variant="best" />
+        <ScorePanel title={t('game.bestTitle')} scores={game.bestScores} variant="best" />
         {!game.user && (
           <Card className="border-flame">
             <CardContent className="gap-2 p-5 text-xs text-bone/60">
-              <p className="font-bold text-bone/85">Jogando de convidado</p>
-              <p className="mt-1">Os pontos não contam para o ranking global.</p>
+              <p className="font-bold text-bone/85">{t('game.guestTitle')}</p>
+              <p className="mt-1">{t('game.guestBody')}</p>
               <Button variant="outline" size="sm" className="mt-3 w-full" asChild>
                 <Link to="/login">
                   <LogIn className="size-4" />
-                  Entrar e pontuar
+                  {t('game.guestCta')}
                 </Link>
               </Button>
             </CardContent>
@@ -59,8 +63,8 @@ export default function Game() {
 
       <section className="order-1 grid content-center gap-5 lg:order-2">
         <div className="flex items-center justify-center gap-3">
-          <Badge variant="secondary">{info.label}</Badge>
-          {info.badge && <Badge variant="outline">{info.badge}</Badge>}
+          <Badge variant="secondary">{MODE_LABELS[mode]}</Badge>
+          {mode === 'hard' && <Badge variant="outline">{t('game.badge2x')}</Badge>}
         </div>
 
         {game.isLoading ? (
@@ -78,17 +82,17 @@ export default function Game() {
                 <CalendarX className="size-10 text-danger" />
               )}
               <p className="font-display text-lg uppercase tracking-[0.18em]">
-                Desafio de hoje concluído
+                {t('game.dailyDoneTitle')}
               </p>
               <p className="text-sm text-bone/60">
                 {game.roundStatus === 'correct'
                   ? game.user
-                    ? `Você acertou: ${game.carName} · +${game.points} pontos no ranking.`
-                    : `Você acertou: ${game.carName}. Entre para pontuar no ranking.`
-                  : `O carro de hoje era ${game.carName}.`}
+                    ? t('game.dailyDoneCorrectUser', { name: game.carName, points: game.points })
+                    : t('game.dailyDoneCorrectGuest', { name: game.carName })
+                  : t('game.dailyDoneFailed', { name: game.carName })}
               </p>
               <Button variant="outline" size="sm" asChild>
-                <Link to="/game/classic">Jogar Classic</Link>
+                <Link to="/game/classic">{t('game.playClassic')}</Link>
               </Button>
             </CardContent>
           </Card>
@@ -107,13 +111,18 @@ export default function Game() {
               blur={game.blur}
               isHardMode={game.isHardMode}
               status={game.status}
-              label={info.label}
+              label={MODE_LABELS[mode]}
               carName={game.carName}
             />
 
             {game.carCredits && (
               <p className="text-center text-xs leading-relaxed text-bone/50">
-                {game.carCredits.brand} {game.carCredits.model} ({game.carCredits.years}) — foto:{' '}
+                {t('game.creditsLine', {
+                  brand: game.carCredits.brand,
+                  model: game.carCredits.model,
+                  years: game.carCredits.years,
+                })}{' '}
+                — {t('game.creditsPhoto')}{' '}
                 <a
                   className="underline underline-offset-2 hover:text-bone/80"
                   href={game.carCredits.filePageUrl}
@@ -139,14 +148,14 @@ export default function Game() {
               disabled={game.isRoundOver || game.isGuessing || game.isSkipping}
             >
               <SkipForward className="size-4" />
-              Pular carro
+              {t('game.skip')}
             </Button>
           </>
         )}
       </section>
 
       <div className="order-3 grid gap-6 lg:content-center">
-        <ScorePanel title="Últimas sequências" scores={game.recentScores} />
+        <ScorePanel title={t('game.recentTitle')} scores={game.recentScores} />
       </div>
     </main>
   );

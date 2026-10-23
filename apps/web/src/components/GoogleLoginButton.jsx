@@ -1,11 +1,14 @@
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from '@/i18n';
 
 const GSI_SRC = 'https://accounts.google.com/gsi/client';
 
 /**
  * Garante que o script oficial do Google Identity Services esteja carregado.
  * O script só é baixado quando o botão aparece (Login/Registro) — não no
- * resto do app.
+ * resto do app. Mensagens via i18n.t (sempre no idioma corrente, mesmo
+ * dentro de callbacks assíncronos).
  */
 function ensureGsiLoaded() {
   if (typeof window === 'undefined') return Promise.resolve();
@@ -20,7 +23,7 @@ function ensureGsiLoaded() {
           return;
         }
         if (existing.dataset.failed) {
-          reject(new Error('Não foi possível carregar o login do Google.'));
+          reject(new Error(i18n.t('auth.google.notLoaded')));
           return;
         }
         setTimeout(check, 100);
@@ -37,7 +40,7 @@ function ensureGsiLoaded() {
     script.onload = () => resolve();
     script.onerror = () => {
       script.dataset.failed = 'true';
-      reject(new Error('Não foi possível carregar o login do Google.'));
+      reject(new Error(i18n.t('auth.google.notLoaded')));
     };
     document.head.appendChild(script);
   });
@@ -51,12 +54,15 @@ function ensureGsiLoaded() {
  * Requer VITE_GOOGLE_CLIENT_ID; sem ele o componente não renderiza nada.
  */
 export default function GoogleLoginButton({ onSuccess, onError }) {
+  const { t } = useTranslation();
   const containerRef = useRef(null);
-  // Handlers via ref: o efeito roda uma vez só, mesmo se o pai re-renderizar.
+  // Handlers via ref: o efeito pode re-renderizar o botão ao trocar o idioma,
+  // mas as callbacks lidas são sempre as mais recentes do pai.
   const handlersRef = useRef({ onSuccess, onError });
   handlersRef.current = { onSuccess, onError };
 
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const lang = i18n.resolvedLanguage ?? 'pt-BR';
 
   useEffect(() => {
     if (!clientId) return undefined;
@@ -73,16 +79,14 @@ export default function GoogleLoginButton({ onSuccess, onError }) {
             if (response?.credential) {
               handlersRef.current.onSuccess?.(response.credential);
             } else {
-              handlersRef.current.onError?.(
-                new Error('Login do Google sem credential.'),
-              );
+              handlersRef.current.onError?.(new Error(i18n.t('auth.google.noCredential')));
             }
           },
         });
         idApi.renderButton(containerRef.current, {
           size: 'large',
           text: 'continue_with',
-          locale: 'pt-BR',
+          locale: lang,
         });
       })
       .catch((error) => {
@@ -92,7 +96,7 @@ export default function GoogleLoginButton({ onSuccess, onError }) {
     return () => {
       cancelled = true;
     };
-  }, [clientId]);
+  }, [clientId, lang]);
 
   if (!clientId) {
     // Em dev, deixa explícito que a opção existe e falta apenas a configuração.
@@ -101,14 +105,24 @@ export default function GoogleLoginButton({ onSuccess, onError }) {
       return (
         <div
           className="flex justify-center rounded-md border border-dashed border-bone/30 px-4 py-2.5 text-sm text-bone/55"
-          title="Defina VITE_GOOGLE_CLIENT_ID no apps/web/.env (e GOOGLE_CLIENT_ID na API) para ativar"
+          title={t('auth.google.devPlaceholderTitle')}
         >
-          Login com Google — defina VITE_GOOGLE_CLIENT_ID para ativar
+          {t('auth.google.devPlaceholder')}
         </div>
       );
     }
     return null;
   }
 
-  return <div ref={containerRef} className="flex justify-center" role="button" aria-label="Continuar com Google" />;
+  // key por idioma: trocar o idioma remonta o container e re-renderiza o botão
+  // do GSI no novo locale, sem duplicar widgets.
+  return (
+    <div
+      key={lang}
+      ref={containerRef}
+      className="flex justify-center"
+      role="button"
+      aria-label={t('auth.google.ariaLabel')}
+    />
+  );
 }

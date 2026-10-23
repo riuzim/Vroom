@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Trophy } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import AdSlot from '@/components/AdSlot.jsx';
 import { usePageMeta } from '@/hooks/usePageMeta';
 import { api } from '@/lib/api';
@@ -10,21 +11,22 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 
-const MODE_FILTERS = [
-  { value: 'all', label: 'Todos' },
-  { value: 'classic', label: 'Classic' },
-  { value: 'hard', label: 'Hard' },
-  { value: 'daily', label: 'Daily' },
-];
-
 export default function Leaderboard() {
+  const { t } = useTranslation();
   const [period, setPeriod] = useState('all');
   const [mode, setMode] = useState('all');
 
   usePageMeta({
-    title: 'Ranking global — Vroom',
-    description: 'Ranking global do Vroom: pontos por modo e período. Crie conta para disputar.',
+    title: t('leaderboard.metaTitle'),
+    description: t('leaderboard.metaDescription'),
   });
+
+  const MODE_FILTERS = [
+    { value: 'all', label: t('leaderboard.modes.all') },
+    { value: 'classic', label: 'Classic' },
+    { value: 'hard', label: 'Hard' },
+    { value: 'daily', label: 'Daily' },
+  ];
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['leaderboard', period, mode],
@@ -39,8 +41,10 @@ export default function Leaderboard() {
         <div className="rounded-none border-2 border-bone bg-raised p-3 text-flame">
           <Trophy className="size-7" />
         </div>
-        <h1 className="font-display text-3xl uppercase tracking-[0.22em]">Ranking global</h1>
-        <Badge variant="outline">Pontos de quem joga com conta</Badge>
+        <h1 className="font-display text-3xl uppercase tracking-[0.22em]">
+          {t('leaderboard.title')}
+        </h1>
+        <Badge variant="outline">{t('leaderboard.badge')}</Badge>
       </div>
 
       <Card>
@@ -48,8 +52,8 @@ export default function Leaderboard() {
           <Tabs defaultValue="all" value={period} onValueChange={setPeriod}>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <TabsList>
-                <TabsTrigger value="all">Geral</TabsTrigger>
-                <TabsTrigger value="today">Hoje</TabsTrigger>
+                <TabsTrigger value="all">{t('leaderboard.allTime')}</TabsTrigger>
+                <TabsTrigger value="today">{t('leaderboard.today')}</TabsTrigger>
               </TabsList>
               <div className="flex gap-1.5">
                 {MODE_FILTERS.map((filter) => (
@@ -80,21 +84,17 @@ export default function Leaderboard() {
                 </div>
               ) : isError ? (
                 <div className="flex flex-col items-center gap-3 py-8 text-center">
-                  <p className="text-sm text-bone/55">
-                    O ranking não carregou. Checa a conexão e tenta de novo.
-                  </p>
+                  <p className="text-sm text-bone/55">{t('leaderboard.error')}</p>
                   <button
                     type="button"
                     onClick={() => refetch()}
                     className="rounded-none border-2 border-bone px-4 py-1.5 text-xs font-black uppercase tracking-wide transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
                   >
-                    Tentar novamente
+                    {t('common.retry')}
                   </button>
                 </div>
               ) : entries.length === 0 ? (
-                <p className="py-8 text-center text-sm text-bone/55">
-                  Ninguém pontuou ainda. O grid é todo seu.
-                </p>
+                <p className="py-8 text-center text-sm text-bone/55">{t('leaderboard.empty')}</p>
               ) : (
                 <ol className="space-y-2">
                   {entries.map((entry) => (
@@ -115,7 +115,7 @@ export default function Leaderboard() {
                       </span>
                       <span className="flex items-center gap-4">
                         <span className="text-xs font-bold">
-                          {entry.rounds} rodada{entry.rounds === 1 ? '' : 's'}
+                          {t('leaderboard.rounds', { count: entry.rounds })}
                         </span>
                         <span className="font-mono text-lg font-black">{entry.points}</span>
                       </span>

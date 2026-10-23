@@ -1,152 +1,158 @@
 {
   "common": {
-    "loading": "Cargando...",
-    "feedback": "Comentarios"
+    "retry": "Volver a intentar"
   },
   "nav": {
     "home": "Inicio",
     "play": "Jugar",
     "leaderboard": "Ranking",
-    "login": "Iniciar sesión",
+    "login": "Entrar",
     "logout": "Salir",
-    "settings": "Abrir configuración",
-    "menu": "Abrir menú",
-    "profile": "Ver perfil"
+    "openSettings": "Abrir configuración",
+    "openMenu": "Abrir menú",
+    "viewProfile": "Ver perfil"
   },
   "home": {
-    "badge": "Juego de adivinar coches",
-    "tagline": "Una imagen borrosa. Un coche legendario. Tienes 5 intentos para demostrar que entiendes de coches.",
-    "playClassic": "Jugar Classic",
-    "seeLeaderboard": "Ver ranking",
-    "play": "Jugar {{mode}}",
-    "soon": "Muy pronto",
-    "x2points": "2x puntos",
+    "metaTitle": "Vroom — Juego de adivinar coches",
+    "metaDescription": "Adivina el coche por la foto borrosa. 5 intentos, pistas con cada error y ranking global.",
+    "tagline": "Una imagen borrosa. Un coche legendario. 5 intentos para acertar.",
+    "playNow": "Jugar ahora",
     "modes": {
       "classic": {
         "title": "Classic",
-        "description": "Imagen a color que se ve más nítida con cada fallo."
+        "description": "Colores liberados, más nitidez con cada error.",
+        "cta": "Jugar Classic"
       },
       "hard": {
         "title": "Hard",
-        "description": "Blanco y negro, sin trampa del color. Puntos dobles."
+        "description": "Blanco y negro, sin trampa de color. Puntos duplicados.",
+        "badge": "2x puntos",
+        "cta": "Jugar Hard"
       },
       "daily": {
         "title": "Daily",
-        "description": "Un coche por día para todo el mundo. Una ronda por día — elige bien."
+        "description": "Todo el mundo ve el mismo coche, una ronda al día.",
+        "cta": "Jugar el Daily"
       }
     },
     "steps": {
-      "silhouette": {
+      "look": {
         "title": "Mira la silueta",
-        "description": "La imagen empieza totalmente borrosa."
+        "description": "La foto empieza totalmente borrosa."
       },
       "hints": {
-        "title": "Arriesga y gana pistas",
-        "description": "Cada fallo revela una letra y más nitidez."
+        "title": "Arriésgate y gana pistas",
+        "description": "Cada error revela una letra y más nitidez."
       },
       "attempts": {
         "title": "5 intentos",
-        "description": "Acerta antes de quedarte sin intentos."
+        "description": "Acierta antes de que se acaben los intentos."
       }
     }
   },
   "game": {
-    "mode": {
-      "classic": {
-        "label": "Classic",
-        "description": "Imagen a color con desenfoque progresivo."
-      },
-      "hard": {
-        "label": "Hard",
-        "description": "Imagen en blanco y negro.",
-        "badge": "2x puntos"
-      },
-      "daily": {
-        "label": "Daily",
-        "description": "Un coche por día para todo el mundo — una ronda por día."
-      }
-    },
-    "score": "Score",
+    "streak": "Racha",
     "attempts": "Intentos: {{count}}",
-    "initialMessage": "Observa bien la silueta y lanza tu intento.",
-    "correctBanner": "¡Bien! Viene el próximo coche",
-    "imageError": "No se pudo cargar la imagen",
-    "carAlt": "Coche para adivinar",
-    "guessPlaceholder": "Escribe el nombre del coche",
+    "guessPlaceholder": "Manda el nombre del coche",
     "guessLabel": "Tu intento",
     "guessButton": "Arriesgar",
     "skip": "Saltar coche",
-    "currentMode": "Modo actual",
+    "serverDownTitle": "Servidor sin conexión",
+    "serverDownBody": "Comprueba tu conexión y vuelve a intentarlo.",
+    "reconnect": "Intentar reconectar",
+    "bestTitle": "Mejor racha",
+    "recentTitle": "Últimas rachas",
+    "scoresEmpty": "Aún sin rachas",
     "guestTitle": "Jugando como invitado",
     "guestBody": "Los puntos no cuentan para el ranking global.",
-    "guestCta": "Inicia sesión y suma puntos",
-    "serverDownTitle": "Servidor no disponible",
-    "serverDownBody": "No se pudo contactar el servidor de Vroom. Verifica que la API esté corriendo (pnpm dev) e inténtalo otra vez.",
-    "reconnect": "Intentar reconectar",
-    "dailyDoneTitle": "Desafío diario completado",
-    "dailyDoneCorrect": "Acertaste el coche de hoy ({{name}}) y ganaste {{points}} puntos.",
+    "guestCta": "Entrar y puntuar",
+    "dailyDoneTitle": "Reto de hoy completado",
+    "dailyDoneCorrectUser": "Acertaste: {{name}} · +{{points}} puntos en el ranking.",
+    "dailyDoneCorrectGuest": "Acertaste: {{name}}. Entra para puntuar en el ranking.",
     "dailyDoneFailed": "El coche de hoy era {{name}}.",
-    "dailyDoneTomorrow": "¡Vuelve mañana para un nuevo desafío!",
     "playClassic": "Jugar Classic",
-    "pointsEarned": "¡+{{points}} puntos en el ranking!",
+    "badge2x": "2x puntos",
+    "creditsLine": "{{brand}} {{model}} ({{years}})",
+    "creditsPhoto": "foto:",
+    "bannerCorrect": "¡Bien! Viene el próximo coche",
+    "bannerReveal": "Era {{name}}. Viene el próximo coche",
+    "bannerNext": "Viene el próximo coche",
+    "imageError": "No fue posible cargar la imagen",
+    "carAlt": "Coche para adivinar",
     "messages": {
-      "correct": "Correcto: {{name}}",
+      "correct": "Acertaste: {{name}}",
       "wrong_one": "Fallaste. Te queda {{count}} intento.",
       "wrong_other": "Fallaste. Te quedan {{count}} intentos.",
-      "failed": "Fin de la ronda. Era {{name}}.",
+      "failed": "Fin de ronda. Era {{name}}.",
       "skipped": "Saltaste. Era {{name}}."
-    }
-  },
-  "scores": {
-    "best": "Best Score",
-    "last": "Last Score",
-    "empty": "Todavía sin puntajes"
+    },
+    "pointsToast": "+{{points}} puntos en el ranking."
   },
   "settings": {
     "title": "Configuración",
-    "description": "Comentarios, bugs y tus datos locales.",
-    "feedback": "Comentarios",
-    "reportBug": "Reportar un bug",
+    "description": "Feedback, bugs y tus datos locales.",
+    "feedback": "Feedback",
+    "reportBug": "Reportar bug",
     "sendEmail": "Enviar email",
-    "clearScores": "Limpiar historial de puntajes",
-    "scoresCleared": "Historial de puntajes limpio.",
+    "clearScores": "Borrar rachas guardadas",
+    "confirmClear": "¿Confirmar borrado?",
+    "scoresCleared": "Rachas borradas.",
     "language": "Idioma"
   },
   "leaderboard": {
+    "metaTitle": "Ranking global — Vroom",
+    "metaDescription": "Ranking global de Vroom: puntos por modo y periodo. Crea cuenta para competir.",
     "title": "Ranking global",
-    "badge": "Puntos de quienes juegan con cuenta",
+    "badge": "Puntos de quien juega con cuenta",
     "allTime": "General",
     "today": "Hoy",
-    "modeAll": "Todos",
+    "modes": {
+      "all": "Todos"
+    },
+    "error": "El ranking no cargó. Comprueba la conexión y vuelve a intentarlo.",
+    "empty": "Nadie ha puntuado todavía. La parrilla es toda tuya.",
     "rounds_one": "{{count}} ronda",
-    "rounds_other": "{{count}} rondas",
-    "empty": "Nadie ha puntuado aquí todavía. ¿Y si eres el primero?"
+    "rounds_other": "{{count}} rondas"
   },
   "auth": {
-    "loginTitle": "Iniciar sesión",
-    "loginSubtitle": "Guarda tus puntajes en el ranking global.",
+    "loginMetaTitle": "Entrar — Vroom",
+    "loginMetaDescription": "Entra con cuenta, email o Google para guardar tu progreso y competir en el ranking de Vroom.",
+    "loginTitle": "Entrar",
+    "loginSubtitle": "Entra para guardar tus puntos en el ranking global.",
+    "registerMetaTitle": "Crear cuenta — Vroom",
+    "registerMetaDescription": "Crea tu cuenta en Vroom para guardar puntuaciones y entrar en el ranking global.",
     "registerTitle": "Crear cuenta",
-    "registerSubtitle": "Guarda tu progreso y compite por el ranking.",
-    "username": "Nombre de usuario",
+    "registerSubtitle": "Guarda tu progreso y compite en el ranking.",
     "email": "Email",
     "password": "Contraseña",
+    "username": "Nombre de usuario",
     "confirmPassword": "Confirmar contraseña",
-    "loginButton": "Iniciar sesión",
-    "loggingIn": "Ingresando...",
+    "emailPlaceholder": "tu@email.com",
+    "usernamePlaceholder": "tu nombre",
+    "loginButton": "Entrar",
+    "loggingIn": "Entrando...",
     "registerButton": "Crear cuenta",
     "creating": "Creando...",
+    "orDivider": "o",
     "noAccount": "¿No tienes cuenta?",
     "registerLink": "Regístrate",
     "hasAccount": "¿Ya tienes cuenta?",
-    "loginLink": "Iniciar sesión",
-    "welcomeBack": "¡Bienvenido de nuevo!",
-    "accountCreated": "¡Cuenta creada. Buen juego!",
-    "loggedOut": "Sesión cerrada. ¡Hasta pronto!",
+    "loginLink": "Entrar",
+    "welcomeBack": "Has entrado.",
+    "accountCreated": "Cuenta creada.",
+    "loggedOut": "Has salido de la cuenta.",
+    "google": {
+      "notLoaded": "No fue posible cargar el login de Google.",
+      "noCredential": "Login de Google sin credential.",
+      "devPlaceholder": "Login con Google — define VITE_GOOGLE_CLIENT_ID para activarlo",
+      "devPlaceholderTitle": "Define VITE_GOOGLE_CLIENT_ID en apps/web/.env (y GOOGLE_CLIENT_ID en la API) para activarlo",
+      "ariaLabel": "Continuar con Google"
+    },
     "validation": {
       "usernameMin": "El nombre necesita al menos 3 caracteres",
       "usernameMax": "Máximo de 20 caracteres",
       "usernameFormat": "Solo letras, números y _",
-      "emailInvalid": "Ingresa un email válido",
+      "emailInvalid": "Informa un email válido",
       "passwordMin": "La contraseña necesita al menos 6 caracteres",
       "passwordMismatch": "Las contraseñas no coinciden"
     }
@@ -155,38 +161,181 @@
     "title": "Perfil",
     "memberSince": "Pilotando desde {{date}}",
     "guestBadge": "Invitado",
-    "guestCta": "Crea una cuenta para guardar tu progreso en el servidor y competir en el ranking global.",
-    "createAccount": "Crear cuenta",
-    "ranking": "Ranking",
+    "guestBody": "Crea una cuenta para guardar tu progreso en el servidor y competir en el ranking global.",
+    "logout": "Salir",
+    "loadError": "No fue posible cargar tu perfil. Comprueba tu conexión.",
+    "rankingTitle": "Ranking",
     "rankingSubtitle": "Tus puntos registrados en el servidor.",
     "points": "Puntos",
-    "roundsPlayed": "Rondas",
-    "bestRound": "Mejor ronda",
-    "localTitle": "Tus estadísticas locales",
-    "localSubtitle": "Rondas terminadas en este navegador.",
     "rounds": "Rondas",
-    "bestStreak": "Mejor racha"
+    "bestRound": "Mejor ronda (puntos)",
+    "statsError": "No fue posible cargar tus estadísticas. Comprueba tu conexión.",
+    "localTitle": "Tus estadísticas locales",
+    "localSubtitle": "Tus rachas terminadas en este navegador.",
+    "bestStreak": "Mayor racha (aciertos seguidos)"
   },
   "errorBoundary": {
-    "title": "Ups, algo se rompió",
-    "body": "Algo falló inesperadamente. Intenta recargar la página — si persiste, reporta el bug por el email de comentarios.",
+    "title": "Error inesperado",
+    "body": "Algo se rompió inesperadamente. Prueba a recargar la página — si persiste, reporta el bug por el email de feedback.",
     "reload": "Recargar"
   },
   "footer": {
-    "madeWith": "Hecho para quienes aman los coches"
+    "tagline": "Vroom · hecho para quien ama los coches",
+    "feedback": "Feedback",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "cookies": "Cookies",
+    "credits": "Créditos"
+  },
+  "cookieBanner": {
+    "ariaLabel": "Consentimiento de cookies",
+    "body": "Usamos cookies esenciales para que el sitio funcione (sesión de login). Las cookies de publicidad y análisis solo se usan con tu consentimiento.",
+    "policyLink": "Política de cookies",
+    "acceptAll": "Aceptar todo",
+    "rejectAll": "Rechazar todo",
+    "customize": "Personalizar",
+    "saveChoices": "Guardar elecciones",
+    "advertising": "Publicidad",
+    "advertisingDesc": "Cookies de Google AdSense para servir y medir anuncios.",
+    "analytics": "Análisis",
+    "analyticsDesc": "Estadísticas anónimas de uso para mejorar el juego (ninguna hoy)."
+  },
+  "ads": {
+    "label": "Publicidad"
+  },
+  "ditherCar": {
+    "ariaLabel": "Silueta 1-bit de un coche deportivo con dithering"
+  },
+  "legal": {
+    "updatedAt": "Última actualización: {{date}}",
+    "cookiesPolicyLink": "Política de Cookies",
+    "privacy": {
+      "metaTitle": "Política de Privacidad — Vroom",
+      "metaDescription": "Qué datos recoge Vroom (cuenta, puntuación, logs, cookies), por qué, con quién se comparten y cómo ejercer tus derechos según la LGPD.",
+      "title": "Política de Privacidad",
+      "intro": "Vroom (el \"sitio\") es un juego de adivinar coches mantenido como proyecto personal por una persona física (\"responsable\", en los términos de la Ley n.º 13.709/2018 — LGPD, la Ley General de Protección de Datos personales de Brasil). Este documento explica qué datos personales tratamos, con qué bases legales y cómo puedes ejercer tus derechos.",
+      "s1title": "1. Datos que recogemos",
+      "s1li1a": "Cuenta:",
+      "s1li1b": "nombre de usuario, email y contraseña (guardada solo como hash bcrypt) — o identificador de Google, si entras con login de Google.",
+      "s1li2a": "Juego:",
+      "s1li2b": "puntuaciones, rondas jugadas y presencia en el ranking (asociadas a la cuenta; sin cuenta, quedan solo en tu navegador via localStorage).",
+      "s1li3a": "Logs técnicos:",
+      "s1li3b": "la infraestructura de hosting registra IP, fecha/hora y user-agent para seguridad y limitación de tasa (anti-abuso).",
+      "s1li4a": "Cookies y almacenamiento local:",
+      "s1li4b": "consulta la ",
+      "s1li4c": ".",
+      "s2title": "2. Bases legales (LGPD, art. 7º)",
+      "s2li1a": "Ejecución de contrato:",
+      "s2li1b": "crear y mantener tu cuenta del juego.",
+      "s2li2a": "Interés legítimo:",
+      "s2li2b": "seguridad, prevención de fraude y rate-limiting.",
+      "s2li3a": "Consentimiento:",
+      "s2li3b": "cookies de publicidad y de análisis — opt-in, revocable.",
+      "s3title": "3. Compartición",
+      "s3p1": "No vendemos datos. Compartimos solo con: (a) el proveedor de hosting y base de datos del sitio; (b) Google LLC — autenticación OAuth (cuando eliges entrar con Google) y servición de anuncios (Google AdSense), con transferencia internacional de datos respaldada por las garantías aplicables a la transferencia según la LGPD (art. 33).",
+      "s4title": "4. Anuncios y cookies de terceros",
+      "s4p1": "Terceros, incluido Google, usan cookies para servir anuncios basándose en visitas anteriores que hayas hecho a este sitio o a otros. Las cookies de publicidad de Google y sus socios solo se activan tras tu consentimiento, y puedes revocarlo en cualquier momento en la página de cookies.",
+      "s4p2a": "Puedes desactivar la publicidad personalizada en la ",
+      "googleAdsSettings": "Configuración de anuncios de Google",
+      "s4p2b": ", o conocer otras opciones de desactivación en ",
+      "s4p2c": "y ",
+      "s4p2d": ".",
+      "s5title": "5. Retención",
+      "s5p1": "Los datos de cuenta y juego se mantienen mientras exista la cuenta (puedes pedir la exclusión en cualquier momento). Los logs técnicos se mantienen hasta 12 meses.",
+      "s6title": "6. Tus derechos (LGPD, art. 18)",
+      "s6p1a": "Puedes solicitar confirmación del tratamiento, acceso a los datos, corrección, anonimización, portabilidad, eliminación, revocación de consentimiento e información sobre comparticiones. Basta escribir a ",
+      "s6p1b": " — respondemos en hasta 15 días. Si crees que tus derechos fueron violados, puedes acudir a la ANPD (gov.br/anpd).",
+      "s7title": "7. Delegado de protección de datos (DPO)",
+      "s7p1": "Como agente de pequeño porte (Resolución CD/ANPD n.º 2/2022), el responsable queda dispensado del nombramiento formal de delegado, pero mantiene este canal abierto para los titulares: vroomfeedback@gmail.com.",
+      "s8title": "8. Menores",
+      "s8p1": "Vroom no está dirigido a niños. Menores de 14 años solo deben usarlo con autorización de sus responsables, que pueden pedir la exclusión de los datos por el mismo canal.",
+      "s9title": "9. Cambios",
+      "s9p1": "Esta política puede actualizarse; la fecha arriba indica la versión vigente. Los cambios relevantes (por ejemplo, nuevas herramientas de análisis) se avisarán en el sitio y exigirán nuevo consentimiento cuando aplique."
+    },
+    "terms": {
+      "metaTitle": "Términos de Uso — Vroom",
+      "metaDescription": "Reglas del juego Vroom: cuentas, fair play, propiedad intelectual de las imágenes, publicidad y limitación de responsabilidad.",
+      "title": "Términos de Uso",
+      "p1a": "Vroom es un juego gratuito de adivinar coches, ofrecido \"tal cual\" con fines de entretenimiento. Al usar el sitio y crear una cuenta, aceptas estos Términos y la ",
+      "privacyLink": "Política de Privacidad",
+      "p1b": ".",
+      "s1title": "1. Cuentas y edad",
+      "s1p1": "Puntuar en el ranking global exige cuenta. Eres responsable de la seguridad de tus datos de acceso y declaras tener al menos 14 años — los menores solo pueden usarlo con autorización de sus responsables.",
+      "s2title": "2. Fair play y conducta",
+      "s2p1": "Está prohibido usar bots, scripts, automatización, ingeniería inversa o cualquier artificio para burlar el juego, manipular el ranking o abusar de la API (incluyendo ignorar límites de tasa). Las violaciones pueden resultar en reinicio de puntuación, suspensión o exclusión de la cuenta, a criterio del mantenedor.",
+      "s3title": "3. Propiedad intelectual",
+      "s3p1a": "Marcas, nombres y diseños de vehículos pertenecen a sus respectivos fabricantes; Vroom es un proyecto de fans independiente, sin afiliación ni patrocinio. El código del sitio es abierto. Las fotos de los coches vienen de Wikimedia Commons bajo licencias Creative Commons/dominio público — la atribución completa de autores y licencias está en la página ",
+      "creditsLink": "Créditos",
+      "s3p1b": ".",
+      "s4title": "4. Publicidad",
+      "s4p1": "El sitio puede mostrar anuncios de Google AdSense, servidos por terceros. No respaldamos anunciantes ni nos responsabilizamos del contenido anunciado. Está prohibido hacer clic artificialmente en los anuncios (incluido pedirlo a terceros) — eso viola las políticas de Google y puede banear el sitio.",
+      "s5title": "5. Disponibilidad y responsabilidad",
+      "s5p1": "El servicio se ofrece sin garantías de disponibilidad continua. En la máxima extensión permitida por la ley, Vroom no responde por daños indirectos, lucros cesantes o pérdida de datos derivados del uso del sitio.",
+      "s6title": "6. Cambios y legislación",
+      "s6p1a": "Estos Términos pueden cambiar; la fecha arriba indica la versión vigente. Se aplican las leyes de la República Federativa de Brasil. Dudas o denuncias de abuso: ",
+      "s6p1b": "."
+    },
+    "cookiesPage": {
+      "metaTitle": "Política de Cookies — Vroom",
+      "metaDescription": "Qué cookies usa Vroom (esenciales, publicidad, análisis), por qué, y cómo aceptar, rechazar o revisar tus preferencias en cualquier momento.",
+      "title": "Política de Cookies",
+      "p1": "Las cookies esenciales (sesión de login) no requieren consentimiento y no se pueden desactivar. Todas las demás categorías vienen desactivadas por defecto y solo se activan con tu consentimiento explícito — estándar exigido por la LGPD y la guía de cookies de la ANPD.",
+      "categoriesTitle": "Categorías",
+      "thCategory": "Categoría",
+      "thPurpose": "Qué hace",
+      "thConsent": "Consentimiento",
+      "essential": "Esenciales",
+      "essentialDescA": " — sesión de login (JWT httpOnly, 7 días, eliminada al salir). ",
+      "essentialDescB": " y ",
+      "essentialDescC": " — puntuación local y tu elección de cookies (localStorage, solo en tu navegador).",
+      "essentialConsent": "No requerido (art. 7º, V LGPD)",
+      "optIn": "Opt-in — ",
+      "statusEnabled": "activado",
+      "statusDisabled": "desactivado",
+      "statusPending": "pendiente",
+      "advertisingDesc1": "Cookies de Google AdSense y socios para servir y medir anuncios (incl. personalización según visitas anteriores). Más información en la ",
+      "googlePage": "página de Google",
+      "advertisingDesc2": ".",
+      "analyticsDesc": "Estadísticas de uso para mejorar el juego. Ninguna herramienta activa hoy; si se añade alguna, se listará aquí y exigirá nuevo consentimiento.",
+      "manageTitle": "Gestionar preferencias",
+      "manageP1a": "Puedes revisar tu elección en cualquier momento — el banner aparece de nuevo y nada se activa sin tu \"sí\". Alternativas externas: navegación privada, configuración de cookies del propio navegador, ",
+      "manageP1b": ", ",
+      "manageP1c": "y ",
+      "manageP1d": ". Para visitantes del Espacio Económico Europeo/Reino Unido, la plataforma de consentimiento certificada de Google (CMP) puede mostrar su propio aviso.",
+      "reviewButton": "Revisar preferencias de cookies"
+    },
+    "creditsPage": {
+      "metaTitle": "Créditos y Licencias — Vroom",
+      "metaDescription": "Atribución de las fotos de coches usadas en Vroom: autores y licencias (Creative Commons/dominio público) con enlace a cada archivo en Wikimedia Commons.",
+      "title": "Créditos y Licencias",
+      "p1a": "Todas las fotos de coches de Vroom vienen de ",
+      "p1b": ". Las licencias Creative Commons Atribución (CC BY) y Atribución-CompartirIgual (CC BY-SA) exigen crédito al autor — esta página presta esa atribución, con el enlace a cada archivo original. Marcas, nombres y diseños de vehículos pertenecen a sus respectivos fabricantes; Vroom es un proyecto de fans, sin afiliación.",
+      "thCar": "Coche",
+      "thAuthor": "Autor",
+      "thLicense": "Licencia",
+      "thSource": "Fuente",
+      "viewOnCommons": "Ver en Commons"
+    }
   },
   "apiErrors": {
-    "NETWORK_ERROR": "Sin conexión con el servidor. Revisa tu internet e inténtalo otra vez.",
-    "VALIDATION_ERROR": "Datos inválidos",
-    "EMAIL_TAKEN": "Email ya registrado",
-    "USERNAME_TAKEN": "Nombre de usuario ya en uso",
-    "INVALID_CREDENTIALS": "Email o contraseña incorrectos",
-    "RATE_LIMITED": "Demasiados intentos. Espera unos minutos y vuelve a intentarlo.",
-    "NOT_AUTHENTICATED": "Necesitas iniciar sesión para hacer esto.",
-    "ROUND_NOT_FOUND": "Ronda no encontrada",
-    "ROUND_ENDED": "Esta ronda ya terminó",
-    "ROUND_NOT_YOURS": "Esta ronda no es tuya",
+    "NETWORK_ERROR": "Sin conexión con el servidor. Comprueba tu internet y vuelve a intentarlo.",
+    "VALIDATION_ERROR": "Datos inválidos. Revisa los campos y vuelve a intentarlo.",
+    "REGISTER_TAKEN": "Nombre de usuario o email ya registrado.",
+    "INVALID_CREDENTIALS": "Email o contraseña incorrectos.",
+    "RATE_LIMITED": "Demasiados intentos seguidos. Espera un momento y vuelve a intentarlo.",
+    "NOT_AUTHENTICATED": "Necesitas entrar para hacer eso.",
+    "ROUND_NOT_FOUND": "Ronda no encontrada.",
+    "ROUND_ENDED": "Esta ronda ya ha terminado.",
+    "ROUND_NOT_YOURS": "Esta ronda no es tuya.",
+    "ROUND_CONFLICT": "Esta ronda cambió de estado. Vuelve a intentarlo.",
     "CATALOG_EMPTY": "Catálogo de coches vacío — ejecuta el seed.",
-    "GUESS_RATE_LIMITED": "Demasiados intentos seguidos. Respira un poco."
+    "GOOGLE_NOT_CONFIGURED": "El login con Google no está configurado en este servidor.",
+    "GOOGLE_INVALID_TOKEN": "No fue posible validar tu login de Google.",
+    "GOOGLE_INCOMPLETE": "Credencial de Google incompleta.",
+    "GOOGLE_EMAIL_UNVERIFIED": "Tu email de Google no está verificado.",
+    "GOOGLE_LINK_FAILED": "No fue posible vincular tu cuenta de Google.",
+    "BAD_REQUEST": "Solicitud inválida.",
+    "NOT_FOUND": "Ruta no encontrada.",
+    "INTERNAL_ERROR": "Error interno del servidor."
   }
 }

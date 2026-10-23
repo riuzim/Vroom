@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { hasExternalCmp, setConsent, useConsent } from '@/lib/consent';
 
 /**
@@ -17,6 +18,7 @@ const focusRing =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
 
 export default function CookieBanner() {
+  const { t } = useTranslation();
   const consent = useConsent();
   const [show, setShow] = useState(false);
   const [customizing, setCustomizing] = useState(false);
@@ -45,18 +47,17 @@ export default function CookieBanner() {
   return (
     <div
       role="dialog"
-      aria-label="Consentimento de cookies"
+      aria-label={t('cookieBanner.ariaLabel')}
       className="fixed inset-x-0 bottom-0 z-50 border-t-2 border-flame bg-ink text-bone shadow-[0_-8px_0_0_rgba(0,0,0,0.6)]"
     >
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <p className="text-sm leading-relaxed text-bone/80">
-          Usamos cookies essenciais para o site funcionar (sessão de login). Cookies de publicidade
-          e análise só são usados com o seu consentimento.{' '}
+          {t('cookieBanner.body')}{' '}
           <Link
             to="/cookies"
             className="font-bold text-flame underline-offset-4 hover:underline motion-reduce:transition-none"
           >
-            Política de cookies
+            {t('cookieBanner.policyLink')}
           </Link>
         </p>
 
@@ -70,9 +71,11 @@ export default function CookieBanner() {
                 className="size-4 accent-flame"
               />
               <span>
-                <strong className="font-black uppercase tracking-wide">Publicidade</strong>
+                <strong className="font-black uppercase tracking-wide">
+                  {t('cookieBanner.advertising')}
+                </strong>
                 <span className="block text-xs text-bone/55">
-                  Cookies do Google AdSense para veicular e medir anúncios.
+                  {t('cookieBanner.advertisingDesc')}
                 </span>
               </span>
             </label>
@@ -84,10 +87,10 @@ export default function CookieBanner() {
                 className="size-4 accent-flame"
               />
               <span>
-                <strong className="font-black uppercase tracking-wide">Análise</strong>
-                <span className="block text-xs text-bone/55">
-                  Estatísticas anônimas de uso para melhorar o jogo (nenhuma hoje).
-                </span>
+                <strong className="font-black uppercase tracking-wide">
+                  {t('cookieBanner.analytics')}
+                </strong>
+                <span className="block text-xs text-bone/55">{t('cookieBanner.analyticsDesc')}</span>
               </span>
             </label>
             <button
@@ -95,7 +98,7 @@ export default function CookieBanner() {
               onClick={saveChoices}
               className={`mt-3 rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:shadow-none motion-reduce:transition-none ${focusRing}`}
             >
-              Salvar escolhas
+              {t('cookieBanner.saveChoices')}
             </button>
           </div>
         ) : (
@@ -105,21 +108,21 @@ export default function CookieBanner() {
               onClick={acceptAll}
               className={`rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:shadow-none motion-reduce:transition-none ${focusRing}`}
             >
-              Aceitar tudo
+              {t('cookieBanner.acceptAll')}
             </button>
             <button
               type="button"
               onClick={rejectAll}
               className={`rounded-none border-2 border-bone px-4 py-1.5 text-xs font-black uppercase tracking-wide text-bone transition hover:border-flame hover:text-flame motion-reduce:transition-none ${focusRing}`}
             >
-              Recusar tudo
+              {t('cookieBanner.rejectAll')}
             </button>
             <button
               type="button"
               onClick={() => setCustomizing(true)}
               className={`rounded-none border-2 border-bone px-4 py-1.5 text-xs font-black uppercase tracking-wide text-bone transition hover:border-flame hover:text-flame motion-reduce:transition-none ${focusRing}`}
             >
-              Personalizar
+              {t('cookieBanner.customize')}
             </button>
           </div>
         )}

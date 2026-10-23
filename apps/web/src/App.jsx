@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ErrorBoundary from '@/components/ErrorBoundary.jsx';
 import Header from '@/components/Header.jsx';
 import CookieBanner from '@/components/CookieBanner.jsx';
@@ -19,13 +20,6 @@ const Credits = lazy(() => import('@/pages/Credits.jsx'));
 const footerLinkClasses =
   'transition hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none';
 
-const legalLinks = [
-  { to: '/privacidade', label: 'Privacidade' },
-  { to: '/termos', label: 'Termos' },
-  { to: '/cookies', label: 'Cookies' },
-  { to: '/creditos', label: 'Créditos' },
-];
-
 function PageFallback() {
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-4 py-16">
@@ -35,6 +29,15 @@ function PageFallback() {
 }
 
 export default function App() {
+  const { t } = useTranslation();
+
+  const legalLinks = [
+    { to: '/privacidade', label: t('footer.privacy') },
+    { to: '/termos', label: t('footer.terms') },
+    { to: '/cookies', label: t('footer.cookies') },
+    { to: '/creditos', label: t('footer.credits') },
+  ];
+
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="flex min-h-screen flex-col bg-ink text-bone">
@@ -59,10 +62,10 @@ export default function App() {
         <footer className="border-t-2 border-bone">
           <div aria-hidden="true" className="checker h-3" />
           <div className="px-4 py-6 text-center text-xs font-bold text-bone/60">
-            <p className="font-mono uppercase tracking-wide">Vroom · feito para quem ama carros</p>
+            <p className="font-mono uppercase tracking-wide">{t('footer.tagline')}</p>
             <p className="mt-2 flex flex-wrap items-center justify-center gap-3">
               <a href="mailto:vroomfeedback@gmail.com" className={footerLinkClasses}>
-                Feedback
+                {t('footer.feedback')}
               </a>
               <span aria-hidden="true">·</span>
               <a

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { CalendarDays, Car, Eye, Lightbulb, Play, Timer, Trophy, Zap } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import AdSlot from '@/components/AdSlot.jsx';
 import { usePageMeta } from '@/hooks/usePageMeta';
 import { Badge } from '@/components/ui/badge';
@@ -8,55 +9,44 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import DitherCar from '@/components/DitherCar.jsx';
 import { cn } from '@/lib/utils';
 
-const modes = [
-  {
-    mode: 'classic',
-    icon: Car,
-    title: 'Classic',
-    description: 'Cores liberadas, nitidez a cada erro.',
-    cta: 'Jogar Classic',
-  },
-  {
-    mode: 'hard',
-    icon: Zap,
-    title: 'Hard',
-    description: 'Preto e branco, sem trapaça de cor. Pontos em dobro.',
-    badge: '2x pontos',
-    cta: 'Jogar Hard',
-  },
-  {
-    mode: 'daily',
-    icon: CalendarDays,
-    title: 'Daily',
-    description: 'Todo mundo vê o mesmo carro, uma rodada por dia.',
-    cta: 'Jogar o Daily',
-  },
-];
-
-const steps = [
-  {
-    icon: Eye,
-    title: 'Olhe a silhueta',
-    description: 'A foto começa totalmente borrada.',
-  },
-  {
-    icon: Lightbulb,
-    title: 'Chute e ganhe dicas',
-    description: 'Cada erro revela uma letra e mais nitidez.',
-  },
-  {
-    icon: Timer,
-    title: '5 chutes',
-    description: 'Acerte antes de acabarem os chutes.',
-  },
-];
-
 export default function Home() {
+  const { t, i18n } = useTranslation();
+
   usePageMeta({
-    title: 'Vroom — Jogo de adivinhar carros',
-    description:
-      'Adivinhe o carro pela foto borrada. 5 chutes, dicas a cada erro e ranking global.',
+    title: t('home.metaTitle'),
+    description: t('home.metaDescription'),
   });
+
+  const modes = [
+    {
+      mode: 'classic',
+      icon: Car,
+      title: t('home.modes.classic.title'),
+      description: t('home.modes.classic.description'),
+      cta: t('home.modes.classic.cta'),
+    },
+    {
+      mode: 'hard',
+      icon: Zap,
+      title: t('home.modes.hard.title'),
+      description: t('home.modes.hard.description'),
+      badge: t('home.modes.hard.badge'),
+      cta: t('home.modes.hard.cta'),
+    },
+    {
+      mode: 'daily',
+      icon: CalendarDays,
+      title: t('home.modes.daily.title'),
+      description: t('home.modes.daily.description'),
+      cta: t('home.modes.daily.cta'),
+    },
+  ];
+
+  const steps = [
+    { icon: Eye, ...t('home.steps.look', { returnObjects: true }) },
+    { icon: Lightbulb, ...t('home.steps.hints', { returnObjects: true }) },
+    { icon: Timer, ...t('home.steps.attempts', { returnObjects: true }) },
+  ];
 
   return (
     <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
@@ -65,19 +55,19 @@ export default function Home() {
           Vroom
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base text-bone/60 sm:text-lg">
-          Uma imagem borrada. Um carro lendário. 5 chutes para acertar.
+          {t('home.tagline')}
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Button size="lg" asChild>
             <Link to="/game/classic">
               <Play className="size-5" />
-              Jogar agora
+              {t('home.playNow')}
             </Link>
           </Button>
           <Button size="lg" variant="outline" asChild>
             <Link to="/leaderboard">
               <Trophy className="size-5" />
-              Ranking
+              {t('nav.leaderboard')}
             </Link>
           </Button>
         </div>
@@ -103,7 +93,7 @@ export default function Home() {
                 {mode.mode === 'daily' && (
                   <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-bone/60">
                     {new Date()
-                      .toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+                      .toLocaleDateString(i18n.resolvedLanguage, { day: '2-digit', month: 'short' })
                       .replace('.', '')}
                   </span>
                 )}

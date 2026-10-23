@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import i18n from '@/i18n';
 import { Button } from '@/components/ui/button';
 
 export default class ErrorBoundary extends Component {
@@ -20,13 +21,12 @@ export default class ErrorBoundary extends Component {
       return (
         <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
           <h1 className="font-display text-2xl uppercase tracking-[0.22em] text-flame">
-            Erro inesperado
+            {i18n.t('errorBoundary.title')}
           </h1>
-          <p className="text-sm text-bone/60">
-            Algo quebrou inesperadamente. Tente recarregar a página — se persistar, reporte o bug
-            pelo email de feedback.
-          </p>
-          <Button onClick={() => window.location.reload()}>Recarregar</Button>
+          <p className="text-sm text-bone/60">{i18n.t('errorBoundary.body')}</p>
+          <Button onClick={() => window.location.reload()}>
+            {i18n.t('errorBoundary.reload')}
+          </Button>
         </main>
       );
     }

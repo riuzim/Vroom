@@ -26,7 +26,7 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
   // A suíte de testes dispara dezenas de registros/logins do mesmo IP.
   skip: () => env.isTest,
-  message: { error: 'Muitas tentativas. Aguarde alguns minutos e tente de novo.' },
+  message: { error: 'Muitas tentativas. Aguarde alguns minutos e tente de novo.', code: 'RATE_LIMITED' },
 });
 
 const registerSchema = z.object({
@@ -85,7 +85,7 @@ const register: AsyncRequestHandler = async (req, res) => {
   });
 
   if (existing) {
-    res.status(409).json({ error: 'Nome de usuário ou email já registrado' });
+    res.status(409).json({ error: 'Nome de usuário ou email já registrado', code: 'REGISTER_TAKEN' });
     return;
   }
 
@@ -101,7 +101,7 @@ const register: AsyncRequestHandler = async (req, res) => {
   } catch (error) {
     // Registro concorrente passou da checagem acima: mesma resposta 409.
     if (isUniqueViolation(error)) {
-      res.status(409).json({ error: 'Nome de usuário ou email já registrado' });
+      res.status(409).json({ error: 'Nome de usuário ou email já registrado', code: 'REGISTER_TAKEN' });
       return;
     }
     throw error;
@@ -118,7 +118,7 @@ const login: AsyncRequestHandler = async (req, res) => {
   const ok = await verifyPassword(body.password, user?.passwordHash ?? dummyHash);
 
   if (!user || !ok) {
-    res.status(401).json({ error: 'Email ou senha incorretos' });
+    res.status(401).json({ error: 'Email ou senha incorretos', code: 'INVALID_CREDENTIALS' });
     return;
   }
 
@@ -207,7 +207,9 @@ async function findOrCreateGoogleUser(sub: string, email: string): Promise<DbUse
 /** POST /api/auth/google — troca o credential JWT do Google Identity Services. */
 const googleLogin: AsyncRequestHandler = async (req, res) => {
   if (!env.GOOGLE_CLIENT_ID) {
-    res.status(503).json({ error: 'Login com Google não está configurado neste servidor.' });
+    res
+      .status(503)
+      .json({ error: 'Login com Google não está configurado neste servidor.', code: 'GOOGLE_NOT_CONFIGURED' });
     return;
   }
 
@@ -223,24 +225,24 @@ const googleLogin: AsyncRequestHandler = async (req, res) => {
     });
     payload = ticket.getPayload();
   } catch {
-    res.status(401).json({ error: 'Não foi possível validar seu login do Google.' });
+    res.status(401).json({ error: 'Não foi possível validar seu login do Google.', code: 'GOOGLE_INVALID_TOKEN' });
     return;
   }
 
   if (!payload?.sub || !payload.email) {
-    res.status(401).json({ error: 'Credencial do Google incompleta.' });
+    res.status(401).json({ error: 'Credencial do Google incompleta.', code: 'GOOGLE_INCOMPLETE' });
     return;
   }
 
   if (payload.email_verified !== true) {
-    res.status(401).json({ error: 'Seu email do Google não foi verificado.' });
+    res.status(401).json({ error: 'Seu email do Google não foi verificado.', code: 'GOOGLE_EMAIL_UNVERIFIED' });
     return;
   }
 
   const user = await findOrCreateGoogleUser(payload.sub, payload.email.toLowerCase());
 
   if (!user) {
-    res.status(409).json({ error: 'Não foi possível vincular sua conta do Google.' });
+    res.status(409).json({ error: 'Não foi possível vincular sua conta do Google.', code: 'GOOGLE_LINK_FAILED' });
     return;
   }
 

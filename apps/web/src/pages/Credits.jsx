@@ -1,27 +1,37 @@
+import { useTranslation } from 'react-i18next';
 import { usePageMeta } from '@/hooks/usePageMeta';
 import carCredits from '@/data/car-credits.json';
 
-export const CREDITS_UPDATED_AT = '18 de outubro de 2026';
+export const CREDITS_UPDATED_AT = '2026-10-18';
 
 const focusClasses =
   'text-flame underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
 
 export default function Credits() {
+  const { t, i18n } = useTranslation();
+
   usePageMeta({
-    title: 'Créditos e Licenças — Vroom',
-    description:
-      'Atribuição das fotos de carros usadas no Vroom: autores e licenças (Creative Commons/domínio público) com link para cada arquivo no Wikimedia Commons.',
+    title: t('legal.creditsPage.metaTitle'),
+    description: t('legal.creditsPage.metaDescription'),
   });
+
+  const updatedAt = new Intl.DateTimeFormat(i18n.resolvedLanguage, {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(`${CREDITS_UPDATED_AT}T12:00:00Z`));
 
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10 sm:px-6">
-      <h1 className="font-display text-3xl uppercase tracking-[0.22em]">Créditos e Licenças</h1>
+      <h1 className="font-display text-3xl uppercase tracking-[0.22em]">
+        {t('legal.creditsPage.title')}
+      </h1>
       <p className="mt-2 text-xs font-bold uppercase tracking-wide text-bone/50">
-        Última atualização: {CREDITS_UPDATED_AT}
+        {t('legal.updatedAt', { date: updatedAt })}
       </p>
 
       <p className="mt-6 text-sm leading-relaxed text-bone/80">
-        Todas as fotos dos carros do Vroom vêm do{' '}
+        {t('legal.creditsPage.p1a')}
         <a
           href="https://commons.wikimedia.org"
           target="_blank"
@@ -30,21 +40,17 @@ export default function Credits() {
         >
           Wikimedia Commons
         </a>
-        . As licenças Creative Commons Atribuição (CC BY) e
-        Atribuição-CompartilhaIgual (CC BY-SA) exigem crédito ao autor — esta
-        página presta essa atribuição, com o link para cada arquivo original.
-        Marcas, nomes e designs de veículos pertencem aos respectivos
-        fabricantes; o Vroom é um projeto de fã, sem afiliação.
+        {t('legal.creditsPage.p1b')}
       </p>
 
       <div className="mt-6 border-2 border-line">
         <table className="w-full text-left text-sm">
           <thead>
             <tr className="border-b-2 border-line bg-raised font-mono text-xs uppercase tracking-wide text-bone/60">
-              <th className="p-3">Carro</th>
-              <th className="p-3">Autor</th>
-              <th className="p-3">Licença</th>
-              <th className="p-3">Fonte</th>
+              <th className="p-3">{t('legal.creditsPage.thCar')}</th>
+              <th className="p-3">{t('legal.creditsPage.thAuthor')}</th>
+              <th className="p-3">{t('legal.creditsPage.thLicense')}</th>
+              <th className="p-3">{t('legal.creditsPage.thSource')}</th>
             </tr>
           </thead>
           <tbody className="divide-y-2 divide-line text-bone/80">
@@ -69,7 +75,7 @@ export default function Credits() {
                     rel="noreferrer"
                     className={focusClasses}
                   >
-                    Ver no Commons
+                    {t('legal.creditsPage.viewOnCommons')}
                   </a>
                 </td>
               </tr>

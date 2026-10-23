@@ -24,7 +24,7 @@ const guessLimiter = rateLimit({
   limit: 60,
   standardHeaders: 'draft-7',
   legacyHeaders: false,
-  message: { error: 'Muitos chutes seguidos. Respire um pouco.' },
+  message: { error: 'Muitos chutes seguidos. Respire um pouco.', code: 'RATE_LIMITED' },
 });
 
 /** Criação de rodadas é gravação no banco: sem isso, script em loop incha o DB. */
@@ -34,7 +34,7 @@ const startLimiter = rateLimit({
   standardHeaders: 'draft-7',
   legacyHeaders: false,
   skip: () => env.isTest,
-  message: { error: 'Muitas rodadas seguidas. Aguarde um instante.' },
+  message: { error: 'Muitas rodadas seguidas. Aguarde um instante.', code: 'RATE_LIMITED' },
 });
 
 /** Skip também encerra rodada (gravação): mesmo tratamento. */
@@ -44,7 +44,7 @@ const skipLimiter = rateLimit({
   standardHeaders: 'draft-7',
   legacyHeaders: false,
   skip: () => env.isTest,
-  message: { error: 'Calma no botão de pular.' },
+  message: { error: 'Calma no botão de pular.', code: 'RATE_LIMITED' },
 });
 
 const startSchema = z.object({
@@ -192,7 +192,7 @@ const startRound: AsyncRequestHandler = async (req, res) => {
   const car = await pickCar(mode);
 
   if (!car) {
-    res.status(503).json({ error: 'Catálogo de carros vazio — rode o seed.' });
+    res.status(503).json({ error: 'Catálogo de carros vazio — rode o seed.', code: 'CATALOG_EMPTY' });
     return;
   }
 
@@ -251,15 +251,21 @@ const activeRound: AsyncRequestHandler = async (req, res) => {
   res.json({ round: round ? roundToClient(round) : null });
 };
 
-function canPlayRound(round: RoundWithCar | null, userId?: number): string | null {
+interface RoundProblem {
+  status: number;
+  code: string;
+  message: string;
+}
+
+function canPlayRound(round: RoundWithCar | null, userId?: number): RoundProblem | null {
   if (!round) {
-    return 'Rodada não encontrada';
+    return { status: 404, code: 'ROUND_NOT_FOUND', message: 'Rodada não encontrada' };
   }
   if (round.status !== 'playing') {
-    return 'Esta rodada já foi encerrada';
+    return { status: 403, code: 'ROUND_ENDED', message: 'Esta rodada já foi encerrada' };
   }
   if (round.userId !== null && round.userId !== userId) {
-    return 'Esta rodada não é sua';
+    return { status: 403, code: 'ROUND_NOT_YOURS', message: 'Esta rodada não é sua' };
   }
   return null;
 }
@@ -284,7 +290,7 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
   const roundId = parseRoundId(req.params.id);
 
   if (roundId === null) {
-    res.status(404).json({ error: 'Rodada não encontrada' });
+    res.status(404).json({ error: 'Rodada não encontrada', code: 'ROUND_NOT_FOUND' });
     return;
   }
 
@@ -294,7 +300,7 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
   const problem = canPlayRound(round, req.user?.id);
 
   if (problem) {
-    res.status(problem === 'Rodada não encontrada' ? 404 : 403).json({ error: problem });
+    res.status(problem.status).json({ error: problem.message, code: problem.code });
     return;
   }
 
@@ -344,7 +350,7 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
     }
 
     if (!updated) {
-      res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.' });
+      res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.', code: 'ROUND_CONFLICT' });
       return;
     }
 
@@ -378,7 +384,7 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
   });
 
   if (claim.count === 0) {
-    res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.' });
+    res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.', code: 'ROUND_CONFLICT' });
     return;
   }
 
@@ -388,7 +394,7 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
   });
 
   if (!updated) {
-    res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.' });
+    res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.', code: 'ROUND_CONFLICT' });
     return;
   }
 
@@ -408,7 +414,7 @@ const skipRound: AsyncRequestHandler = async (req, res) => {
   const roundId = parseRoundId(req.params.id);
 
   if (roundId === null) {
-    res.status(404).json({ error: 'Rodada não encontrada' });
+    res.status(404).json({ error: 'Rodada não encontrada', code: 'ROUND_NOT_FOUND' });
     return;
   }
 
@@ -416,7 +422,7 @@ const skipRound: AsyncRequestHandler = async (req, res) => {
   const problem = canPlayRound(round, req.user?.id);
 
   if (problem) {
-    res.status(problem === 'Rodada não encontrada' ? 404 : 403).json({ error: problem });
+    res.status(problem.status).json({ error: problem.message, code: problem.code });
     return;
   }
 
@@ -429,7 +435,7 @@ const skipRound: AsyncRequestHandler = async (req, res) => {
   });
 
   if (claim.count === 0) {
-    res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.' });
+    res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.', code: 'ROUND_CONFLICT' });
     return;
   }
 
@@ -439,7 +445,7 @@ const skipRound: AsyncRequestHandler = async (req, res) => {
   });
 
   if (!updated) {
-    res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.' });
+    res.status(409).json({ error: 'Esta rodada mudou de estado. Tente de novo.', code: 'ROUND_CONFLICT' });
     return;
   }
 

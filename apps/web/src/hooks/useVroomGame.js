@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 import { INITIAL_BLUR, MAX_ATTEMPTS } from '@vroom/shared';
-import { api, apiUrl } from '@/lib/api';
+import { api, apiErrorMessage, apiUrl } from '@/lib/api';
 import { useMe } from '@/hooks/useAuth';
 import { loadLocalScores, saveLocalScores, useLocalScores } from '@/lib/localScores';
 
@@ -11,8 +12,27 @@ import { loadLocalScores, saveLocalScores, useLocalScores } from '@/lib/localSco
  * servidor antes do fim da rodada; o cliente apenas renderiza o estado que a
  * API devolve. Visitantes (guests) também jogam pelo servidor, mas não
  * pontuam no ranking.
+ *
+ * As mensagens de fim de rodada são compostas no cliente via i18n a partir do
+ * resultado estruturado (result + carName + attemptsLeft); a mensagem pt do
+ * servidor continua como fallback implícito nos códigos da API.
  */
+function composeGuessMessage(t, data) {
+  const name = data.round?.carName ?? '';
+  switch (data.result) {
+    case 'correct':
+      return t('game.messages.correct', { name });
+    case 'failed':
+      return t('game.messages.failed', { name });
+    default: {
+      const count = data.round?.attemptsLeft ?? data.attemptsLeft ?? 0;
+      return t('game.messages.wrong', { count });
+    }
+  }
+}
+
 export function useVroomGame(mode = 'classic') {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { data: meData } = useMe();
   const user = meData?.user ?? null;
@@ -76,12 +96,12 @@ export function useVroomGame(mode = 'classic') {
     onSuccess: (data) => {
       queryClient.setQueryData(['round', mode], { round: data.round });
       setStatus(data.result);
-      setMessage(data.message);
+      setMessage(composeGuessMessage(t, data));
 
       if (data.result === 'correct') {
         setSessionScore((value) => value + 1);
         if (user && data.points > 0) {
-          toast.success(`+${data.points} pontos no ranking.`);
+          toast.success(t('game.pointsToast', { points: data.points }));
         }
         scheduleNext(1400);
       } else if (data.result === 'failed') {
@@ -90,7 +110,7 @@ export function useVroomGame(mode = 'classic') {
         scheduleNext(4000);
       }
     },
-    onError: (error) => toast.error(error.message),
+    onError: (error) => toast.error(apiErrorMessage(t, error)),
   });
 
   const skipMutation = useMutation({
@@ -98,13 +118,13 @@ export function useVroomGame(mode = 'classic') {
     onSuccess: (data) => {
       queryClient.setQueryData(['round', mode], { round: data.round });
       setStatus('skipped');
-      setMessage(data.message);
+      setMessage(t('game.messages.skipped', { name: data.round?.carName ?? '' }));
       recordEndedRound(sessionScore);
       setSessionScore(0);
       // Igual ao chute errado: agenda a próxima rodada para não travar o jogo.
       scheduleNext(1800);
     },
-    onError: (error) => toast.error(error.message),
+    onError: (error) => toast.error(apiErrorMessage(t, error)),
   });
 
   const bestScores = useMemo(
