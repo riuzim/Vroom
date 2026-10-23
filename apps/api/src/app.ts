@@ -34,7 +34,15 @@ export function createApp() {
   );
   // Headers de segurança para uma API JSON: nosniff, frameguard, hsts etc.
   // CSP fica desativada (payload é JSON, não documento navegável).
-  app.use(helmet({ contentSecurityPolicy: false }));
+  // CORP vira cross-origin: o front publicado (ex.: GitHub Pages) embute a
+  // imagem do carro via <img> — o default same-origin do helmet faz o
+  // navegador bloquear o embed (fetch CORS passa, <img> no-cors não).
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }),
+  );
 
   // Teto global anti-DoS por IP, acima dos limites por rota.
   app.use(
