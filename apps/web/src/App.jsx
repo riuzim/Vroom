@@ -68,15 +68,6 @@ export default function App() {
               </a>
               <span aria-hidden="true">·</span>
               <a
-                href="https://discord.gg/JTDE5eMv"
-                target="_blank"
-                rel="noreferrer"
-                className={footerLinkClasses}
-              >
-                Discord
-              </a>
-              <span aria-hidden="true">·</span>
-              <a
                 href="https://github.com/riuzim/Vroom"
                 target="_blank"
                 rel="noreferrer"

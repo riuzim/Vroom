@@ -20,6 +20,7 @@ O jogo roda no seu computador. A preparação é uma vez só e leva uns minutos;
    git clone https://github.com/riuzim/Vroom.git
    ```
 4. Entre na pasta do jogo e rode:
+
    ```bash
    pnpm setup
    ```
@@ -43,7 +44,7 @@ Abra **<http://localhost:5173/Vroom/>** no navegador e boa sorte. Pra encerrar, 
 - **`pnpm` não é reconhecido** → feche o terminal, abra um novo e tente de novo (às vezes o sistema demora a "ver" o programa recém-instalado).
 - **Erro de banco de dados / conexão recusada** → o `pnpm dev` sobe o banco local sozinho, então isso só acontece se outra coisa ocupar a porta **5433**. Se acontecer, encerre o que estiver usando a porta (ou rode `pnpm --filter @vroom/api db:local` e veja a mensagem de erro) e tente de novo.
 - **Windows: erro `EPERM` citando `query_engine...dll`** → outro programa (geralmente o VS Code) prendeu o arquivo. Feche o VS Code e rode `pnpm setup` de novo.
-- **Nada resolveu?** Fala com a gente: [vroomfeedback@gmail.com](mailto:vroomfeedback@gmail.com) · [Discord](https://discord.gg/JTDE5eMv).
+- **Nada resolveu?** Fala com a gente: [vroomfeedback@gmail.com](mailto:vroomfeedback@gmail.com).
 
 ## 🎯 As regras
 
@@ -64,7 +65,6 @@ Todas as imagens vêm do **Wikimedia Commons** com licenças livres. O autor e a
 Achou um bug? Tem uma ideia de carro pro catálogo?
 
 - [vroomfeedback@gmail.com](mailto:vroomfeedback@gmail.com)
-- [Discord](https://discord.gg/JTDE5eMv)
 
 ---
 
@@ -90,8 +90,8 @@ Vroom/
 | Camada   | Stack                                                                                                                                    |
 | -------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | Frontend | React 18, Vite 6, Tailwind CSS 3, Radix UI (padrão shadcn/ui), React Router, TanStack Query, react-hook-form + zod, sonner, lucide-react |
-| Backend  | Express + TypeScript, Prisma ORM (PostgreSQL), Zod, bcryptjs, JWT em cookie httpOnly, express-rate-limit                                |
-| Testes   | Vitest (unit no shared, integração via supertest na API, Testing Library no web)                                                          |
+| Backend  | Express + TypeScript, Prisma ORM (PostgreSQL), Zod, bcryptjs, JWT em cookie httpOnly, express-rate-limit                                 |
+| Testes   | Vitest (unit no shared, integração via supertest na API, Testing Library no web)                                                         |
 
 **Anti-cheat**: o loop de jogo é **server-authoritative** — o servidor sorteia o carro, guarda o estado da rodada (tentativas, letras reveladas, nível de blur) e valida cada chute. A resposta **só viaja no payload quando a rodada encerra**, garantido por teste de integração.
 
@@ -106,40 +106,40 @@ Vroom/
 
 As imagens **não dependem de nenhum host externo em runtime**: os bytes (JPEG/PNG, lado maior ≤1280px) são gravados como BYTEA no Postgres e servidos pela própria API em `GET /api/cars/:id/image`. Cada carro carrega sua proveniência — `brand`, `model`, `years`, `author`, `license`, `filePageUrl` — herdada do levantamento verificado no Wikimedia Commons (`levantamento/`). O cache de imagens é versionado no repositório (`apps/api/prisma/car-images/`), então a seed funciona **100% offline**.
 
-| Comando                               | O que faz                                                                                  |
-| ------------------------------------ | ------------------------------------------------------------------------------------------- |
-| `pnpm catalog`                        | Valida `levantamento/batches/` e regera `shared/cars.ts`, `shared/names.ts` e o catálogo JSON |
-| `pnpm catalog:images`                 | Baixa as imagens do Commons para o cache local                                              |
-| `pnpm --filter @vroom/api db:seed`    | Grava os bytes do cache como BYTEA + atribuição no banco                                     |
+| Comando                            | O que faz                                                                                     |
+| ---------------------------------- | --------------------------------------------------------------------------------------------- |
+| `pnpm catalog`                     | Valida `levantamento/batches/` e regera `shared/cars.ts`, `shared/names.ts` e o catálogo JSON |
+| `pnpm catalog:images`              | Baixa as imagens do Commons para o cache local                                                |
+| `pnpm --filter @vroom/api db:seed` | Grava os bytes do cache como BYTEA + atribuição no banco                                      |
 
 ### API
 
-| Rota                                                                | Descrição                                 |
-| ------------------------------------------------------------------- | ----------------------------------------- |
-| `GET /api/health`                                                   | Healthcheck                               |
+| Rota                                                                | Descrição                                                         |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `GET /api/health`                                                   | Healthcheck                                                       |
 | `GET /api/cars/:id/image`                                           | Bytes da imagem do carro, direto do banco (BYTEA, cache imutável) |
-| `POST /api/auth/register` / `login` / `logout` · `GET /api/auth/me` | Autenticação (JWT em cookie httpOnly)     |
-| `POST /api/rounds {mode}`                                           | Inicia/retoma rodada (sem expor o carro)   |
-| `GET /api/rounds/active`                                            | Rodada em andamento do usuário            |
-| `POST /api/rounds/:id/guess {guess}`                                | Valida chute no servidor                  |
-| `POST /api/rounds/:id/skip`                                         | Encerra revelando (0 pontos)              |
-| `GET /api/leaderboard?period=all\|today&mode=`                      | Ranking global agregado                   |
-| `GET /api/profile/stats`                                             | Estatísticas do jogador logado            |
+| `POST /api/auth/register` / `login` / `logout` · `GET /api/auth/me` | Autenticação (JWT em cookie httpOnly)                             |
+| `POST /api/rounds {mode}`                                           | Inicia/retoma rodada (sem expor o carro)                          |
+| `GET /api/rounds/active`                                            | Rodada em andamento do usuário                                    |
+| `POST /api/rounds/:id/guess {guess}`                                | Valida chute no servidor                                          |
+| `POST /api/rounds/:id/skip`                                         | Encerra revelando (0 pontos)                                      |
+| `GET /api/leaderboard?period=all\|today&mode=`                      | Ranking global agregado                                           |
+| `GET /api/profile/stats`                                            | Estatísticas do jogador logado                                    |
 
 ### Scripts
 
-| Comando                                             | O que faz                                                       |
-| --------------------------------------------------- | ---------------------------------------------------------------- |
-| `pnpm setup`                                        | Prepara tudo: deps, build do shared, `.env`, Prisma client e banco local |
-| `pnpm dev`                                          | Sobe API (:4000) + web (:5173) — e o Postgres local junto, se ainda não estiver no ar |
-| `pnpm build`                                        | Build de produção (shared → web + api)                          |
-| `pnpm test`                                         | Roda todos os testes                                             |
-| `pnpm lint`                                         | ESLint no monorepo inteiro                                       |
-| `pnpm --filter @vroom/api db:local`                 | Sobe o Postgres embutido e deixa rodando (Ctrl+C encerra)        |
-| `pnpm --filter @vroom/api db:local-setup`           | Prepara o banco local: sobe o PG embutido, aplica migrations e roda a seed (usado pelo `pnpm setup`) |
-| `pnpm --filter @vroom/api db:migrate`               | Cria/aplica migrations em dev (Prisma)                           |
-| `pnpm --filter @vroom/api db:deploy`                | Aplica migrations em produção                                    |
-| `pnpm --filter @vroom/api db:seed`                  | Popula o catálogo de carros                                      |
+| Comando                                   | O que faz                                                                                            |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `pnpm setup`                              | Prepara tudo: deps, build do shared, `.env`, Prisma client e banco local                             |
+| `pnpm dev`                                | Sobe API (:4000) + web (:5173) — e o Postgres local junto, se ainda não estiver no ar                |
+| `pnpm build`                              | Build de produção (shared → web + api)                                                               |
+| `pnpm test`                               | Roda todos os testes                                                                                 |
+| `pnpm lint`                               | ESLint no monorepo inteiro                                                                           |
+| `pnpm --filter @vroom/api db:local`       | Sobe o Postgres embutido e deixa rodando (Ctrl+C encerra)                                            |
+| `pnpm --filter @vroom/api db:local-setup` | Prepara o banco local: sobe o PG embutido, aplica migrations e roda a seed (usado pelo `pnpm setup`) |
+| `pnpm --filter @vroom/api db:migrate`     | Cria/aplica migrations em dev (Prisma)                                                               |
+| `pnpm --filter @vroom/api db:deploy`      | Aplica migrations em produção                                                                        |
+| `pnpm --filter @vroom/api db:seed`        | Popula o catálogo de carros                                                                          |
 
 ### Testes
 
@@ -158,4 +158,4 @@ A suíte de integração cobre auth, o fluxo completo de rodadas, o bloqueio do 
 
 ---
 
-**Vroom** · feito no box por quem ama carros · [feedback](mailto:vroomfeedback@gmail.com) · [Discord](https://discord.gg/JTDE5eMv)
+**Vroom** · feito no box por quem ama carros · [feedback](mailto:vroomfeedback@gmail.com)

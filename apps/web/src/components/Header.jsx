@@ -76,14 +76,6 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <a
-            href="https://discord.gg/JTDE5eMv"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden rounded-none border-2 border-bone px-4 py-2 text-sm font-bold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none lg:inline-flex"
-          >
-            Discord
-          </a>
-          <a
             href="https://github.com/riuzim/Vroom"
             target="_blank"
             rel="noreferrer"
@@ -172,14 +164,6 @@ export default function Header() {
                         </Link>
                       </Button>
                     )}
-                    <a
-                      href="https://discord.gg/JTDE5eMv"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="rounded-none border-2 border-bone px-4 py-2.5 text-center text-sm font-bold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
-                    >
-                      Discord
-                    </a>
                     <a
                       href="https://github.com/riuzim/Vroom"
                       target="_blank"
