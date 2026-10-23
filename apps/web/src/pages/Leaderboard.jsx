@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Trophy } from 'lucide-react';
+import AdSlot from '@/components/AdSlot.jsx';
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { api } from '@/lib/api';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -18,6 +20,12 @@ const MODE_FILTERS = [
 export default function Leaderboard() {
   const [period, setPeriod] = useState('all');
   const [mode, setMode] = useState('all');
+
+  usePageMeta({
+    title: 'Ranking global — Vroom',
+    description:
+      'Ranking global do Vroom: pontos por modo e período. Crie conta e dispute o pódio.',
+  });
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['leaderboard', period, mode],
@@ -120,6 +128,8 @@ export default function Leaderboard() {
           </Tabs>
         </CardContent>
       </Card>
+
+      <AdSlot className="mt-6" slot="leaderboard-footer" minHeight={280} />
     </main>
   );
 }

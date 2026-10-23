@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form';
 import { useRegister, useGoogleLogin } from '@/hooks/useAuth';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const registerSchema = z
   .object({
@@ -38,6 +39,11 @@ export default function Register() {
   const navigate = useNavigate();
   const register = useRegister();
   const googleLogin = useGoogleLogin();
+
+  usePageMeta({
+    title: 'Criar conta — Vroom',
+    description: 'Crie sua conta no Vroom para salvar pontuações e entrar no ranking global.',
+  });
   const form = useForm({
     resolver: zodResolver(registerSchema),
     defaultValues: { username: '', email: '', password: '', confirmPassword: '' },

@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml}\"",
     "catalog": "node scripts/build-catalog.mjs",
-    "catalog:images": "node scripts/fetch-images.mjs"
+    "catalog:images": "node scripts/fetch-images.mjs",
+    "setup": "pnpm install && pnpm --filter @vroom/shared build && node scripts/setup-env.mjs && pnpm --filter @vroom/api db:generate && pnpm --filter @vroom/api db:local-setup"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

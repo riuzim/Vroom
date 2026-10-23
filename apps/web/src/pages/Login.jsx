@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form';
 import { useLogin, useGoogleLogin } from '@/hooks/useAuth';
 import GoogleLoginButton from '@/components/GoogleLoginButton';
+import { usePageMeta } from '@/hooks/usePageMeta';
 
 const loginSchema = z.object({
   email: z.string().email('Informe um email válido'),
@@ -27,6 +28,11 @@ export default function Login() {
   const navigate = useNavigate();
   const login = useLogin();
   const googleLogin = useGoogleLogin();
+
+  usePageMeta({
+    title: 'Entrar — Vroom',
+    description: 'Entre com conta, e-mail ou Google para salvar seu progresso e disputar o ranking do Vroom.',
+  });
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },

@@ -3,7 +3,10 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  // Postgres (Supabase/Neon em produção; Postgres embutido localmente — ver
+  // scripts/local-pg.ts e src/tests/global-setup.ts). SQLite foi aposentado:
+  // migrations antigas em prisma/migrations-sqlite/.
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

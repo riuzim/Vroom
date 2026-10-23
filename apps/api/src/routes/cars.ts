@@ -8,7 +8,7 @@ const carsRouter = Router();
 /**
  * GET /api/cars/:id/image — serve os bytes da imagem direto do banco.
  *
- * As imagens vivem no SQLite (BLOB): zero dependência de imgur/Wikimedia
+ * As imagens vivem no banco (BYTEA): zero dependência de imgur/Wikimedia
  * em runtime. A seed é quem baixa os bytes originais (uma vez, do Commons)
  * e grava junto com a atribuição de licença.
  *

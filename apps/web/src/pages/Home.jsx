@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { CalendarDays, Car, Eye, Lightbulb, Play, Timer, Trophy, Zap } from 'lucide-react';
+import AdSlot from '@/components/AdSlot.jsx';
+import { usePageMeta } from '@/hooks/usePageMeta';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -50,6 +52,12 @@ const steps = [
 ];
 
 export default function Home() {
+  usePageMeta({
+    title: 'Vroom — 5 chutes até a bandeirada',
+    description:
+      'Um carro lendário escondido no borrão. 5 chutes, dicas a cada erro e um ranking global — prove que você manja de carros.',
+  });
+
   return (
     <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
       <section className="mx-auto max-w-3xl text-center">
@@ -78,6 +86,8 @@ export default function Home() {
         </div>
         <DitherCar className="mx-auto mt-12 w-full max-w-lg text-bone" />
       </section>
+
+      <AdSlot className="mx-auto mt-14 max-w-3xl" slot="home-hero" minHeight={280} />
 
       <section className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {modes.map(({ icon: Icon, ...mode }) => (

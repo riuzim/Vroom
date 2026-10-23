@@ -7,3 +7,10 @@ allowBuilds:
   prisma: true
   '@prisma/client': true
   '@prisma/engines': true
+  # Binários do Postgres embutido (dev/testes sem Docker). O postinstall
+  # hidrata os symlinks dos binários — sem ele o servidor não sobe.
+  '@embedded-postgres/darwin-arm64': true
+  '@embedded-postgres/darwin-x64': true
+  '@embedded-postgres/linux-arm64': true
+  '@embedded-postgres/linux-x64': true
+  '@embedded-postgres/windows-x64': true

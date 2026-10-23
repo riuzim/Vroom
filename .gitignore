@@ -16,6 +16,10 @@ dist-ssr
 *.db
 *.db-journal
 
+# Postgres embutido local (apps/api db:local)
+.pg-data/
+.pg-test-data/
+
 # Env
 .env
 .env.*

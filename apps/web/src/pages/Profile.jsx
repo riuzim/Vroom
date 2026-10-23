@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { CalendarDays, LogIn, LogOut, UserPlus } from 'lucide-react';
 import { toast } from 'sonner';
+import AdSlot from '@/components/AdSlot.jsx';
 import { api } from '@/lib/api';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -191,6 +192,8 @@ export default function Profile() {
           </CardContent>
         </Card>
       )}
+
+      <AdSlot className="mt-6" slot="profile-footer" minHeight={280} />
     </main>
   );
 }

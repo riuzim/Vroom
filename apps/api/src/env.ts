@@ -1,7 +1,13 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
-  DATABASE_URL: z.string().default('file:./dev.db'),
+  DATABASE_URL: z
+    .string()
+    .min(1, 'DATABASE_URL é obrigatória: string de conexão Postgres (Supabase/Neon ou Postgres local — ver apps/api/.env.example)')
+    .refine(
+      (value) => /^postgres(ql)?:\/\//.test(value),
+      'DATABASE_URL precisa ser uma URL Postgres (postgresql://…) — o projeto não usa mais SQLite',
+    ),
   JWT_SECRET: z.string().min(16, 'JWT_SECRET precisa ter ao menos 16 caracteres'),
   PORT: z.coerce.number().int().positive().default(4000),
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
@@ -10,6 +16,13 @@ const envSchema = z.object({
   TRUST_PROXY: z.string().default(''),
   /** Client ID OAuth do Google (console.cloud.google.com). '' = login Google desativado. */
   GOOGLE_CLIENT_ID: z.string().default(''),
+  /**
+   * SameSite do cookie de sessão em produção. Default 'none' mantém o cenário
+   * GitHub Pages ↔ API em domínio distinto. 'lax' quando front e API vivem no
+   * mesmo site (api.exemplo.com ↔ exemplo.com, ou mesmo domínio via reverse
+   * proxy). '' é tratado como 'none'. Dev ignora (sempre lax).
+   */
+  COOKIE_SAMESITE: z.string().default(''),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -61,6 +74,19 @@ function parseTrustProxy(raw: string): boolean | number {
   return Number.isInteger(hops) && hops > 0 ? hops : false;
 }
 
+/**
+ * SameSite efetivo do cookie de sessão em produção: 'none', 'lax' ou 'strict'.
+ * Vazio/inválido cai em 'none' (comportamento histórico do GitHub Pages).
+ */
+function parseCookieSameSite(raw: string): 'none' | 'lax' | 'strict' {
+  const value = raw.trim().toLowerCase();
+
+  if (value === 'lax' || value === 'strict') {
+    return value;
+  }
+  return 'none';
+}
+
 export const env = {
   ...parsed.data,
   corsOrigins: parsed.data.CORS_ORIGIN.split(',')
@@ -69,4 +95,5 @@ export const env = {
   isProduction,
   isTest: parsed.data.NODE_ENV === 'test',
   trustProxy: parseTrustProxy(parsed.data.TRUST_PROXY),
+  cookieSameSite: parseCookieSameSite(parsed.data.COOKIE_SAMESITE),
 };

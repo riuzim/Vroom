@@ -40,26 +40,35 @@ export function signToken(userId: number): string {
   });
 }
 
+/**
+ * SameSite efetivo do cookie de sessão. Em produção vem do env
+ * (COOKIE_SAMESITE; default 'none' para o cenário GitHub Pages ↔ API remota
+ * em domínio distinto). Em dev é sempre lax — o proxy do Vite é same-origin.
+ */
+function authCookieSameSite(): 'none' | 'lax' | 'strict' {
+  return env.isProduction ? env.cookieSameSite : 'lax';
+}
+
+const authCookieOptions = {
+  httpOnly: true,
+  secure: env.isProduction,
+  path: '/',
+} as const;
+
 export function setAuthCookie(res: Response, token: string): void {
   res.cookie(AUTH_COOKIE, token, {
-    httpOnly: true,
-    // Produção (ex.: GitHub Pages ↔ API em domínios distintos) exige
-    // SameSite=None para o cookie cruzar sites; None exige Secure.
-    // Dev usa Lax porque o proxy do Vite é same-origin.
-    sameSite: env.isProduction ? 'none' : 'lax',
-    secure: env.isProduction,
+    ...authCookieOptions,
+    // SameSite=None exige Secure — navegadores bloqueiam None sem HTTPS.
+    sameSite: authCookieSameSite(),
     maxAge: TOKEN_TTL_SECONDS * 1000,
-    path: '/',
   });
 }
 
 export function clearAuthCookie(res: Response): void {
   // clearCookie precisa das MESMAS flags para remover de fato o cookie.
   res.clearCookie(AUTH_COOKIE, {
-    httpOnly: true,
-    sameSite: env.isProduction ? 'none' : 'lax',
-    secure: env.isProduction,
-    path: '/',
+    ...authCookieOptions,
+    sameSite: authCookieSameSite(),
   });
 }
 
