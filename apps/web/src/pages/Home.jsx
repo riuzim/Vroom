@@ -1,6 +1,18 @@
 import { Link } from 'react-router-dom';
-import { CalendarDays, Car, Eye, Lightbulb, Play, Timer, Trophy, Zap } from 'lucide-react';
+import {
+  CalendarDays,
+  Car,
+  Eye,
+  Ghost,
+  Lightbulb,
+  Play,
+  Sparkles,
+  Timer,
+  Trophy,
+  Zap,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { themeOfDay } from '@vroom/shared';
 import AdSlot from '@/components/AdSlot.jsx';
 import { usePageMeta } from '@/hooks/usePageMeta';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +28,10 @@ export default function Home() {
     title: t('home.metaTitle'),
     description: t('home.metaDescription'),
   });
+
+  // Tema da Série do dia — mesma fórmula determinística do servidor.
+  const today = new Date().toISOString().slice(0, 10);
+  const todayTheme = themeOfDay(today);
 
   const modes = [
     {
@@ -39,6 +55,21 @@ export default function Home() {
       title: t('home.modes.daily.title'),
       description: t('home.modes.daily.description'),
       cta: t('home.modes.daily.cta'),
+    },
+    {
+      mode: 'silhouette',
+      icon: Ghost,
+      title: t('home.modes.silhouette.title'),
+      description: t('home.modes.silhouette.description'),
+      cta: t('home.modes.silhouette.cta'),
+    },
+    {
+      mode: 'themed',
+      icon: Sparkles,
+      title: t('home.modes.themed.title'),
+      description: t('home.modes.themed.description'),
+      badge: t(`themes.${todayTheme}`),
+      cta: t('home.modes.themed.cta'),
     },
   ];
 

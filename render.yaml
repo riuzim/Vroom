@@ -16,9 +16,13 @@ services:
       NODE_ENV=development pnpm install --frozen-lockfile &&
       pnpm --filter @vroom/shared build &&
       pnpm --filter @vroom/api db:generate &&
+      pnpm --filter @vroom/api db:deploy &&
       pnpm --filter @vroom/api build
     # devDependencies são necessárias no build (tsc, prisma CLI, shared);
     # NODE_ENV=development acima garante que o pnpm não as pule.
+    # db:deploy = `prisma migrate deploy`: idempotente, aplica migrations
+    # pendentes antes do boot — sem isso o autoDeploy subiria código novo
+    # sem o schema novo (ex.: tabela DailyCar) e o daily quebraria em prod.
     startCommand: node apps/api/dist/index.js
     healthCheckPath: /api/health
     autoDeploy: true

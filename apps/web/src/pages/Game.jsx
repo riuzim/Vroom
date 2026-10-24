@@ -1,15 +1,17 @@
 import { Link, useParams } from 'react-router-dom';
-import { GAME_MODES } from '@vroom/shared';
+import { GAME_MODES, MAX_ATTEMPTS, buildShareText } from '@vroom/shared';
 import { useTranslation } from 'react-i18next';
 import { CalendarCheck, CalendarX, LogIn, ServerCrash, SkipForward } from 'lucide-react';
 import CarStage from '@/components/CarStage.jsx';
 import GameInfo from '@/components/GameInfo.jsx';
 import GuessInput from '@/components/GuessInput.jsx';
 import ScorePanel from '@/components/ScorePanel.jsx';
+import ShareButton from '@/components/ShareButton.jsx';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { api } from '@/lib/api';
 import { useVroomGame } from '@/hooks/useVroomGame.js';
 
 // Nomes dos modos são marca própria do jogo — iguais em todos os idiomas.
@@ -17,6 +19,8 @@ const MODE_LABELS = {
   classic: 'Classic',
   hard: 'Hard',
   daily: 'Daily',
+  silhouette: 'Silhouette',
+  themed: 'Série',
 };
 
 export default function Game() {
@@ -25,6 +29,32 @@ export default function Game() {
   const { t } = useTranslation();
 
   const game = useVroomGame(mode);
+
+  // Share-grid sem spoiler. O streak é buscado fresco na hora do clique —
+  // o cache de stats pode ainda não ter refetchado após o fim da rodada.
+  const loadShareText = async () => {
+    let streak;
+    if (game.user) {
+      try {
+        const data = await api.get('/api/profile/stats');
+        streak = data?.stats?.daily?.streak?.current;
+      } catch {
+        // Sem streak: a linha 🔥 simplesmente não entra no grid.
+      }
+    }
+    const baseUrl = import.meta.env.BASE_URL ?? '/';
+    const url = `${window.location.origin}${baseUrl}game/${mode}`;
+    return buildShareText({
+      mode,
+      status: game.roundStatus,
+      attemptsUsed: game.attemptsUsed,
+      maxAttempts: MAX_ATTEMPTS,
+      dailyNumber: game.dailyNum,
+      streak,
+      url,
+    });
+  };
+  const canShare = game.isRoundOver && ['correct', 'failed', 'skipped'].includes(game.roundStatus);
 
   if (game.isError) {
     return (
@@ -62,9 +92,14 @@ export default function Game() {
       </div>
 
       <section className="order-1 grid content-center gap-5 lg:order-2">
-        <div className="flex items-center justify-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3">
           <Badge variant="secondary">{MODE_LABELS[mode]}</Badge>
           {mode === 'hard' && <Badge variant="outline">{t('game.badge2x')}</Badge>}
+          {mode === 'themed' && game.theme && (
+            <Badge variant="outline">
+              {t('game.themedBadge', { theme: t(`themes.${game.theme}`) })}
+            </Badge>
+          )}
         </div>
 
         {game.isLoading ? (
@@ -91,6 +126,7 @@ export default function Game() {
                     : t('game.dailyDoneCorrectGuest', { name: game.carName })
                   : t('game.dailyDoneFailed', { name: game.carName })}
               </p>
+              {canShare && <ShareButton loadText={loadShareText} />}
               <Button variant="outline" size="sm" asChild>
                 <Link to="/game/classic">{t('game.playClassic')}</Link>
               </Button>
@@ -113,6 +149,8 @@ export default function Game() {
               status={game.status}
               label={MODE_LABELS[mode]}
               carName={game.carName}
+              mode={mode}
+              mistakes={game.attemptsUsed}
             />
 
             {game.carCredits && (
@@ -140,6 +178,12 @@ export default function Game() {
               onSubmit={game.guess}
               hideSuggestions={mode === 'hard'}
             />
+
+            {canShare && (
+              <div className="flex justify-center">
+                <ShareButton loadText={loadShareText} />
+              </div>
+            )}
 
             <Button
               variant="ghost"

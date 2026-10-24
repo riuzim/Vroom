@@ -33,6 +33,16 @@
         "title": "Daily",
         "description": "Todo mundo vê o mesmo carro, uma rodada por dia.",
         "cta": "Jogar o Daily"
+      },
+      "silhouette": {
+        "title": "Silhouette",
+        "description": "Só o vulto na penumbra. A luz acende a cada erro.",
+        "cta": "Jogar Silhouette"
+      },
+      "themed": {
+        "title": "Série",
+        "description": "Um tema por dia — todo mundo vê o mesmo carro da série.",
+        "cta": "Jogar a Série"
       }
     },
     "steps": {
@@ -57,6 +67,10 @@
     "guessLabel": "Seu chute",
     "guessButton": "Chutar",
     "skip": "Pular carro",
+    "share": "Compartilhar",
+    "shareCopied": "Copiado! Desafia alguém aí.",
+    "shareFailed": "Não deu para copiar o resultado.",
+    "themedBadge": "Série: {{theme}}",
     "serverDownTitle": "Servidor offline",
     "serverDownBody": "Verifique sua conexão e tente de novo.",
     "reconnect": "Tentar reconectar",
@@ -172,7 +186,15 @@
     "statsError": "Não foi possível carregar suas estatísticas. Verifique sua conexão.",
     "localTitle": "Suas estatísticas locais",
     "localSubtitle": "Suas sequências encerradas neste navegador.",
-    "bestStreak": "Maior sequência (acertos seguidos)"
+    "bestStreak": "Maior sequência (acertos seguidos)",
+    "dailyTitle": "Daily",
+    "dailySubtitle": "Seu compromisso diário: sequência, vitórias e chutes até o acerto.",
+    "streak": "Sequência",
+    "streakBest": "Recorde",
+    "winRate": "Vitórias",
+    "distribution": "Chutes até acertar",
+    "distributionFail": "Não acertou",
+    "dailyEmpty": "Jogue o Daily para começar sua sequência."
   },
   "errorBoundary": {
     "title": "Erro inesperado",
@@ -316,6 +338,16 @@
       "thSource": "Fonte",
       "viewOnCommons": "Ver no Commons"
     }
+  },
+  "themes": {
+    "jdm": "JDM",
+    "muscle": "Muscle cars",
+    "supercar": "Supercarros",
+    "sport": "Esportivos",
+    "classic": "Clássicos",
+    "bra": "Brasil",
+    "ev": "Elétricos",
+    "lux": "Luxo"
   },
   "apiErrors": {
     "NETWORK_ERROR": "Sem conexão com o servidor. Verifique sua internet e tente de novo.",

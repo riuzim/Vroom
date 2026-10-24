@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { blurFromMistakes, calculatePoints, GAME_MODES, MAX_ATTEMPTS } from './constants.js';
+import {
+  blurFromMistakes,
+  calculatePoints,
+  dailyNumber,
+  GAME_MODES,
+  MAX_ATTEMPTS,
+  themeOfDay,
+  THEMES,
+} from './constants.js';
 
 describe('calculatePoints', () => {
   it('vale 10 pontos por tentativa restante', () => {
@@ -32,7 +40,27 @@ describe('blurFromMistakes', () => {
 });
 
 describe('GAME_MODES', () => {
-  it('contém os três modos do jogo', () => {
-    expect(GAME_MODES).toEqual(['classic', 'hard', 'daily']);
+  it('contém os cinco modos do jogo', () => {
+    expect(GAME_MODES).toEqual(['classic', 'hard', 'daily', 'silhouette', 'themed']);
+  });
+});
+
+describe('themeOfDay', () => {
+  it('é determinístico e cicla entre os temas do catálogo', () => {
+    expect(themeOfDay('2026-11-01')).toBe(themeOfDay('2026-11-01'));
+    expect(THEMES).toContain(themeOfDay('2026-11-01'));
+    // Datas consecutivas avançam a rotação (não repete o tema no dia seguinte).
+    expect(themeOfDay('2026-11-02')).not.toBe(themeOfDay('2026-11-01'));
+  });
+});
+
+describe('dailyNumber', () => {
+  it('o epoch é o Daily #1', () => {
+    expect(dailyNumber('2026-11-01')).toBe(1);
+  });
+
+  it('avança um por dia e nunca fica abaixo de 1', () => {
+    expect(dailyNumber('2026-11-05')).toBe(5);
+    expect(dailyNumber('2026-10-25')).toBe(1);
   });
 });

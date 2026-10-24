@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLogout, useMe } from '@/hooks/useAuth';
 import { useLocalScores } from '@/lib/localScores';
+import { cn } from '@/lib/utils';
 
 export default function Profile() {
   const { t, i18n } = useTranslation();
@@ -192,6 +193,80 @@ export default function Profile() {
                 <p className="mt-1 font-mono text-3xl font-black text-flame">{bestStreak}</p>
               </div>
             </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {user && stats?.daily && (
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="text-lg">{t('profile.dailyTitle')}</CardTitle>
+            <CardDescription>{t('profile.dailySubtitle')}</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-5">
+            {stats.daily.played === 0 ? (
+              <p className="text-sm text-bone/55">{t('profile.dailyEmpty')}</p>
+            ) : (
+              <>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
+                    <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+                      {t('profile.streak')}
+                    </p>
+                    <p className="mt-1 font-mono text-2xl font-black text-flame">
+                      {stats.daily.streak.current > 0 ? `🔥${stats.daily.streak.current}` : '—'}
+                    </p>
+                  </div>
+                  <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
+                    <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+                      {t('profile.streakBest')}
+                    </p>
+                    <p className="mt-1 font-mono text-2xl font-black">{stats.daily.streak.best}</p>
+                  </div>
+                  <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
+                    <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+                      {t('profile.winRate')}
+                    </p>
+                    <p className="mt-1 font-mono text-2xl font-black text-acid">
+                      {`${Math.round((stats.daily.wins / stats.daily.played) * 100)}%`}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <p className="mb-2 text-xs font-black uppercase tracking-wide text-bone/55">
+                    {t('profile.distribution')}
+                  </p>
+                  <div className="grid gap-1.5">
+                    {stats.daily.distribution.map((count, index) => {
+                      const maxCount = Math.max(...stats.daily.distribution, 1);
+                      const label = index < 5 ? String(index + 1) : 'X';
+                      return (
+                        <div key={label} className="flex items-center gap-2">
+                          <span className="w-4 text-center font-mono text-xs font-bold text-bone/70">
+                            {label}
+                          </span>
+                          <div className="h-4 flex-1 bg-raised">
+                            <div
+                              className={cn(
+                                'h-full transition-all',
+                                index === 5 ? 'bg-danger' : 'bg-acid',
+                              )}
+                              style={{ width: `${(count / maxCount) * 100}%` }}
+                            />
+                          </div>
+                          <span className="w-6 text-right font-mono text-xs font-bold text-bone/70">
+                            {count}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <p className="mt-2 text-[11px] text-bone/45">
+                    X = {t('profile.distributionFail')}
+                  </p>
+                </div>
+              </>
+            )}
           </CardContent>
         </Card>
       )}

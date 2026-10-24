@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
-import { INITIAL_BLUR, MAX_ATTEMPTS } from '@vroom/shared';
+import { INITIAL_BLUR, MAX_ATTEMPTS, dailyNumber } from '@vroom/shared';
 import { api, apiErrorMessage, apiUrl } from '@/lib/api';
 import { useMe } from '@/hooks/useAuth';
 import { loadLocalScores, saveLocalScores, useLocalScores } from '@/lib/localScores';
@@ -53,7 +53,18 @@ export function useVroomGame(mode = 'classic') {
 
   const round = roundQuery.data?.round ?? null;
   const isRoundOver = !round || round.status !== 'playing';
-  const dailyDone = mode === 'daily' && isRoundOver && round !== null;
+  // Daily e Série são "um desafio por dia": encerrados, mostram o card do dia.
+  const isDailyMode = mode === 'daily' || mode === 'themed';
+  const dailyDone = isDailyMode && isRoundOver && round !== null;
+  // Número sequencial do desafio (#N) — derivado do dailyDate que o servidor
+  // devolve (date pura ou slot "data#tema" da Série).
+  const dailyDate = round?.dailyDate ?? null;
+  const dailyNum = useMemo(() => {
+    if (!isDailyMode || !dailyDate) {
+      return null;
+    }
+    return dailyNumber(dailyDate.split('#')[0]);
+  }, [dailyDate, isDailyMode]);
 
   useEffect(() => {
     return () => {
@@ -75,15 +86,23 @@ export function useVroomGame(mode = 'classic') {
         clearTimeout(nextTimer.current);
       }
       nextTimer.current = setTimeout(() => {
-        if (mode === 'daily') {
-          // Daily encerrado: não há próxima rodada hoje.
+        if (isDailyMode) {
+          // Daily/Série encerrados: não há próxima rodada hoje.
           return;
         }
         startNextRound();
       }, delay);
     },
-    [mode, startNextRound],
+    [isDailyMode, startNextRound],
   );
+
+  // Fim de rodada diária alimenta streak/stats do perfil — invalida para
+  // refetch (na montagem da página de Perfil e no share).
+  const refreshDailyStats = useCallback(() => {
+    if (isDailyMode && user) {
+      queryClient.invalidateQueries({ queryKey: ['stats'] });
+    }
+  }, [isDailyMode, queryClient, user]);
 
   const recordEndedRound = useCallback((sessionStreak) => {
     // Score local acompanha o streak da sessão (Best/Last Score do painel).
@@ -103,10 +122,12 @@ export function useVroomGame(mode = 'classic') {
         if (user && data.points > 0) {
           toast.success(t('game.pointsToast', { points: data.points }));
         }
+        refreshDailyStats();
         scheduleNext(1400);
       } else if (data.result === 'failed') {
         recordEndedRound(sessionScore);
         setSessionScore(0);
+        refreshDailyStats();
         scheduleNext(4000);
       }
     },
@@ -121,6 +142,7 @@ export function useVroomGame(mode = 'classic') {
       setMessage(t('game.messages.skipped', { name: data.round?.carName ?? '' }));
       recordEndedRound(sessionScore);
       setSessionScore(0);
+      refreshDailyStats();
       // Igual ao chute errado: agenda a próxima rodada para não travar o jogo.
       scheduleNext(1800);
     },
@@ -147,11 +169,13 @@ export function useVroomGame(mode = 'classic') {
 
   return {
     attemptsLeft: round?.attemptsLeft ?? MAX_ATTEMPTS,
+    attemptsUsed: round ? MAX_ATTEMPTS - (round.attemptsLeft ?? MAX_ATTEMPTS) : 0,
     bestScores,
     blur: round?.blur ?? INITIAL_BLUR,
     carName: round?.carName ?? null,
     carCredits: round?.carCredits ?? null,
     dailyDone,
+    dailyNum,
     guess: guessMutation.mutate,
     hint: round?.hint ?? '',
     imageUrl: round?.imagePath ? apiUrl(round.imagePath) : null,
@@ -169,6 +193,7 @@ export function useVroomGame(mode = 'classic') {
     score: sessionScore,
     skip: skipMutation.mutate,
     status,
+    theme: round?.theme ?? null,
     user,
   };
 }

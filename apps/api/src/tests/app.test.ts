@@ -110,12 +110,14 @@ describe('Autenticação', () => {
   });
 
   it('rejeita senha acima de 72 bytes (limite do bcrypt)', async () => {
-    const res = await request(app).post('/api/auth/register').send({
-      username: 'bytes72',
-      email: 'bytes72@vroom.test',
-      // 73 caracteres ASCII = 73 bytes > 72 — não pode passar.
-      password: 'a'.repeat(73),
-    });
+    const res = await request(app)
+      .post('/api/auth/register')
+      .send({
+        username: 'bytes72',
+        email: 'bytes72@vroom.test',
+        // 73 caracteres ASCII = 73 bytes > 72 — não pode passar.
+        password: 'a'.repeat(73),
+      });
     expect(res.status).toBe(400);
   });
 });
@@ -160,9 +162,7 @@ describe('Login com Google', () => {
   });
 
   it('rejeita credential inválido, email não verificado e payload incompleto', async () => {
-    const bad = await request(app)
-      .post('/api/auth/google')
-      .send({ credential: 'token-invalido' });
+    const bad = await request(app).post('/api/auth/google').send({ credential: 'token-invalido' });
     expect(bad.status).toBe(401);
     expect(bad.body.error).toBe('Não foi possível validar seu login do Google.');
 
@@ -176,9 +176,7 @@ describe('Login com Google', () => {
       .send({ credential: 'token-incomplete' });
     expect(incomplete.status).toBe(401);
 
-    const unset = await request(app)
-      .post('/api/auth/google')
-      .send({ credential: 'token-unset' });
+    const unset = await request(app).post('/api/auth/google').send({ credential: 'token-unset' });
     expect(unset.status).toBe(401);
     expect(unset.body.error).toBe('Seu email do Google não foi verificado.');
 
@@ -512,5 +510,130 @@ describe('Ranking', () => {
     const today = await request(app).get('/api/leaderboard?period=today&mode=daily');
     expect(today.status).toBe(200);
     expect(today.body.entries).toEqual([]);
+  });
+});
+
+describe('Fase 1: modos novos e desafio do dia registrado', () => {
+  it('modo silhouette joga como modo livre e mantém o anti-cheat', async () => {
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send(newUser());
+
+    const start = await agent.post('/api/rounds').send({ mode: 'silhouette' });
+    expect(start.status).toBe(201);
+    expect(start.body.round.carName).toBeUndefined();
+    expect(start.body.round.status).toBe('playing');
+
+    const car = await dbCarOf(start.body.round.id);
+    const correct = await agent
+      .post(`/api/rounds/${start.body.round.id}/guess`)
+      .send({ guess: car!.name });
+    expect(correct.body.result).toBe('correct');
+    expect(correct.body.points).toBe(50);
+  });
+
+  it('modo themed é diário: mesma série, uma rodada por dia, tema no payload', async () => {
+    const agent = request.agent(app);
+    const reg = await agent.post('/api/auth/register').send(newUser());
+
+    const start = await agent.post('/api/rounds').send({ mode: 'themed' });
+    expect(start.status).toBe(201);
+    expect(start.body.round.theme).toBeTruthy();
+    expect(start.body.round.dailyDate).toContain('#');
+
+    // Segundo início no mesmo dia retoma a MESMA rodada.
+    const again = await agent.post('/api/rounds').send({ mode: 'themed' });
+    expect(again.body.round.id).toBe(start.body.round.id);
+
+    const today = new Date().toISOString().slice(0, 10);
+    const rounds = await prisma.round.findMany({
+      where: { userId: reg.body.user.id, mode: 'themed' },
+    });
+    expect(rounds.length).toBe(1);
+    expect(rounds[0].dailyDate).toBe(`${today}#${start.body.round.theme}`);
+  });
+
+  it('usuários diferentes recebem o MESMO carro do daily (via DailyCar)', async () => {
+    const agentA = request.agent(app);
+    await agentA.post('/api/auth/register').send(newUser());
+    const agentB = request.agent(app);
+    await agentB.post('/api/auth/register').send(newUser());
+
+    const startA = await agentA.post('/api/rounds').send({ mode: 'daily' });
+    const startB = await agentB.post('/api/rounds').send({ mode: 'daily' });
+
+    const today = new Date().toISOString().slice(0, 10);
+    const registered = await prisma.dailyCar.findUnique({
+      where: { date_mode: { date: today, mode: 'daily' } },
+    });
+    expect(registered).not.toBeNull();
+
+    const carA = await dbCarOf(startA.body.round.id);
+    const carB = await dbCarOf(startB.body.round.id);
+    expect(registered!.carId).toBe(carA!.id);
+    expect(carB!.id).toBe(carA!.id);
+  });
+
+  it('themed também registra em DailyCar com o slot datado#tema', async () => {
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send(newUser());
+
+    const start = await agent.post('/api/rounds').send({ mode: 'themed' });
+    expect(start.status).toBe(201);
+
+    const today = new Date().toISOString().slice(0, 10);
+    const theme = start.body.round.theme;
+    const registered = await prisma.dailyCar.findUnique({
+      where: { date_mode: { date: `${today}#${theme}`, mode: 'themed' } },
+    });
+    expect(registered).not.toBeNull();
+
+    const car = await dbCarOf(start.body.round.id);
+    expect(registered!.carId).toBe(car!.id);
+  });
+
+  it('stats traz streak, vitórias e distribuição de chutes do daily', async () => {
+    const agent = request.agent(app);
+    const reg = await agent.post('/api/auth/register').send(newUser());
+
+    const start = await agent.post('/api/rounds').send({ mode: 'daily' });
+    const car = await dbCarOf(start.body.round.id);
+    await agent.post(`/api/rounds/${start.body.round.id}/guess`).send({ guess: 'erro' });
+    const correct = await agent
+      .post(`/api/rounds/${start.body.round.id}/guess`)
+      .send({ guess: car!.name });
+    expect(correct.body.result).toBe('correct');
+
+    const stats = await agent.get('/api/profile/stats');
+    const daily = stats.body.stats.daily;
+    expect(daily.played).toBe(1);
+    expect(daily.wins).toBe(1);
+    // Acertou no 2º chute → distribution[1] = 1.
+    expect(daily.distribution).toEqual([0, 1, 0, 0, 0, 0]);
+    expect(daily.streak.current).toBe(1);
+    expect(daily.streak.best).toBe(1);
+
+    // Rodada de daily "ontem" inserida direto no banco (simula quem jogou
+    // ontem): o streak atual cresce para 2 e o recorde acompanha.
+    const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
+    await prisma.round.create({
+      data: {
+        userId: reg.body.user.id,
+        carId: car!.id,
+        mode: 'daily',
+        status: 'correct',
+        attemptsUsed: 3,
+        points: 20,
+        dailyDate: yesterday,
+        endedAt: new Date(),
+      },
+    });
+
+    const statsAfter = await agent.get('/api/profile/stats');
+    const dailyAfter = statsAfter.body.stats.daily;
+    expect(dailyAfter.played).toBe(2);
+    expect(dailyAfter.streak.current).toBe(2);
+    expect(dailyAfter.streak.best).toBe(2);
+    // A rodada de ontem (3 erros + acerto) entra na distribuição no 4º chute.
+    expect(dailyAfter.distribution).toEqual([0, 1, 0, 1, 0, 0]);
   });
 });

@@ -52,7 +52,11 @@ Abra **<http://localhost:5173/Vroom/>** no navegador e boa sorte. Pra encerrar, 
 - **Classic** — foto colorida, nitidez progressiva.
 - **Hard** — preto e branco, **pontos em dobro**. Pra quem confia no olho.
 - **Daily** — o mesmo carro pra todo mundo, **uma rodada por dia**. Volte amanhã: é um carro novo.
+- **Silhouette** — só o vulto na penumbra: a luz sobe a cada erro, até revelar o carro.
+- **Série** — um tema por dia (JDM, muscle, supercar…): todo mundo tenta o mesmo carro da série.
 - **Pontos**: `10 × tentativas restantes` (o dobro no Hard).
+- Acabou a rodada? **Compartilhe o resultado** — um grid de emojis sem spoiler, com sua sequência 🔥.
+- Joga o Daily todo dia? O perfil mostra sua **sequência de dias**, a % de vitórias e quantos chutes você costuma precisar.
 - Dá pra jogar **sem conta**, mas só quem tem conta pontua no ranking global — criar é grátis e leva menos de um minuto.
 - **Sem trapaça**: o nome do carro fica guardado no servidor até o fim da rodada. Espiar o código da página não revela nada. 😉
 
@@ -119,12 +123,12 @@ As imagens **não dependem de nenhum host externo em runtime**: os bytes (JPEG/P
 | `GET /api/health`                                                   | Healthcheck                                                       |
 | `GET /api/cars/:id/image`                                           | Bytes da imagem do carro, direto do banco (BYTEA, cache imutável) |
 | `POST /api/auth/register` / `login` / `logout` · `GET /api/auth/me` | Autenticação (JWT em cookie httpOnly)                             |
-| `POST /api/rounds {mode}`                                           | Inicia/retoma rodada (sem expor o carro)                          |
+| `POST /api/rounds {mode}`                                           | Inicia/retoma rodada (mode: classic, hard, daily, silhouette, themed) |
 | `GET /api/rounds/active`                                            | Rodada em andamento do usuário                                    |
 | `POST /api/rounds/:id/guess {guess}`                                | Valida chute no servidor                                          |
 | `POST /api/rounds/:id/skip`                                         | Encerra revelando (0 pontos)                                      |
 | `GET /api/leaderboard?period=all\|today&mode=`                      | Ranking global agregado                                           |
-| `GET /api/profile/stats`                                            | Estatísticas do jogador logado                                    |
+| `GET /api/profile/stats`                                            | Estatísticas do jogador: pontos, streak e distribuição do Daily   |
 
 ### Scripts
 
@@ -152,7 +156,7 @@ A suíte de integração cobre auth, o fluxo completo de rodadas, o bloqueio do 
 ### Deploy
 
 - **Web**: build estático (`pnpm --filter @vroom/web build` → `apps/web/dist`). O workflow do GitHub Pages (`.github/workflows/deploy.yml`) já existe — crie o secret `VITE_API_URL` apontando pra sua API de produção (o workflow também copia `index.html` → `404.html` pro fallback de deep links do BrowserRouter). Pra domínio próprio com HTTPS, Caddy, AdSense e LGPD, veja [`docs/deploy.md`](docs/deploy.md).
-- **API**: qualquer host Node (Render, Railway, Fly.io, VPS…). Defina `DATABASE_URL` (Postgres — Supabase/Neon), `JWT_SECRET` (32+ caracteres em produção), `PORT` e `CORS_ORIGIN` (veja `apps/api/.env.example`). No primeiro deploy, rode `pnpm --filter @vroom/api db:deploy && pnpm --filter @vroom/api db:seed` — as imagens estão no repo, então a seed não precisa de internet.
+- **API**: qualquer host Node (Render, Railway, Fly.io, VPS…). Defina `DATABASE_URL` (Postgres — Supabase/Neon), `JWT_SECRET` (32+ caracteres em produção), `PORT` e `CORS_ORIGIN` (veja `apps/api/.env.example`). No Render (blueprint `render.yaml`) o build roda `prisma migrate deploy` automaticamente a cada deploy — migrations pendentes são aplicadas antes do boot. Em outros hosts, rode `pnpm --filter @vroom/api db:deploy` no primeiro deploy (e na seed, `pnpm --filter @vroom/api db:seed` — as imagens estão no repo, então não precisa de internet).
 
 </details>
 

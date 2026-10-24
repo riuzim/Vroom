@@ -1,9 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Car } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { MAX_ATTEMPTS } from '@vroom/shared';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default function CarStage({ car, blur, isHardMode, status, label = 'Classic', carName }) {
+export default function CarStage({
+  car,
+  blur,
+  isHardMode,
+  status,
+  label = 'Classic',
+  carName,
+  mode = 'classic',
+  mistakes = 0,
+}) {
   const { t } = useTranslation();
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasFailed, setHasFailed] = useState(false);
@@ -13,7 +23,14 @@ export default function CarStage({ car, blur, isHardMode, status, label = 'Class
     setHasFailed(false);
   }, [car.imageUrl]);
 
-  const filter = `blur(${blur}px)${isHardMode ? ' grayscale(100%) contrast(1.08)' : ''}`;
+  // Silhueta: a foto começa quase preta e a luz sobe a cada erro — no fim
+  // da rodada (qualquer status) a imagem revela por completo.
+  const isSilhouette = mode === 'silhouette';
+  const isRevealed = status === 'correct' || status === 'failed' || status === 'skipped';
+  const reveal = isRevealed ? 1 : Math.min(mistakes / (MAX_ATTEMPTS - 1), 1);
+  const filter = isSilhouette
+    ? `brightness(${(0.08 + 0.92 * reveal).toFixed(3)}) contrast(1.15)`
+    : `blur(${blur}px)${isHardMode ? ' grayscale(100%) contrast(1.08)' : ''}`;
 
   return (
     <section className="relative overflow-hidden rounded-none border-2 border-bone bg-panel p-3 shadow-hard">

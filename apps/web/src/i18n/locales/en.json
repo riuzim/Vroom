@@ -33,6 +33,16 @@
         "title": "Daily",
         "description": "Everyone sees the same car, one round per day.",
         "cta": "Play the Daily"
+      },
+      "silhouette": {
+        "title": "Silhouette",
+        "description": "Only the outline in the dark. Light rises with every miss.",
+        "cta": "Play Silhouette"
+      },
+      "themed": {
+        "title": "Series",
+        "description": "A theme a day — everyone guesses the same series car.",
+        "cta": "Play the Series"
       }
     },
     "steps": {
@@ -57,6 +67,10 @@
     "guessLabel": "Your guess",
     "guessButton": "Guess",
     "skip": "Skip car",
+    "share": "Share",
+    "shareCopied": "Copied! Challenge someone.",
+    "shareFailed": "Couldn't copy the result.",
+    "themedBadge": "Series: {{theme}}",
     "serverDownTitle": "Server offline",
     "serverDownBody": "Check your connection and try again.",
     "reconnect": "Try to reconnect",
@@ -172,7 +186,15 @@
     "statsError": "Couldn't load your stats. Check your connection.",
     "localTitle": "Your local stats",
     "localSubtitle": "Your finished streaks in this browser.",
-    "bestStreak": "Longest streak (correct guesses in a row)"
+    "bestStreak": "Longest streak (correct guesses in a row)",
+    "dailyTitle": "Daily",
+    "dailySubtitle": "Your daily ritual: streak, wins and guesses until you nail it.",
+    "streak": "Streak",
+    "streakBest": "Best",
+    "winRate": "Wins",
+    "distribution": "Guesses until correct",
+    "distributionFail": "Missed",
+    "dailyEmpty": "Play the Daily to start your streak."
   },
   "errorBoundary": {
     "title": "Unexpected error",
@@ -316,6 +338,16 @@
       "thSource": "Source",
       "viewOnCommons": "View on Commons"
     }
+  },
+  "themes": {
+    "jdm": "JDM",
+    "muscle": "Muscle cars",
+    "supercar": "Supercars",
+    "sport": "Sports cars",
+    "classic": "Classics",
+    "bra": "Brazil",
+    "ev": "Electric",
+    "lux": "Luxury"
   },
   "apiErrors": {
     "NETWORK_ERROR": "Can't reach the server. Check your connection and try again.",

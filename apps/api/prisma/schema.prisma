@@ -44,6 +44,7 @@ model Car {
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   rounds    Round[]
+  dailyCars DailyCar[]
 }
 
 /// Estado de uma rodada. O nome do carro nunca sai do servidor antes do fim
@@ -87,4 +88,19 @@ model Score {
   /// Guarda dupla contra race de acertos paralelos: no máximo UM score
   /// por rodada, mesmo sob requisições simultâneas.
   @@unique([roundId])
+}
+
+/// Carro oficial de cada desafio do dia (por modo). Escrito UMA vez por
+/// dia/modo no primeiro início de rodada — congela a escolha mesmo se o
+/// catálogo mudar no meio do dia e deixa o ARCHIVE pronto: dias passados
+/// podem ser rejogados consultando esta tabela, sem recomputar índices.
+/// Para o modo themed, `date` guarda "YYYY-MM-DD#tema".
+model DailyCar {
+  id     Int @id @default(autoincrement())
+  date   String
+  mode   String
+  carId  Int
+  car    Car @relation(fields: [carId], references: [id])
+
+  @@unique([date, mode])
 }

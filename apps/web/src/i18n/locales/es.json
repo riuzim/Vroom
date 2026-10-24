@@ -33,6 +33,16 @@
         "title": "Daily",
         "description": "Todo el mundo ve el mismo coche, una ronda al día.",
         "cta": "Jugar el Daily"
+      },
+      "silhouette": {
+        "title": "Silhouette",
+        "description": "Solo la silueta en la penumbra. La luz sube con cada error.",
+        "cta": "Jugar Silhouette"
+      },
+      "themed": {
+        "title": "Serie",
+        "description": "Un tema por día — todo el mundo ve el mismo coche de la serie.",
+        "cta": "Jugar la Serie"
       }
     },
     "steps": {
@@ -57,6 +67,10 @@
     "guessLabel": "Tu intento",
     "guessButton": "Arriesgar",
     "skip": "Saltar coche",
+    "share": "Compartir",
+    "shareCopied": "¡Copiado! Reta a alguien.",
+    "shareFailed": "No se pudo copiar el resultado.",
+    "themedBadge": "Serie: {{theme}}",
     "serverDownTitle": "Servidor sin conexión",
     "serverDownBody": "Comprueba tu conexión y vuelve a intentarlo.",
     "reconnect": "Intentar reconectar",
@@ -172,7 +186,15 @@
     "statsError": "No fue posible cargar tus estadísticas. Comprueba tu conexión.",
     "localTitle": "Tus estadísticas locales",
     "localSubtitle": "Tus rachas terminadas en este navegador.",
-    "bestStreak": "Mayor racha (aciertos seguidos)"
+    "bestStreak": "Mayor racha (aciertos seguidos)",
+    "dailyTitle": "Daily",
+    "dailySubtitle": "Tu ritual diario: racha, victorias e intentos hasta acertar.",
+    "streak": "Racha",
+    "streakBest": "Récord",
+    "winRate": "Victorias",
+    "distribution": "Intentos hasta acertar",
+    "distributionFail": "Sin acierto",
+    "dailyEmpty": "Juega el Daily para empezar tu racha."
   },
   "errorBoundary": {
     "title": "Error inesperado",
@@ -316,6 +338,16 @@
       "thSource": "Fuente",
       "viewOnCommons": "Ver en Commons"
     }
+  },
+  "themes": {
+    "jdm": "JDM",
+    "muscle": "Muscle cars",
+    "supercar": "Supercoches",
+    "sport": "Deportivos",
+    "classic": "Clásicos",
+    "bra": "Brasil",
+    "ev": "Eléctricos",
+    "lux": "Lujo"
   },
   "apiErrors": {
     "NETWORK_ERROR": "Sin conexión con el servidor. Comprueba tu internet y vuelve a intentarlo.",
