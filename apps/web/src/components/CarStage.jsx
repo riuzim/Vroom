@@ -3,6 +3,7 @@ import { Car } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { MAX_ATTEMPTS } from '@vroom/shared';
 import { Skeleton } from '@/components/ui/skeleton';
+import DitherReveal from '@/components/DitherReveal.jsx';
 
 export default function CarStage({
   car,
@@ -23,14 +24,19 @@ export default function CarStage({
     setHasFailed(false);
   }, [car.imageUrl]);
 
-  // Silhueta: a foto começa quase preta e a luz sobe a cada erro — no fim
-  // da rodada (qualquer status) a imagem revela por completo.
+  // Silhueta: a foto começa quase preta e a luz sobe a cada erro. Ao fim da
+  // rodada (qualquer status) a foto revela: o DitherReveal cobre a transição
+  // com o dither 1-bit → cor, e a <img> fica nítida por baixo.
   const isSilhouette = mode === 'silhouette';
   const isRevealed = status === 'correct' || status === 'failed' || status === 'skipped';
   const reveal = isRevealed ? 1 : Math.min(mistakes / (MAX_ATTEMPTS - 1), 1);
   const filter = isSilhouette
     ? `brightness(${(0.08 + 0.92 * reveal).toFixed(3)}) contrast(1.15)`
-    : `blur(${blur}px)${isHardMode ? ' grayscale(100%) contrast(1.08)' : ''}`;
+    : isRevealed
+      ? isHardMode
+        ? 'grayscale(100%) contrast(1.08)'
+        : 'none'
+      : `blur(${blur}px)${isHardMode ? ' grayscale(100%) contrast(1.08)' : ''}`;
 
   return (
     <section className="relative overflow-hidden rounded-lg border border-bone/10 bg-panel p-3 shadow-hard-sm">
@@ -53,6 +59,7 @@ export default function CarStage({
           }`}
           style={{ filter }}
         />
+        <DitherReveal src={car.imageUrl} active={isRevealed && isLoaded && !hasFailed} />
         <div className="absolute left-4 top-4 rounded-sm border border-bone/30 bg-ink/90 px-3 py-1 font-display text-xs font-semibold uppercase tracking-widest text-bone">
           {label}
         </div>

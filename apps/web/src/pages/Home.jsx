@@ -1,16 +1,5 @@
 import { Link } from 'react-router-dom';
-import {
-  CalendarDays,
-  Car,
-  Eye,
-  Ghost,
-  Lightbulb,
-  Play,
-  Sparkles,
-  Timer,
-  Trophy,
-  Zap,
-} from 'lucide-react';
+import { CalendarDays, Car, Eye, Ghost, Lightbulb, Sparkles, Timer, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { themeOfDay } from '@vroom/shared';
 import AdSlot from '@/components/AdSlot.jsx';
@@ -80,40 +69,26 @@ export default function Home() {
   ];
 
   return (
-    <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
+    <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
       <section className="mx-auto max-w-3xl text-center">
         <h1 className="font-display text-5xl font-semibold uppercase tracking-[0.18em] text-bone sm:text-6xl">
           Vroom
         </h1>
-        <p className="mx-auto mt-4 max-w-xl text-base text-bone/60 sm:text-lg">
+        <p className="mx-auto mt-3 max-w-xl text-base text-bone/60 sm:text-lg">
           {t('home.tagline')}
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Button size="lg" asChild>
-            <Link to="/game/classic">
-              <Play className="size-5" />
-              {t('home.playNow')}
-            </Link>
-          </Button>
-          <Button size="lg" variant="outline" asChild>
-            <Link to="/leaderboard">
-              <Trophy className="size-5" />
-              {t('nav.leaderboard')}
-            </Link>
-          </Button>
-        </div>
-        <DitherCar className="mx-auto mt-12 w-full max-w-lg text-bone" />
+        {/* O carro da casa: 1-bit vivo, motor em marcha lenta */}
+        <DitherCar className="mx-auto mt-8 w-full max-w-md text-bone" />
         <div
           aria-hidden="true"
-          className="halftone mx-auto mt-5 h-14 w-full max-w-lg rounded-md opacity-60"
+          className="halftone mx-auto mt-4 h-10 w-full max-w-md rounded-md opacity-60"
         />
       </section>
 
-      <AdSlot className="mx-auto mt-14 max-w-3xl" slot="home-hero" minHeight={280} />
-
-      <section className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {modes.map(({ icon: Icon, ...mode }) => (
-          <Card key={mode.mode}>
+      {/* Tudo que importa acima da dobra: os modos são o CTA */}
+      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {modes.map(({ icon: Icon, ...mode }, index) => (
+          <Card key={mode.mode} className="rise-in" style={{ '--i': index }}>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div
@@ -145,7 +120,9 @@ export default function Home() {
         ))}
       </section>
 
-      <section className="mt-14 grid gap-4 sm:grid-cols-3">
+      <AdSlot className="mx-auto mt-12 max-w-3xl" slot="home-hero" minHeight={280} />
+
+      <section className="mt-12 grid gap-4 sm:grid-cols-3">
         {steps.map(({ icon: Icon, ...step }, index) => (
           <div
             key={step.title}

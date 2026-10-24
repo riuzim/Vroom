@@ -14,7 +14,7 @@ export default function DitherCar({ className }) {
       role="img"
       aria-label={t('ditherCar.ariaLabel')}
       shapeRendering="crispEdges"
-      className={className}
+      className={`dither-car ${className ?? ''}`}
     >
       <defs>
         <pattern id="dither50" width="4" height="4" patternUnits="userSpaceOnUse">
@@ -50,8 +50,15 @@ export default function DitherCar({ className }) {
       {/* faixa lateral flame */}
       <rect x="3" y="10" width="42" height="1.5" className="text-flame" fill="currentColor" />
 
-      {/* lanterna flame */}
-      <rect x="45.5" y="8.5" width="1.5" height="1.5" className="text-flame" fill="currentColor" />
+      {/* lanterna flame — luz de freio piscando em marcha lenta */}
+      <rect
+        x="45.5"
+        y="8.5"
+        width="1.5"
+        height="1.5"
+        className="text-flame brake-light"
+        fill="currentColor"
+      />
 
       {/* rodas */}
       <g>
