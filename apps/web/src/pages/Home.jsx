@@ -82,7 +82,7 @@ export default function Home() {
   return (
     <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-10 sm:px-6 lg:px-8 lg:py-16">
       <section className="mx-auto max-w-3xl text-center">
-        <h1 className="font-display text-5xl uppercase tracking-[0.22em] text-bone sm:text-6xl">
+        <h1 className="font-display text-5xl font-semibold uppercase tracking-[0.18em] text-bone sm:text-6xl">
           Vroom
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base text-bone/60 sm:text-lg">
@@ -103,6 +103,10 @@ export default function Home() {
           </Button>
         </div>
         <DitherCar className="mx-auto mt-12 w-full max-w-lg text-bone" />
+        <div
+          aria-hidden="true"
+          className="halftone mx-auto mt-5 h-14 w-full max-w-lg rounded-md opacity-60"
+        />
       </section>
 
       <AdSlot className="mx-auto mt-14 max-w-3xl" slot="home-hero" minHeight={280} />
@@ -114,7 +118,7 @@ export default function Home() {
               <div className="flex items-center justify-between">
                 <div
                   className={cn(
-                    'rounded-none border-2 border-bone p-2.5',
+                    'rounded-md border border-bone/15 p-2.5',
                     mode.mode === 'hard' ? 'bg-bone text-ink' : 'bg-raised text-flame',
                   )}
                 >
@@ -145,14 +149,16 @@ export default function Home() {
         {steps.map(({ icon: Icon, ...step }, index) => (
           <div
             key={step.title}
-            className="rounded-none border-2 border-line bg-panel p-5 text-sm text-bone/55"
+            className="rounded-md border border-bone/10 bg-panel p-5 text-sm text-bone/55"
           >
             <div className="flex items-center gap-3">
-              <span className="font-mono text-2xl font-black leading-none text-flame">
+              <span className="font-mono text-2xl font-bold leading-none text-flame">
                 0{index + 1}
               </span>
               <Icon className="size-5 shrink-0 text-flame" />
-              <p className="font-black uppercase tracking-wide text-bone">{step.title}</p>
+              <p className="font-display font-semibold uppercase tracking-wide text-bone">
+                {step.title}
+              </p>
             </div>
             <p className="mt-2">{step.description}</p>
           </div>

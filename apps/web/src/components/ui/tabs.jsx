@@ -8,7 +8,7 @@ const TabsList = React.forwardRef(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      'inline-flex h-11 items-center justify-center rounded-none border-2 border-bone bg-panel p-1 text-bone/60',
+      'inline-flex h-11 items-center justify-center rounded-lg border border-bone/10 bg-panel p-1 text-bone/60',
       className,
     )}
     {...props}
@@ -20,7 +20,7 @@ const TabsTrigger = React.forwardRef(({ className, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-none border-2 border-transparent px-4 py-1.5 text-sm font-bold uppercase tracking-wide transition data-[state=inactive]:hover:bg-bone/10 data-[state=inactive]:hover:text-bone motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-bone data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-hard-sm [&_svg]:size-4',
+      'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md border border-transparent px-4 py-1.5 font-display text-sm font-semibold uppercase tracking-wide transition data-[state=inactive]:hover:bg-bone/10 data-[state=inactive]:hover:text-bone motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-transparent data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-hard-sm [&_svg]:size-4',
       className,
     )}
     {...props}

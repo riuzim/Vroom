@@ -22,7 +22,7 @@ const SheetOverlay = React.forwardRef(({ className, ...props }, ref) => (
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
-  'fixed z-50 gap-4 border-2 border-bone bg-panel p-6 shadow-hard transition ease-in-out motion-reduce:animate-none motion-reduce:transition-none data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out',
+  'fixed z-50 gap-4 rounded-lg border-bone/10 bg-panel p-6 shadow-hard-lg transition ease-in-out motion-reduce:animate-none motion-reduce:transition-none data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out',
   {
     variants: {
       side: {
@@ -43,7 +43,7 @@ const SheetContent = React.forwardRef(({ side = 'right', className, children, ..
     <SheetOverlay />
     <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
       {children}
-      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-none border-2 border-transparent p-1.5 text-bone/60 transition hover:border-bone hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none disabled:pointer-events-none">
+      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-md border border-transparent p-1.5 text-bone/60 transition hover:bg-raised hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring motion-reduce:transition-none disabled:pointer-events-none">
         <X className="size-4" />
         <span className="sr-only">Fechar</span>
       </SheetPrimitive.Close>
@@ -60,7 +60,10 @@ SheetHeader.displayName = 'SheetHeader';
 const SheetTitle = React.forwardRef(({ className, ...props }, ref) => (
   <SheetPrimitive.Title
     ref={ref}
-    className={cn('font-display text-xl uppercase tracking-[0.22em] text-bone', className)}
+    className={cn(
+      'font-display text-xl font-semibold uppercase tracking-wide text-bone',
+      className,
+    )}
     {...props}
   />
 ));

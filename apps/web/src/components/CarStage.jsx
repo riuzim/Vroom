@@ -33,13 +33,13 @@ export default function CarStage({
     : `blur(${blur}px)${isHardMode ? ' grayscale(100%) contrast(1.08)' : ''}`;
 
   return (
-    <section className="relative overflow-hidden rounded-none border-2 border-bone bg-panel p-3 shadow-hard">
-      <div className="relative aspect-[16/10] overflow-hidden rounded-none bg-ink">
+    <section className="relative overflow-hidden rounded-lg border border-bone/10 bg-panel p-3 shadow-hard-sm">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-ink">
         {!isLoaded && !hasFailed && <Skeleton className="absolute inset-0 z-10 h-full w-full" />}
         {hasFailed && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-bone/70">
             <Car className="size-14" />
-            <p className="text-sm font-bold">{t('game.imageError')}</p>
+            <p className="text-sm font-semibold">{t('game.imageError')}</p>
           </div>
         )}
         <img
@@ -53,16 +53,16 @@ export default function CarStage({
           }`}
           style={{ filter }}
         />
-        <div className="absolute left-4 top-4 rounded-none border-2 border-bone bg-ink px-3 py-1 text-xs font-black uppercase tracking-wide text-bone">
+        <div className="absolute left-4 top-4 rounded-sm border border-bone/30 bg-ink/90 px-3 py-1 font-display text-xs font-semibold uppercase tracking-widest text-bone">
           {label}
         </div>
         {(status === 'correct' || status === 'failed' || status === 'skipped') && (
           <div
-            className={`absolute inset-x-4 bottom-4 rounded-none border-2 border-bone px-4 py-3 text-center text-sm font-black uppercase tracking-wide ${
+            className={`absolute inset-x-4 bottom-4 rounded-md px-4 py-3 text-center text-sm font-bold ${
               status === 'correct'
                 ? 'bg-acid text-ink'
                 : status === 'failed'
-                  ? 'bg-danger text-ink'
+                  ? 'bg-danger text-bone'
                   : 'bg-flame text-ink'
             }`}
           >

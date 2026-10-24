@@ -38,10 +38,10 @@ export default function Leaderboard() {
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10 sm:px-6">
       <div className="mb-8 flex flex-col items-center gap-3 text-center">
-        <div className="rounded-none border-2 border-bone bg-raised p-3 text-flame">
+        <div className="rounded-md border border-bone/15 bg-raised p-3 text-flame">
           <Trophy className="size-7" />
         </div>
-        <h1 className="font-display text-3xl uppercase tracking-[0.22em]">
+        <h1 className="font-display text-3xl font-semibold uppercase tracking-[0.18em]">
           {t('leaderboard.title')}
         </h1>
         <Badge variant="outline">{t('leaderboard.badge')}</Badge>
@@ -63,10 +63,10 @@ export default function Leaderboard() {
                     aria-pressed={mode === filter.value}
                     onClick={() => setMode(filter.value)}
                     className={cn(
-                      'rounded-none border-2 px-3 py-1.5 text-xs font-black uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none',
+                      'rounded-md border px-3 py-1.5 font-display text-xs font-semibold uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none',
                       mode === filter.value
-                        ? 'border-bone bg-flame text-ink'
-                        : 'border-bone/30 text-bone/60 hover:border-bone hover:text-bone',
+                        ? 'border-transparent bg-flame text-ink shadow-hard-sm'
+                        : 'border-bone/20 text-bone/60 hover:border-flame hover:text-flame',
                     )}
                   >
                     {filter.label}
@@ -88,7 +88,7 @@ export default function Leaderboard() {
                   <button
                     type="button"
                     onClick={() => refetch()}
-                    className="rounded-none border-2 border-bone px-4 py-1.5 text-xs font-black uppercase tracking-wide transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+                    className="rounded-md border border-bone/25 px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
                   >
                     {t('common.retry')}
                   </button>
@@ -101,23 +101,25 @@ export default function Leaderboard() {
                     <li
                       key={`${entry.position}-${entry.username}`}
                       className={cn(
-                        'flex items-center justify-between rounded-none border-2 px-4 py-3',
+                        'flex items-center justify-between rounded-md border px-4 py-3',
                         entry.position <= 3
-                          ? 'border-flame bg-raised text-bone'
-                          : 'border-line bg-raised text-bone/80',
+                          ? 'border-flame/60 bg-raised text-bone'
+                          : 'border-bone/10 bg-raised text-bone/80',
                       )}
                     >
-                      <span className="flex min-w-0 items-center gap-3 font-black">
+                      <span className="flex min-w-0 items-center gap-3 font-bold">
                         {entry.position <= 3 ? (
                           <span className="font-mono text-xs text-flame">0{entry.position}</span>
                         ) : null}
                         <span className="truncate">{entry.username}</span>
                       </span>
                       <span className="flex items-center gap-4">
-                        <span className="text-xs font-bold">
+                        <span className="text-xs font-semibold">
                           {t('leaderboard.rounds', { count: entry.rounds })}
                         </span>
-                        <span className="font-mono text-lg font-black">{entry.points}</span>
+                        <span className="font-mono text-lg font-bold tabular-nums">
+                          {entry.points}
+                        </span>
                       </span>
                     </li>
                   ))}

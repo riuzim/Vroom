@@ -37,7 +37,7 @@ export default function SettingsModal({ isOpen, onClose, onResetScores }) {
         </DialogHeader>
 
         <div className="space-y-3">
-          <p className="flex items-center gap-2 pt-1 text-xs font-black uppercase tracking-wide text-bone/55">
+          <p className="flex items-center gap-2 pt-1 font-display text-xs font-semibold uppercase tracking-widest text-bone/55">
             <Languages className="size-4" />
             {t('settings.language')}
           </p>
@@ -46,10 +46,7 @@ export default function SettingsModal({ isOpen, onClose, onResetScores }) {
               <Button
                 key={language.code}
                 variant={i18n.resolvedLanguage === language.code ? 'default' : 'secondary'}
-                className={cn(
-                  'w-full',
-                  i18n.resolvedLanguage === language.code && 'border-2 border-flame',
-                )}
+                className={cn('w-full', i18n.resolvedLanguage === language.code && 'border-flame')}
                 onClick={() => changeLanguage(language.code)}
               >
                 {language.label}

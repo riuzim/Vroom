@@ -34,7 +34,7 @@ export default function Cookies() {
 
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10 sm:px-6">
-      <h1 className="font-display text-3xl uppercase tracking-[0.22em]">
+      <h1 className="font-display text-3xl font-semibold uppercase tracking-[0.18em]">
         {t('legal.cookiesPage.title')}
       </h1>
       <p className="mt-2 text-xs font-bold uppercase tracking-wide text-bone/50">
@@ -46,16 +46,16 @@ export default function Cookies() {
       <h2 className="mt-8 font-display text-xl uppercase tracking-wide">
         {t('legal.cookiesPage.categoriesTitle')}
       </h2>
-      <div className="mt-2 border-2 border-line">
+      <div className="mt-2 overflow-hidden rounded-md border border-bone/10">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b-2 border-line bg-raised font-mono text-xs uppercase tracking-wide text-bone/60">
+            <tr className="border-b border-bone/10 bg-raised font-mono text-xs uppercase tracking-wide text-bone/60">
               <th className="p-3">{t('legal.cookiesPage.thCategory')}</th>
               <th className="p-3">{t('legal.cookiesPage.thPurpose')}</th>
               <th className="p-3">{t('legal.cookiesPage.thConsent')}</th>
             </tr>
           </thead>
-          <tbody className="divide-y-2 divide-line text-bone/80">
+          <tbody className="divide-y divide-bone/10 text-bone/80">
             <tr>
               <td className="p-3 font-bold">{t('legal.cookiesPage.essential')}</td>
               <td className="p-3">
@@ -135,7 +135,7 @@ export default function Cookies() {
       <button
         type="button"
         onClick={reopenBanner}
-        className={`mt-4 rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:shadow-none motion-reduce:transition-none ${focusRing}`}
+        className={`mt-4 rounded-md bg-flame px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:translate-y-[2px] active:shadow-none motion-reduce:transition-none ${focusRing}`}
       >
         {t('legal.cookiesPage.reviewButton')}
       </button>

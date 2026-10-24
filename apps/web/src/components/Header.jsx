@@ -37,7 +37,7 @@ function NavLinks({ onNavigate }) {
             to={item.to}
             onClick={onNavigate}
             className={cn(
-              'rounded-none px-4 py-2 text-sm font-black uppercase transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none',
+              'rounded-md px-4 py-2 font-display text-sm font-semibold uppercase tracking-wide transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none',
               isActive ? 'bg-flame text-ink' : 'text-bone/70 hover:bg-bone/10 hover:text-bone',
             )}
           >
@@ -64,11 +64,11 @@ export default function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b-2 border-bone bg-ink">
+    <header className="sticky top-0 z-40 border-b border-bone/10 bg-ink">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link
           to="/"
-          className="font-display text-2xl uppercase tracking-[0.22em] text-bone transition-[color,letter-spacing] duration-200 hover:text-flame hover:tracking-[0.3em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+          className="font-display text-2xl font-semibold uppercase tracking-[0.18em] text-bone transition-[color,letter-spacing] duration-200 hover:text-flame hover:tracking-[0.26em] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
         >
           Vroom
         </Link>
@@ -82,7 +82,7 @@ export default function Header() {
             href="https://github.com/riuzim/Vroom"
             target="_blank"
             rel="noreferrer"
-            className="hidden rounded-none border-2 border-bone px-4 py-2 text-sm font-bold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none lg:inline-flex"
+            className="hidden rounded-md border border-bone/25 px-4 py-2 text-sm font-semibold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none lg:inline-flex"
           >
             GitHub
           </a>
@@ -137,7 +137,7 @@ export default function Header() {
                 </SheetHeader>
                 <div className="mt-4 flex flex-col gap-4">
                   <NavLinks />
-                  <div className="flex flex-col gap-2 border-t-2 border-bone pt-4">
+                  <div className="flex flex-col gap-2 border-t border-bone/10 pt-4">
                     {user ? (
                       <>
                         <Button variant="secondary" asChild>
@@ -171,7 +171,7 @@ export default function Header() {
                       href="https://github.com/riuzim/Vroom"
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-none border-2 border-bone px-4 py-2.5 text-center text-sm font-bold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
+                      className="rounded-md border border-bone/25 px-4 py-2.5 text-center text-sm font-semibold text-bone transition hover:border-flame hover:text-flame focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-reduce:transition-none"
                     >
                       GitHub
                     </a>

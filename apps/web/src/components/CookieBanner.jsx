@@ -48,7 +48,7 @@ export default function CookieBanner() {
     <div
       role="dialog"
       aria-label={t('cookieBanner.ariaLabel')}
-      className="fixed inset-x-0 bottom-0 z-50 border-t-2 border-flame bg-ink text-bone shadow-[0_-8px_0_0_rgba(0,0,0,0.6)]"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-flame/60 bg-ink text-bone shadow-[0_-4px_0_0_rgba(0,0,0,0.45)]"
     >
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <p className="text-sm leading-relaxed text-bone/80">
@@ -62,7 +62,7 @@ export default function CookieBanner() {
         </p>
 
         {customizing ? (
-          <div className="mt-3 border-2 border-line bg-raised p-3">
+          <div className="mt-3 rounded-md border border-bone/10 bg-raised p-3">
             <label className="flex cursor-pointer items-center gap-3 py-1.5 text-sm">
               <input
                 type="checkbox"
@@ -71,7 +71,7 @@ export default function CookieBanner() {
                 className="size-4 accent-flame"
               />
               <span>
-                <strong className="font-black uppercase tracking-wide">
+                <strong className="font-display font-semibold uppercase tracking-wide">
                   {t('cookieBanner.advertising')}
                 </strong>
                 <span className="block text-xs text-bone/55">
@@ -87,16 +87,18 @@ export default function CookieBanner() {
                 className="size-4 accent-flame"
               />
               <span>
-                <strong className="font-black uppercase tracking-wide">
+                <strong className="font-display font-semibold uppercase tracking-wide">
                   {t('cookieBanner.analytics')}
                 </strong>
-                <span className="block text-xs text-bone/55">{t('cookieBanner.analyticsDesc')}</span>
+                <span className="block text-xs text-bone/55">
+                  {t('cookieBanner.analyticsDesc')}
+                </span>
               </span>
             </label>
             <button
               type="button"
               onClick={saveChoices}
-              className={`mt-3 rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:shadow-none motion-reduce:transition-none ${focusRing}`}
+              className={`mt-3 rounded-md bg-flame px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:translate-y-[2px] active:shadow-none motion-reduce:transition-none ${focusRing}`}
             >
               {t('cookieBanner.saveChoices')}
             </button>
@@ -106,21 +108,21 @@ export default function CookieBanner() {
             <button
               type="button"
               onClick={acceptAll}
-              className={`rounded-none border-2 border-flame bg-flame px-4 py-1.5 text-xs font-black uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:shadow-none motion-reduce:transition-none ${focusRing}`}
+              className={`rounded-md bg-flame px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-ink transition hover:shadow-hard-sm active:translate-y-[2px] active:shadow-none motion-reduce:transition-none ${focusRing}`}
             >
               {t('cookieBanner.acceptAll')}
             </button>
             <button
               type="button"
               onClick={rejectAll}
-              className={`rounded-none border-2 border-bone px-4 py-1.5 text-xs font-black uppercase tracking-wide text-bone transition hover:border-flame hover:text-flame motion-reduce:transition-none ${focusRing}`}
+              className={`rounded-md border border-bone/25 px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-bone transition hover:border-flame hover:text-flame motion-reduce:transition-none ${focusRing}`}
             >
               {t('cookieBanner.rejectAll')}
             </button>
             <button
               type="button"
               onClick={() => setCustomizing(true)}
-              className={`rounded-none border-2 border-bone px-4 py-1.5 text-xs font-black uppercase tracking-wide text-bone transition hover:border-flame hover:text-flame motion-reduce:transition-none ${focusRing}`}
+              className={`rounded-md border border-bone/25 px-4 py-1.5 font-display text-xs font-semibold uppercase tracking-wide text-bone transition hover:border-flame hover:text-flame motion-reduce:transition-none ${focusRing}`}
             >
               {t('cookieBanner.customize')}
             </button>

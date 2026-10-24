@@ -5,37 +5,44 @@ export default function GameInfo({ attemptsLeft, hint, message, score, status })
   const { t } = useTranslation();
   const statusClass =
     status === 'wrong'
-      ? 'border-2 border-danger bg-panel text-danger'
+      ? 'border-danger/60 bg-panel text-danger'
       : status === 'correct'
-        ? 'border-2 border-acid bg-panel text-acid'
+        ? 'border-acid/60 bg-panel text-acid'
         : status === 'failed'
-          ? 'border-2 border-danger bg-panel text-danger'
+          ? 'border-danger/60 bg-panel text-danger'
           : status === 'skipped'
-            ? 'border-2 border-flame bg-panel text-flame'
-            : 'border-2 border-line bg-panel text-bone/60';
+            ? 'border-flame/60 bg-panel text-flame'
+            : 'border-bone/10 bg-panel text-bone/60';
 
   return (
     <div className="grid gap-3 sm:grid-cols-[auto,1fr]">
-      <div className="rounded-none border-2 border-bone bg-flame px-5 py-4 text-center text-ink shadow-hard">
-        <p className="text-xs font-black uppercase tracking-wide">{t('game.streak')}</p>
-        <p className="font-mono text-3xl font-black">{score}</p>
+      <div className="rounded-md bg-flame px-5 py-4 text-center text-ink shadow-hard">
+        <p className="font-display text-xs font-semibold uppercase tracking-widest">
+          {t('game.streak')}
+        </p>
+        <p className="font-mono text-3xl font-bold tabular-nums">{score}</p>
       </div>
-      <div className={`rounded-none px-5 py-4 ${statusClass}`}>
+      <div className={`rounded-md border px-5 py-4 ${statusClass}`}>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <p className="text-sm font-bold">{t('game.attempts', { count: attemptsLeft })}</p>
-            <div className="flex gap-1" aria-hidden="true">
+            <p className="text-sm font-semibold">{t('game.attempts', { count: attemptsLeft })}</p>
+            {/* Cluster de luzes: cada chute é uma lâmpada que queima */}
+            <div className="flex gap-1.5" aria-hidden="true">
               {Array.from({ length: MAX_ATTEMPTS }, (_, index) => (
                 <span
                   key={index}
-                  className={`size-2.5 rounded-none ${index < attemptsLeft ? 'bg-current' : 'bg-line'}`}
+                  className={`size-2.5 rounded-full transition-colors ${
+                    index < attemptsLeft ? 'bg-current' : 'bg-bone/15'
+                  }`}
                 />
               ))}
             </div>
           </div>
-          <p className="font-mono text-sm tracking-[0.18em] text-bone">{hint}</p>
+          <p className="font-mono text-sm font-semibold tabular-nums tracking-[0.18em] text-bone">
+            {hint}
+          </p>
         </div>
-        <p className="mt-2 min-h-5 text-sm font-semibold">{message}</p>
+        <p className="mt-2 min-h-5 text-sm font-medium">{message}</p>
       </div>
     </div>
   );

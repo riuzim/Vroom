@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Ginto Nord', 'Inter', 'ui-sans-serif', 'system-ui'],
-        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+        display: ['Barlow Condensed', 'Barlow', 'ui-sans-serif', 'system-ui'],
+        sans: ['Barlow', 'Inter', 'ui-sans-serif', 'system-ui'],
         mono: ['Roboto Mono', 'ui-monospace', 'SFMono-Regular'],
       },
       colors: {
@@ -56,18 +56,21 @@ export default {
         danger: 'hsl(var(--danger))',
       },
       borderRadius: {
-        sm: '0px',
-        DEFAULT: '0px',
-        md: '0px',
-        lg: '0px',
-        xl: '0px',
-        '2xl': '0px',
+        sm: '3px',
+        DEFAULT: '8px',
+        md: '10px',
+        lg: '12px',
+        xl: '16px',
+        '2xl': '20px',
       },
       boxShadow: {
-        hard: '4px 4px 0 0 hsl(var(--bone))',
-        'hard-sm': '2px 2px 0 0 hsl(var(--bone))',
-        'hard-lg': '6px 6px 0 0 hsl(var(--bone))',
-        'hard-flame': '4px 4px 0 0 hsl(var(--flame))',
+        /* Sombras stamped: sólida, colapsa no press (0 blur — nada de glow) */
+        hard: '0 3px 0 0 rgba(0, 0, 0, 0.40)',
+        'hard-sm': '0 2px 0 0 rgba(0, 0, 0, 0.35)',
+        'hard-lg': '0 5px 0 0 rgba(0, 0, 0, 0.45)',
+        'hard-flame': '0 3px 0 0 rgba(255, 109, 0, 0.55)',
+        inset: 'inset 0 1px 0 0 rgba(255, 255, 255, 0.04)',
+        'inset-line': 'inset 0 0 0 1px hsl(var(--bone) / 0.08)',
       },
       keyframes: {
         'accordion-down': {

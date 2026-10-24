@@ -45,7 +45,9 @@ export default function Profile() {
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10 sm:px-6">
       <div className="mb-8 text-center">
-        <h1 className="font-display text-3xl uppercase tracking-[0.22em]">{t('profile.title')}</h1>
+        <h1 className="font-display text-3xl font-semibold uppercase tracking-[0.18em]">
+          {t('profile.title')}
+        </h1>
       </div>
 
       {isLoading ? (
@@ -151,23 +153,29 @@ export default function Profile() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-3 gap-4">
-              <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+              <div className="rounded-md border border-bone/10 bg-raised p-4 text-center">
+                <p className="text-xs font-semibold uppercase tracking-wide text-bone/55">
                   {t('profile.points')}
                 </p>
-                <p className="mt-1 font-mono text-2xl font-black text-flame">{stats.totalPoints}</p>
+                <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-flame">
+                  {stats.totalPoints}
+                </p>
               </div>
-              <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+              <div className="rounded-md border border-bone/10 bg-raised p-4 text-center">
+                <p className="text-xs font-semibold uppercase tracking-wide text-bone/55">
                   {t('profile.rounds')}
                 </p>
-                <p className="mt-1 font-mono text-2xl font-black">{stats.roundsPlayed}</p>
+                <p className="mt-1 font-mono text-2xl font-bold tabular-nums">
+                  {stats.roundsPlayed}
+                </p>
               </div>
-              <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+              <div className="rounded-md border border-bone/10 bg-raised p-4 text-center">
+                <p className="text-xs font-semibold uppercase tracking-wide text-bone/55">
                   {t('profile.bestRound')}
                 </p>
-                <p className="mt-1 font-mono text-2xl font-black text-acid">{stats.bestRound}</p>
+                <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-acid">
+                  {stats.bestRound}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -180,17 +188,19 @@ export default function Profile() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+              <div className="rounded-md border border-bone/10 bg-raised p-4 text-center">
+                <p className="text-xs font-semibold uppercase tracking-wide text-bone/55">
                   {t('profile.rounds')}
                 </p>
-                <p className="mt-1 font-mono text-3xl font-black">{roundsPlayed}</p>
+                <p className="mt-1 font-mono text-3xl font-bold tabular-nums">{roundsPlayed}</p>
               </div>
-              <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+              <div className="rounded-md border border-bone/10 bg-raised p-4 text-center">
+                <p className="text-xs font-semibold uppercase tracking-wide text-bone/55">
                   {t('profile.bestStreak')}
                 </p>
-                <p className="mt-1 font-mono text-3xl font-black text-flame">{bestStreak}</p>
+                <p className="mt-1 font-mono text-3xl font-bold tabular-nums text-flame">
+                  {bestStreak}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -209,31 +219,33 @@ export default function Profile() {
             ) : (
               <>
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                    <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+                  <div className="rounded-md border border-bone/10 bg-raised p-4 text-center">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-bone/55">
                       {t('profile.streak')}
                     </p>
-                    <p className="mt-1 font-mono text-2xl font-black text-flame">
+                    <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-flame">
                       {stats.daily.streak.current > 0 ? `🔥${stats.daily.streak.current}` : '—'}
                     </p>
                   </div>
-                  <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                    <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+                  <div className="rounded-md border border-bone/10 bg-raised p-4 text-center">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-bone/55">
                       {t('profile.streakBest')}
                     </p>
-                    <p className="mt-1 font-mono text-2xl font-black">{stats.daily.streak.best}</p>
+                    <p className="mt-1 font-mono text-2xl font-bold tabular-nums">
+                      {stats.daily.streak.best}
+                    </p>
                   </div>
-                  <div className="rounded-none border-2 border-line bg-raised p-4 text-center">
-                    <p className="text-xs font-black uppercase tracking-wide text-bone/55">
+                  <div className="rounded-md border border-bone/10 bg-raised p-4 text-center">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-bone/55">
                       {t('profile.winRate')}
                     </p>
-                    <p className="mt-1 font-mono text-2xl font-black text-acid">
+                    <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-acid">
                       {`${Math.round((stats.daily.wins / stats.daily.played) * 100)}%`}
                     </p>
                   </div>
                 </div>
                 <div>
-                  <p className="mb-2 text-xs font-black uppercase tracking-wide text-bone/55">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-bone/55">
                     {t('profile.distribution')}
                   </p>
                   <div className="grid gap-1.5">
@@ -245,10 +257,10 @@ export default function Profile() {
                           <span className="w-4 text-center font-mono text-xs font-bold text-bone/70">
                             {label}
                           </span>
-                          <div className="h-4 flex-1 bg-raised">
+                          <div className="h-4 flex-1 rounded-sm bg-raised">
                             <div
                               className={cn(
-                                'h-full transition-all',
+                                'h-full rounded-sm transition-all',
                                 index === 5 ? 'bg-danger' : 'bg-acid',
                               )}
                               style={{ width: `${(count / maxCount) * 100}%` }}

@@ -101,7 +101,7 @@ export default function GuessInput({ disabled, onSubmit, hideSuggestions = false
       {isFocused && suggestions.length > 0 && (
         <ul
           id="guess-suggestions"
-          className="absolute z-30 mt-2 max-h-56 w-full overflow-auto rounded-none border-2 border-bone bg-popover shadow-hard"
+          className="absolute z-30 mt-2 max-h-56 w-full overflow-auto rounded-md border border-bone/10 bg-popover p-1 shadow-hard-lg"
         >
           {suggestions.map((name, index) => (
             <li key={name}>
@@ -112,8 +112,8 @@ export default function GuessInput({ disabled, onSubmit, hideSuggestions = false
                 onClick={() => pickSuggestion(name)}
                 className={
                   index === highlightedIndex
-                    ? 'w-full px-4 py-3 text-left text-sm font-bold bg-bone/10 text-flame transition focus-visible:outline-none focus-visible:bg-bone/10 focus-visible:text-flame motion-reduce:transition-none'
-                    : 'w-full px-4 py-3 text-left text-sm font-bold text-bone/85 transition hover:bg-bone/10 hover:text-flame focus-visible:outline-none focus-visible:bg-bone/10 focus-visible:text-flame motion-reduce:transition-none'
+                    ? 'w-full rounded-sm px-4 py-2.5 text-left text-sm font-semibold bg-bone/10 text-flame transition focus-visible:outline-none focus-visible:bg-bone/10 focus-visible:text-flame motion-reduce:transition-none'
+                    : 'w-full rounded-sm px-4 py-2.5 text-left text-sm font-medium text-bone/85 transition hover:bg-bone/10 hover:text-flame focus-visible:outline-none focus-visible:bg-bone/10 focus-visible:text-flame motion-reduce:transition-none'
                 }
               >
                 {name}

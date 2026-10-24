@@ -60,7 +60,7 @@ export default function Game() {
     return (
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center gap-4 px-4 text-center">
         <ServerCrash className="size-12 text-flame" />
-        <h1 className="font-display text-2xl uppercase tracking-[0.22em]">
+        <h1 className="font-display text-2xl font-semibold uppercase tracking-[0.18em]">
           {t('game.serverDownTitle')}
         </h1>
         <p className="text-sm text-bone/60">{t('game.serverDownBody')}</p>
@@ -76,7 +76,7 @@ export default function Game() {
       <div className="order-2 grid gap-6 lg:order-1 lg:content-center">
         <ScorePanel title={t('game.bestTitle')} scores={game.bestScores} variant="best" />
         {!game.user && (
-          <Card className="border-flame">
+          <Card className="border-flame/60">
             <CardContent className="gap-2 p-5 text-xs text-bone/60">
               <p className="font-bold text-bone/85">{t('game.guestTitle')}</p>
               <p className="mt-1">{t('game.guestBody')}</p>
@@ -116,7 +116,7 @@ export default function Game() {
               ) : (
                 <CalendarX className="size-10 text-danger" />
               )}
-              <p className="font-display text-lg uppercase tracking-[0.18em]">
+              <p className="font-display text-lg font-semibold uppercase tracking-wide">
                 {t('game.dailyDoneTitle')}
               </p>
               <p className="text-sm text-bone/60">

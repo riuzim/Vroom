@@ -40,7 +40,7 @@ export default function App() {
 
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <div className="flex min-h-screen flex-col bg-ink text-bone">
+      <div className="grain relative flex min-h-screen flex-col bg-ink text-bone">
         <Header />
         <ErrorBoundary>
           <Suspense fallback={<PageFallback />}>
@@ -59,10 +59,12 @@ export default function App() {
             </Routes>
           </Suspense>
         </ErrorBoundary>
-        <footer className="border-t-2 border-bone">
-          <div aria-hidden="true" className="checker h-3" />
-          <div className="px-4 py-6 text-center text-xs font-bold text-bone/60">
-            <p className="font-mono uppercase tracking-wide">{t('footer.tagline')}</p>
+        <footer className="border-t border-bone/10">
+          <div aria-hidden="true" className="checker h-1.5" />
+          <div className="px-4 py-6 text-center text-xs font-medium text-bone/60">
+            <p className="font-display font-semibold uppercase tracking-[0.18em]">
+              {t('footer.tagline')}
+            </p>
             <p className="mt-2 flex flex-wrap items-center justify-center gap-3">
               <a href="mailto:vroomfeedback@gmail.com" className={footerLinkClasses}>
                 {t('footer.feedback')}

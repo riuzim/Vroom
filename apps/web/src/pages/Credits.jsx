@@ -23,7 +23,7 @@ export default function Credits() {
 
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10 sm:px-6">
-      <h1 className="font-display text-3xl uppercase tracking-[0.22em]">
+      <h1 className="font-display text-3xl font-semibold uppercase tracking-[0.18em]">
         {t('legal.creditsPage.title')}
       </h1>
       <p className="mt-2 text-xs font-bold uppercase tracking-wide text-bone/50">
@@ -43,17 +43,17 @@ export default function Credits() {
         {t('legal.creditsPage.p1b')}
       </p>
 
-      <div className="mt-6 border-2 border-line">
+      <div className="mt-6 overflow-hidden rounded-md border border-bone/10">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b-2 border-line bg-raised font-mono text-xs uppercase tracking-wide text-bone/60">
+            <tr className="border-b border-bone/10 bg-raised font-mono text-xs uppercase tracking-wide text-bone/60">
               <th className="p-3">{t('legal.creditsPage.thCar')}</th>
               <th className="p-3">{t('legal.creditsPage.thAuthor')}</th>
               <th className="p-3">{t('legal.creditsPage.thLicense')}</th>
               <th className="p-3">{t('legal.creditsPage.thSource')}</th>
             </tr>
           </thead>
-          <tbody className="divide-y-2 divide-line text-bone/80">
+          <tbody className="divide-y divide-bone/10 text-bone/80">
             {carCredits.map((credit) => (
               <tr key={credit.filePageUrl}>
                 <td className="p-3 font-bold">{credit.name}</td>

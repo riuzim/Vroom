@@ -10,7 +10,9 @@ export default function ScorePanel({ title, scores, emptyLabel, variant = 'defau
   return (
     <Card>
       <CardContent className="p-5">
-        <h2 className="text-sm font-black uppercase tracking-wide text-flame">{title}</h2>
+        <h2 className="font-display text-sm font-semibold uppercase tracking-widest text-flame">
+          {title}
+        </h2>
         <ol className="mt-4 space-y-3">
           {scores.length === 0 && <li className="text-sm text-bone/55">{emptyText}</li>}
           {scores.map((score, index) => {
@@ -19,11 +21,13 @@ export default function ScorePanel({ title, scores, emptyLabel, variant = 'defau
               <li
                 key={`${score}-${index}`}
                 className={cn(
-                  'flex items-center justify-between rounded-none border-2 px-3 py-2 text-sm',
-                  isTop ? 'border-flame bg-raised text-bone' : 'border-line bg-raised text-bone/80',
+                  'flex items-center justify-between rounded-md border px-3 py-2 text-sm',
+                  isTop
+                    ? 'border-flame/60 bg-raised text-bone'
+                    : 'border-bone/10 bg-raised text-bone/80',
                 )}
               >
-                <span className="flex items-center gap-2 font-black">
+                <span className="flex items-center gap-2 font-bold">
                   {variant === 'best' ? (
                     <>
                       {isTop && <span className="font-mono text-xs text-flame">0{index + 1}</span>}
@@ -34,7 +38,7 @@ export default function ScorePanel({ title, scores, emptyLabel, variant = 'defau
                     `#${index + 1}`
                   )}
                 </span>
-                <span className="font-mono font-black">{score}</span>
+                <span className="font-mono font-bold tabular-nums">{score}</span>
               </li>
             );
           })}

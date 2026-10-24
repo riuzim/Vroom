@@ -22,7 +22,7 @@ export default function Terms() {
 
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-10 sm:px-6">
-      <h1 className="font-display text-3xl uppercase tracking-[0.22em]">
+      <h1 className="font-display text-3xl font-semibold uppercase tracking-[0.18em]">
         {t('legal.terms.title')}
       </h1>
       <p className="mt-2 text-xs font-bold uppercase tracking-wide text-bone/50">

@@ -56,7 +56,7 @@ export default function AdSlot({ slot, className = '', minHeight = 280, ...rest 
       <p className="mb-1 text-center font-mono text-[10px] uppercase tracking-widest text-bone/40">
         {t('ads.label')}
       </p>
-      <div style={{ minHeight }} className="border-2 border-line bg-raised">
+      <div style={{ minHeight }} className="rounded-md border border-bone/10 bg-raised">
         <ins
           className="adsbygoogle block"
           data-ad-client={client}
