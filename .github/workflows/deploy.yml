@@ -53,6 +53,10 @@ jobs:
           # Client ID OAuth é público por design (fica no HTML de qualquer
           # site com login Google). Secret vazio usa o do projeto atual.
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID || '350618645405-d0gnaqppgke03hsin3bs916qm52blm72.apps.googleusercontent.com' }}
+          # URL pública do site — ativa robots.txt + sitemap.xml no build
+          # (apps/web/vite.config.js). Valor público do Pages atual como
+          # default; ao comprar domínio próprio, crie o secret VITE_SITE_URL.
+          VITE_SITE_URL: ${{ secrets.VITE_SITE_URL || 'https://riuzim.github.io/Vroom' }}
 
       # GitHub Pages não reescreve rotas: deep links (/Vroom/game/daily etc.)
       # precisam cair no index.html (SPA fallback).

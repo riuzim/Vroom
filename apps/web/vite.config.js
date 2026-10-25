@@ -9,16 +9,16 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Origem pública da API em produção (ex.: https://api.vroom.example).
 // Vazia em dev — o proxy do Vite cuida do /api.
-const apiOrigin = process.env.VITE_API_URL
-  ? new URL(process.env.VITE_API_URL).origin
-  : '';
+const apiOrigin = process.env.VITE_API_URL ? new URL(process.env.VITE_API_URL).origin : '';
 
 // Base pública do build. Default '/Vroom/' mantém o deploy atual no GitHub
 // Pages; em servidor com domínio próprio defina VITE_BASE="/".
 const base = process.env.VITE_BASE || '/Vroom/';
 
-// URL pública do site SEM barra final (ex.: https://vroom.example.com).
-// Quando definida, o build gera robots.txt + sitemap.xml no dist.
+// URL pública do site SEM barra final. Pode incluir o caminho do base
+// (https://riuzim.github.io/Vroom) ou apenas a raiz (https://vroom.example.com)
+// — o plugin de SEO nunca duplica o caminho. Quando definida, o build
+// gera robots.txt + sitemap.xml no dist.
 const siteUrl = (process.env.VITE_SITE_URL || '').replace(/\/+$/, '');
 
 // ID do AdSense no formato "ca-pub-0000000000000000" (AdSense → Contas →
@@ -38,9 +38,7 @@ const adsenseClient = process.env.VITE_ADSENSE_CLIENT || '';
 const cspDirectives = [
   "default-src 'self'",
   `script-src 'self' https://accounts.google.com${
-    adsenseClient
-      ? ' https://pagead2.googlesyndication.com https://tpc.googlesyndication.com'
-      : ''
+    adsenseClient ? ' https://pagead2.googlesyndication.com https://tpc.googlesyndication.com' : ''
   }`,
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
@@ -55,9 +53,7 @@ const cspDirectives = [
       : ''
   }`,
   `frame-src https://accounts.google.com${
-    adsenseClient
-      ? ' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com'
-      : ''
+    adsenseClient ? ' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com' : ''
   }`,
   "object-src 'none'",
   "base-uri 'self'",
@@ -77,10 +73,16 @@ const prodCsp = () => ({
   },
 });
 
-// Rotas estáticas indexáveis — usadas para gerar o sitemap.xml do domínio
-// próprio (rotas de jogo dinâmicas ficam de fora de propósito).
+// Rotas estáveis indexáveis — usadas para gerar o sitemap.xml. As rotas dos
+// modos são o conteúdo real do jogo para quem chega por busca; não há
+// parâmetros dinâmicos em nenhuma delas.
 const SITEMAP_ROUTES = [
   '',
+  '/game/classic',
+  '/game/hard',
+  '/game/daily',
+  '/game/silhouette',
+  '/game/themed',
   '/leaderboard',
   '/login',
   '/register',
@@ -102,7 +104,16 @@ const prodSeoFiles = () => ({
     const distDir = path.resolve(dirname, 'dist');
 
     if (siteUrl) {
-      const withBase = (route) => `${siteUrl}${base === '/' ? '' : base}${route}`;
+      // Caminho do base sem a barra final ('/Vroom'; vazio quando base '/').
+      const basePath = base === '/' ? '' : base.replace(/\/+$/, '');
+      // VITE_SITE_URL pode vir com o caminho do base já incluso (ex.:
+      // .../Vroom) ou apenas a raiz (ex.: https://riuzim.github.io) —
+      // nunca duplicar o caminho.
+      const root =
+        basePath && siteUrl.toLowerCase().endsWith(basePath.toLowerCase())
+          ? siteUrl.slice(0, siteUrl.length - basePath.length)
+          : siteUrl;
+      const withBase = (route) => `${root}${basePath}${route}`;
 
       await writeFile(
         path.join(distDir, 'robots.txt'),

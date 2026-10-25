@@ -1,0 +1,34 @@
+# Mantém a API gratuita "acesa" sem custo nenhum:
+#  - Render free dorme após 15 min sem tráfego inbound; acordar = cold start
+#    de ~30-60s para o primeiro visitante — péssima primeira impressão para
+#    quem chegou por um link compartilhado.
+#  - Supabase free pausa o projeto após 7 dias sem atividade — e NÃO
+#    reautodesperta: precisa de clique manual no dashboard.
+# Um ping a cada 10 min resolve os dois: /api/health (acorda/acalma o
+# Render) + /api/leaderboard (consulta o Postgres = atividade p/ Supabase).
+#
+# Custo: zero — repositório público tem GitHub Actions gratuito.
+# Nota: a GitHub desativa workflows agendados após 60 dias sem push no
+# repositório; se isso acontecer, reative em Actions → Keep-alive API → Enable.
+
+name: Keep-alive API
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping /api/health (acorda o Render)
+        run: curl -fsS --retry 3 --retry-delay 5 -m 120 https://vroom-api-abci.onrender.com/api/health
+
+      - name: Ping /api/leaderboard (ativa o Postgres do Supabase)
+        run: >-
+          curl -fsS --retry 3 --retry-delay 5 -m 120
+          'https://vroom-api-abci.onrender.com/api/leaderboard?period=today&mode=daily'
