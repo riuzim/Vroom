@@ -19,6 +19,7 @@ function NavLinks({ onNavigate }) {
     { to: '/', label: t('nav.home') },
     { to: '/game/classic', label: t('nav.play') },
     { to: '/leaderboard', label: t('nav.leaderboard') },
+    { to: '/feedback', label: t('nav.feedback') },
   ];
 
   return (

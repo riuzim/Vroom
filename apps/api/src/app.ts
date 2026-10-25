@@ -7,6 +7,7 @@ import { env } from './env.js';
 import { optionalAuth } from './lib/auth.js';
 import authRouter from './routes/auth.js';
 import carsRouter from './routes/cars.js';
+import feedbackRouter from './routes/feedback.js';
 import healthRouter from './routes/health.js';
 import leaderboardRouter from './routes/leaderboard.js';
 import profileRouter from './routes/profile.js';
@@ -58,6 +59,9 @@ export function createApp() {
     }),
   );
 
+  // O print de bug viaja como base64 no JSON (≈ +33% do binário): parser
+  // dedicado ANTES do global — o body já consumido não passa pelo teto de 64kb.
+  app.use('/api/feedback', express.json({ limit: '4mb' }));
   app.use(express.json({ limit: '64kb' }));
   app.use(cookieParser());
   app.use(optionalAuth);
@@ -71,6 +75,7 @@ export function createApp() {
   app.use('/api/rounds', roundsRouter);
   app.use('/api/leaderboard', leaderboardRouter);
   app.use('/api/profile', profileRouter);
+  app.use('/api/feedback', feedbackRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

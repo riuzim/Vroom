@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Bug, Languages, Mail, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Languages, MessageSquarePlus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,7 @@ import { cn } from '@/lib/utils';
 
 export default function SettingsModal({ isOpen, onClose, onResetScores }) {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [isConfirming, setIsConfirming] = useState(false);
 
   // Fechar (ESC/clique fora) no meio da confirmação não pode deixar o
@@ -61,27 +63,16 @@ export default function SettingsModal({ isOpen, onClose, onResetScores }) {
               </Button>
             ))}
           </div>
-          <Button variant="secondary" className="w-full justify-between" asChild>
-            <a href="mailto:vroomfeedback@gmail.com">
-              <span className="flex items-center gap-2">
-                <Mail className="size-4" />
-                {t('settings.feedback')}
-              </span>
-              <span className="font-mono text-xs font-normal normal-case text-bone/55">
-                vroomfeedback@gmail.com
-              </span>
-            </a>
-          </Button>
-          <Button variant="secondary" className="w-full justify-between" asChild>
-            <a href="mailto:vroomfeedback@gmail.com?subject=Bug%20no%20Vroom">
-              <span className="flex items-center gap-2">
-                <Bug className="size-4" />
-                {t('settings.reportBug')}
-              </span>
-              <span className="text-xs font-normal normal-case text-bone/55">
-                {t('settings.sendEmail')}
-              </span>
-            </a>
+          <Button
+            variant="secondary"
+            className="w-full justify-start"
+            onClick={() => {
+              onClose();
+              navigate('/feedback');
+            }}
+          >
+            <MessageSquarePlus className="size-4" />
+            {t('settings.feedback')}
           </Button>
           <Button variant="destructive" className="w-full justify-start" onClick={handleReset}>
             <Trash2 className="size-4" />

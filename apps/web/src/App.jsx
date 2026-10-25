@@ -12,6 +12,7 @@ const Leaderboard = lazy(() => import('@/pages/Leaderboard.jsx'));
 const Login = lazy(() => import('@/pages/Login.jsx'));
 const Profile = lazy(() => import('@/pages/Profile.jsx'));
 const Register = lazy(() => import('@/pages/Register.jsx'));
+const Feedback = lazy(() => import('@/pages/Feedback.jsx'));
 const Privacy = lazy(() => import('@/pages/Privacy.jsx'));
 const Terms = lazy(() => import('@/pages/Terms.jsx'));
 const Cookies = lazy(() => import('@/pages/Cookies.jsx'));
@@ -42,6 +43,7 @@ function RoutedContent() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/feedback" element={<Feedback />} />
           <Route path="/privacidade" element={<Privacy />} />
           <Route path="/termos" element={<Terms />} />
           <Route path="/cookies" element={<Cookies />} />
@@ -75,9 +77,9 @@ export default function App() {
               {t('footer.tagline')}
             </p>
             <p className="mt-2 flex flex-wrap items-center justify-center gap-3">
-              <a href="mailto:vroomfeedback@gmail.com" className={footerLinkClasses}>
+              <Link to="/feedback" className={footerLinkClasses}>
                 {t('footer.feedback')}
-              </a>
+              </Link>
               <span aria-hidden="true">·</span>
               <a
                 href="https://github.com/riuzim/Vroom"

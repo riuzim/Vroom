@@ -6,6 +6,7 @@ import type { AsyncRequestHandler } from '../middleware/asyncHandler.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { prisma } from '../lib/prisma.js';
 import { env } from '../env.js';
+import { isAdminUsername } from '@vroom/shared';
 import {
   clearAuthCookie,
   dummyHash,
@@ -66,6 +67,7 @@ const publicUser = (user: DbUser) => ({
   id: user.id,
   username: user.username,
   email: user.email,
+  isAdmin: isAdminUsername(user.username),
 });
 
 /** Erro de constraint única do Prisma (e-mail/username/googleId em uso). */
@@ -215,12 +217,10 @@ async function findOrCreateGoogleUser(sub: string, email: string): Promise<DbUse
 /** POST /api/auth/google — troca o credential JWT do Google Identity Services. */
 const googleLogin: AsyncRequestHandler = async (req, res) => {
   if (!env.GOOGLE_CLIENT_ID) {
-    res
-      .status(503)
-      .json({
-        error: 'Login com Google não está configurado neste servidor.',
-        code: 'GOOGLE_NOT_CONFIGURED',
-      });
+    res.status(503).json({
+      error: 'Login com Google não está configurado neste servidor.',
+      code: 'GOOGLE_NOT_CONFIGURED',
+    });
     return;
   }
 
@@ -236,12 +236,10 @@ const googleLogin: AsyncRequestHandler = async (req, res) => {
     });
     payload = ticket.getPayload();
   } catch {
-    res
-      .status(401)
-      .json({
-        error: 'Não foi possível validar seu login do Google.',
-        code: 'GOOGLE_INVALID_TOKEN',
-      });
+    res.status(401).json({
+      error: 'Não foi possível validar seu login do Google.',
+      code: 'GOOGLE_INVALID_TOKEN',
+    });
     return;
   }
 
@@ -260,12 +258,10 @@ const googleLogin: AsyncRequestHandler = async (req, res) => {
   const user = await findOrCreateGoogleUser(payload.sub, payload.email.toLowerCase());
 
   if (!user) {
-    res
-      .status(409)
-      .json({
-        error: 'Não foi possível vincular sua conta do Google.',
-        code: 'GOOGLE_LINK_FAILED',
-      });
+    res.status(409).json({
+      error: 'Não foi possível vincular sua conta do Google.',
+      code: 'GOOGLE_LINK_FAILED',
+    });
     return;
   }
 
@@ -289,7 +285,9 @@ const me: AsyncRequestHandler = async (req, res) => {
     select: { id: true, username: true, email: true, createdAt: true },
   });
 
-  res.json({ user });
+  res.json({
+    user: user && { ...user, isAdmin: isAdminUsername(user.username) },
+  });
 };
 
 authRouter.post('/register', authLimiter, asyncHandler(register));

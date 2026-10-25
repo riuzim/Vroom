@@ -6,6 +6,7 @@
     "home": "Inicio",
     "play": "Jugar",
     "leaderboard": "Ranking",
+    "feedback": "Feedback",
     "login": "Entrar",
     "logout": "Salir",
     "openSettings": "Abrir configuración",
@@ -105,12 +106,41 @@
     "title": "Configuración",
     "description": "Feedback, bugs y tus datos locales.",
     "feedback": "Feedback",
-    "reportBug": "Reportar bug",
-    "sendEmail": "Enviar email",
     "clearScores": "Borrar rachas guardadas",
     "confirmClear": "¿Confirmar borrado?",
     "scoresCleared": "Rachas borradas.",
     "language": "Idioma"
+  },
+  "feedback": {
+    "metaTitle": "Feedback — Vroom",
+    "metaDescription": "Deja tu opinión, reporta un bug o sugiere una mejora para Vroom.",
+    "title": "Feedback",
+    "subtitle": "Opinión, bug con captura o idea de mejora — todo llega al taller.",
+    "categories": {
+      "OPINION": "Opinión",
+      "BUG": "Bug",
+      "IMPROVEMENT": "Sugerencia"
+    },
+    "categoryLabel": "Categoría",
+    "titleLabel": "Título",
+    "titlePlaceholder": "Resúmelo en una frase",
+    "contentLabel": "Detalles",
+    "contentPlaceholder": "Cuéntalo con calma: qué pasó, dónde y cómo reproducirlo…",
+    "attach": "Adjuntar captura",
+    "removeImage": "Quitar captura",
+    "send": "Enviar feedback",
+    "sending": "Enviando…",
+    "sent": "Feedback enviado. ¡Gracias!",
+    "imageTooLarge": "La captura supera los 2 MB — baja la resolución y vuelve a intentarlo.",
+    "imageInvalid": "Archivo no soportado. Usa PNG, JPG o WebP.",
+    "adminTab": "Bandeja de entrada",
+    "filterAll": "Todos",
+    "adminEmpty": "Aún no hay feedback.",
+    "adminError": "No se pudo cargar el feedback.",
+    "anonymous": "Visitante",
+    "markRead": "Marcar como leído",
+    "confirmRead": "¿Borrar?",
+    "markedRead": "Feedback borrado."
   },
   "leaderboard": {
     "metaTitle": "Ranking global — Vroom",
@@ -367,6 +397,9 @@
     "GOOGLE_LINK_FAILED": "No fue posible vincular tu cuenta de Google.",
     "BAD_REQUEST": "Solicitud inválida.",
     "NOT_FOUND": "Ruta no encontrada.",
+    "FEEDBACK_ADMIN_ONLY": "Área restringida a la administración.",
+    "FEEDBACK_NOT_FOUND": "Feedback no encontrado.",
+    "FEEDBACK_IMAGE_INVALID": "Captura inválida.",
     "INTERNAL_ERROR": "Error interno del servidor."
   }
 }

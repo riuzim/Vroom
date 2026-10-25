@@ -6,6 +6,7 @@
     "home": "Home",
     "play": "Play",
     "leaderboard": "Leaderboard",
+    "feedback": "Feedback",
     "login": "Sign in",
     "logout": "Sign out",
     "openSettings": "Open settings",
@@ -105,12 +106,41 @@
     "title": "Settings",
     "description": "Feedback, bugs, and your local data.",
     "feedback": "Feedback",
-    "reportBug": "Report a bug",
-    "sendEmail": "Send email",
     "clearScores": "Clear saved streaks",
     "confirmClear": "Confirm clear?",
     "scoresCleared": "Streaks cleared.",
     "language": "Language"
+  },
+  "feedback": {
+    "metaTitle": "Feedback — Vroom",
+    "metaDescription": "Share your opinion, report a bug, or suggest an improvement for Vroom.",
+    "title": "Feedback",
+    "subtitle": "Opinion, bug with a screenshot, or an improvement idea — it all reaches the garage.",
+    "categories": {
+      "OPINION": "Opinion",
+      "BUG": "Bug",
+      "IMPROVEMENT": "Suggestion"
+    },
+    "categoryLabel": "Category",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Summarize it in one line",
+    "contentLabel": "Details",
+    "contentPlaceholder": "Take your time: what happened, where, and how to reproduce it…",
+    "attach": "Attach screenshot",
+    "removeImage": "Remove screenshot",
+    "send": "Send feedback",
+    "sending": "Sending…",
+    "sent": "Feedback sent. Thanks!",
+    "imageTooLarge": "The screenshot is over 2 MB — lower the resolution and try again.",
+    "imageInvalid": "Unsupported file. Use PNG, JPG, or WebP.",
+    "adminTab": "Inbox",
+    "filterAll": "All",
+    "adminEmpty": "No feedback here.",
+    "adminError": "Couldn't load the feedback.",
+    "anonymous": "Guest",
+    "markRead": "Mark as read",
+    "confirmRead": "Delete?",
+    "markedRead": "Feedback deleted."
   },
   "leaderboard": {
     "metaTitle": "Global Leaderboard — Vroom",
@@ -367,6 +397,9 @@
     "GOOGLE_LINK_FAILED": "Couldn't link your Google account.",
     "BAD_REQUEST": "Invalid request.",
     "NOT_FOUND": "Not found.",
+    "FEEDBACK_ADMIN_ONLY": "Admin-only area.",
+    "FEEDBACK_NOT_FOUND": "Feedback not found.",
+    "FEEDBACK_IMAGE_INVALID": "Invalid screenshot.",
     "INTERNAL_ERROR": "Internal server error."
   }
 }

@@ -21,6 +21,7 @@ model User {
   createdAt    DateTime @default(now())
   rounds       Round[]
   scores       Score[]
+  feedback     Feedback[]
 }
 
 model Car {
@@ -106,4 +107,22 @@ model DailyCar {
   car    Car @relation(fields: [carId], references: [id])
 
   @@unique([date, mode])
+}
+
+/// Feedback enviado pela página /feedback — opinião, bug ou sugestão.
+/// Print é opcional (Bytes); autor é nulo para visitantes. O painel admin
+/// lista por categoria e "marcar como lido" = excluir.
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  authorId  Int?
+  author    User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  category  String
+  title     String
+  content   String
+  /// Print anexado quando category = bug (PNG/JPEG/WebP, ≤ 2 MB).
+  imageData Bytes?
+  imageMime String?
+  createdAt DateTime @default(now())
+
+  @@index([category, createdAt])
 }

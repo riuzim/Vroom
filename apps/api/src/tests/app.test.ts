@@ -638,3 +638,100 @@ describe('Fase 1: modos novos e desafio do dia registrado', () => {
     expect(dailyAfter.distribution).toEqual([0, 1, 0, 1, 0, 0]);
   });
 });
+
+describe('Feedback', () => {
+  const PNG_BASE64 =
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==';
+
+  it('visitante envia feedback com print', async () => {
+    const res = await request(app)
+      .post('/api/feedback')
+      .send({
+        category: 'BUG',
+        title: 'Foto não revela',
+        content: 'Depois do quinto erro a imagem continuou borrada.',
+        image: { data: PNG_BASE64, mime: 'image/png' },
+      });
+    expect(res.status).toBe(201);
+    expect(res.body.ok).toBe(true);
+    expect(res.body.id).toBeGreaterThan(0);
+  });
+
+  it('rejeita categoria fora do enum', async () => {
+    const res = await request(app)
+      .post('/api/feedback')
+      .send({
+        category: 'ELOGIO',
+        title: 'Título válido',
+        content: 'Conteúdo válido do feedback.',
+      });
+    expect(res.status).toBe(400);
+  });
+
+  it('sem sessão não lista feedbacks', async () => {
+    const res = await request(app).get('/api/feedback');
+    expect(res.status).toBe(401);
+  });
+
+  it('não-admin não lista feedbacks', async () => {
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send(newUser());
+
+    const res = await agent.get('/api/feedback');
+    expect(res.status).toBe(403);
+    expect(res.body.code).toBe('FEEDBACK_ADMIN_ONLY');
+  });
+
+  it('admin lista, vê o print e apaga ao marcar como lido', async () => {
+    // Os testes anteriores deste describe também criam feedback: o painel
+    // precisa começar vazio para os asserts de comprimento fazerem sentido.
+    await prisma.feedback.deleteMany();
+
+    const agent = request.agent(app);
+    const reg = await agent
+      .post('/api/auth/register')
+      .send({ username: 'riuzimjp', email: 'riuzimjp@vroom.test', password: 'password123' });
+    // A conta riuzimjp administra o painel por username.
+    expect(reg.body.user.isAdmin).toBe(true);
+
+    // Um bug com print (visitante) e uma opinião (o próprio admin).
+    await request(app)
+      .post('/api/feedback')
+      .send({
+        category: 'BUG',
+        title: 'Bug com print',
+        content: 'Reproduz o bug assim e assim.',
+        image: { data: PNG_BASE64, mime: 'image/png' },
+      });
+    await agent.post('/api/feedback').send({
+      category: 'OPINION',
+      title: 'Ótimo jogo',
+      content: 'Estou gostando muito do visual novo.',
+    });
+
+    const list = await agent.get('/api/feedback');
+    expect(list.status).toBe(200);
+    expect(list.body.feedbacks).toHaveLength(2);
+
+    const [newest, oldest] = list.body.feedbacks;
+    expect(newest.title).toBe('Ótimo jogo');
+    expect(newest.author).toBe('riuzimjp');
+    expect(newest.hasImage).toBe(false);
+    expect(oldest.title).toBe('Bug com print');
+    expect(oldest.author).toBeNull();
+    expect(oldest.hasImage).toBe(true);
+
+    const image = await agent.get(`/api/feedback/${oldest.id}/image`);
+    expect(image.status).toBe(200);
+    expect(image.headers['content-type']).toContain('image/png');
+
+    const markRead = await agent.delete(`/api/feedback/${oldest.id}`);
+    expect(markRead.status).toBe(200);
+
+    const listAfter = await agent.get('/api/feedback');
+    expect(listAfter.body.feedbacks).toHaveLength(1);
+
+    const again = await agent.delete(`/api/feedback/${oldest.id}`);
+    expect(again.status).toBe(404);
+  });
+});

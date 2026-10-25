@@ -1,4 +1,5 @@
 export * from './constants.js';
+export * from './feedback.js';
 export * from './game.js';
 export * from './names.js';
 // `cars.js` (nome ↔ imageUrl) fica FORA do barrel de propósito:
