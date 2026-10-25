@@ -66,13 +66,20 @@ export function useVroomGame(mode = 'classic') {
     return dailyNumber(dailyDate.split('#')[0]);
   }, [dailyDate, isDailyMode]);
 
+  // Trocar de modo (ex.: Daily acertado → Classic) não pode carregar o
+  // resultado da rodada anterior: status/message são da rodada, não do
+  // jogador. O cleanup também cancela o "próxima rodada" pendente do
+  // modo anterior — e, no unmount, faz o trabalho do effect antigo.
   useEffect(() => {
+    setStatus('idle');
+    setMessage('');
     return () => {
       if (nextTimer.current) {
         clearTimeout(nextTimer.current);
+        nextTimer.current = null;
       }
     };
-  }, []);
+  }, [mode]);
 
   const startNextRound = useCallback(() => {
     setStatus('idle');
