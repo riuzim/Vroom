@@ -6,7 +6,7 @@ import type { AsyncRequestHandler } from '../middleware/asyncHandler.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { prisma } from '../lib/prisma.js';
 import { env } from '../env.js';
-import { isAdminUsername } from '@vroom/shared';
+import { isAdminAccount } from '@vroom/shared';
 import {
   clearAuthCookie,
   dummyHash,
@@ -67,7 +67,7 @@ const publicUser = (user: DbUser) => ({
   id: user.id,
   username: user.username,
   email: user.email,
-  isAdmin: isAdminUsername(user.username),
+  isAdmin: isAdminAccount(user),
 });
 
 /** Erro de constraint única do Prisma (e-mail/username/googleId em uso). */
@@ -286,7 +286,7 @@ const me: AsyncRequestHandler = async (req, res) => {
   });
 
   res.json({
-    user: user && { ...user, isAdmin: isAdminUsername(user.username) },
+    user: user && { ...user, isAdmin: isAdminAccount(user) },
   });
 };
 

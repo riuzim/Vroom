@@ -658,13 +658,11 @@ describe('Feedback', () => {
   });
 
   it('rejeita categoria fora do enum', async () => {
-    const res = await request(app)
-      .post('/api/feedback')
-      .send({
-        category: 'ELOGIO',
-        title: 'Título válido',
-        content: 'Conteúdo válido do feedback.',
-      });
+    const res = await request(app).post('/api/feedback').send({
+      category: 'ELOGIO',
+      title: 'Título válido',
+      content: 'Conteúdo válido do feedback.',
+    });
     expect(res.status).toBe(400);
   });
 
@@ -733,5 +731,21 @@ describe('Feedback', () => {
 
     const again = await agent.delete(`/api/feedback/${oldest.id}`);
     expect(again.status).toBe(404);
+  });
+
+  it('conta com email de admin vira admin mesmo com outro username', async () => {
+    // Caso real: login Google com riuzimjp@gmail.com pode derivar username
+    // diferente — admin tem que reconhecer pelo email também.
+    const agent = request.agent(app);
+    const reg = await agent
+      .post('/api/auth/register')
+      .send({ username: 'zelador', email: 'riuzimjp@gmail.com', password: 'password123' });
+    expect(reg.body.user.isAdmin).toBe(true);
+
+    const me = await agent.get('/api/auth/me');
+    expect(me.body.user?.isAdmin).toBe(true);
+
+    const list = await agent.get('/api/feedback');
+    expect(list.status).toBe(200);
   });
 });

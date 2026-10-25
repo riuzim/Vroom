@@ -7,7 +7,7 @@ import {
   FEEDBACK_IMAGE_MAX_BYTES,
   FEEDBACK_IMAGE_MIME_TYPES,
   FEEDBACK_TITLE_MAX,
-  isAdminUsername,
+  isAdminAccount,
 } from '@vroom/shared';
 import type { AsyncRequestHandler } from '../middleware/asyncHandler.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
@@ -46,17 +46,18 @@ const createSchema = z.object({
 });
 
 /**
- * Admin = a conta `riuzimjp` (regra do shared, derivada do username).
- * O cookie de sessão NÃO carrega username — o optionalAuth popula vazio —
- * então a checagem busca o username no banco; 401 é do requireAuth na rota.
+ * Admin = conta `riuzimjp` (username OU email — a do dono entra pelo
+ * Google, que pode derivar username diferente). O cookie de sessão NÃO
+ * carrega username/email — o optionalAuth popula vazio — então a checagem
+ * busca a conta no banco; 401 é do requireAuth na rota.
  */
 const requireAdmin: AsyncRequestHandler = async (req, res, next) => {
   const user = await prisma.user.findUnique({
     where: { id: req.user!.id },
-    select: { username: true },
+    select: { username: true, email: true },
   });
 
-  if (!isAdminUsername(user?.username)) {
+  if (!isAdminAccount(user)) {
     res.status(403).json({ error: 'Área restrita à administração.', code: 'FEEDBACK_ADMIN_ONLY' });
     return;
   }

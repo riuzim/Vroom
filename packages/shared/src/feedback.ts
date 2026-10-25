@@ -20,11 +20,28 @@ export const FEEDBACK_IMAGE_MIME_TYPES = ['image/png', 'image/jpeg', 'image/webp
 
 /**
  * Conta de administração do painel de feedback. O usuário pediu: a conta
- * `riuzimjp`, se existir, administra. Case-insensitive por segurança de
- * comparação — o registro já força lower/regex, mas o guard é barato.
+ * `riuzimjp`, se existir, administra — e a conta dele entra pelo Google com
+ * o email `riuzimjp@gmail.com`, que pode gerar username derivado diferente
+ * (ex.: `riuzimjp42` se o puro já estava ocupado). Admin, portanto, é
+ * username OU email; ambos case-insensitive.
  */
+export const ADMIN_USERNAME = 'riuzimjp';
+export const ADMIN_EMAIL = 'riuzimjp@gmail.com';
+
 export function isAdminUsername(username: string | null | undefined): boolean {
-  return typeof username === 'string' && username.trim().toLowerCase() === 'riuzimjp';
+  return typeof username === 'string' && username.trim().toLowerCase() === ADMIN_USERNAME;
+}
+
+export function isAdminEmail(email: string | null | undefined): boolean {
+  return typeof email === 'string' && email.trim().toLowerCase() === ADMIN_EMAIL;
+}
+
+/** Admin por username OU por email (a conta Google do dono). */
+export function isAdminAccount(account: {
+  username?: string | null;
+  email?: string | null;
+}): boolean {
+  return isAdminUsername(account?.username) || isAdminEmail(account?.email);
 }
 
 /** Item de feedback como o painel admin recebe (imagem só via GET separado). */
