@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { CalendarDays, Car, Eye, Ghost, Lightbulb, Sparkles, Timer, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { themeOfDay } from '@vroom/shared';
@@ -10,13 +11,33 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import DitherCar from '@/components/DitherCar.jsx';
 import { cn } from '@/lib/utils';
 
+/** Rev + drive do carro antes de trocar de página. */
+const LAUNCH_MS = 700;
+
 export default function Home() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
 
   usePageMeta({
     title: t('home.metaTitle'),
     description: t('home.metaDescription'),
   });
+
+  // Largada: o carro do hero liga e sai acelerando antes da navegação.
+  const [launching, setLaunching] = useState(null);
+  const timer = useRef(null);
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  const handleLaunch = (mode) => {
+    if (launching) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      navigate(`/game/${mode}`);
+      return;
+    }
+    setLaunching(mode);
+    timer.current = setTimeout(() => navigate(`/game/${mode}`), LAUNCH_MS);
+  };
 
   // Tema da Série do dia — mesma fórmula determinística do servidor.
   const today = new Date().toISOString().slice(0, 10);
@@ -78,7 +99,7 @@ export default function Home() {
           {t('home.tagline')}
         </p>
         {/* O carro da casa: 1-bit vivo, motor em marcha lenta */}
-        <DitherCar className="mx-auto mt-8 w-full max-w-md text-bone" />
+        <DitherCar launching={!!launching} className="mx-auto mt-8 w-full max-w-md text-bone" />
         <div
           aria-hidden="true"
           className="halftone mx-auto mt-4 h-10 w-full max-w-md rounded-md opacity-60"
@@ -86,7 +107,12 @@ export default function Home() {
       </section>
 
       {/* Tudo que importa acima da dobra: os modos são o CTA */}
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section
+        className={cn(
+          'mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3',
+          launching && 'pointer-events-none',
+        )}
+      >
         {modes.map(({ icon: Icon, ...mode }, index) => (
           <Card key={mode.mode} className="rise-in" style={{ '--i': index }}>
             <CardHeader>
@@ -113,7 +139,15 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <Button variant="outline" size="sm" className="w-full" asChild>
-                <Link to={`/game/${mode.mode}`}>{mode.cta}</Link>
+                <Link
+                  to={`/game/${mode.mode}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleLaunch(mode.mode);
+                  }}
+                >
+                  {mode.cta}
+                </Link>
               </Button>
             </CardContent>
           </Card>
