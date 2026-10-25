@@ -57,7 +57,7 @@ const requireAdmin: AsyncRequestHandler = async (req, res, next) => {
     select: { username: true, email: true },
   });
 
-  if (!isAdminAccount(user)) {
+  if (!user || !isAdminAccount(user)) {
     res.status(403).json({ error: 'Área restrita à administração.', code: 'FEEDBACK_ADMIN_ONLY' });
     return;
   }
@@ -69,11 +69,11 @@ const requireAdmin: AsyncRequestHandler = async (req, res, next) => {
 const create: AsyncRequestHandler = async (req, res) => {
   const body = createSchema.parse(req.body);
 
-  let imageData: Buffer | undefined;
+  let imageData: Uint8Array<ArrayBuffer> | undefined;
   let imageMime: string | undefined;
 
   if (body.image) {
-    imageData = Buffer.from(body.image.data, 'base64');
+    imageData = new Uint8Array(Buffer.from(body.image.data, 'base64'));
 
     if (imageData.byteLength === 0 || imageData.byteLength > FEEDBACK_IMAGE_MAX_BYTES) {
       res.status(400).json({ error: 'Print inválido.', code: 'FEEDBACK_IMAGE_INVALID' });
