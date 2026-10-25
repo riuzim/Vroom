@@ -55,7 +55,7 @@ export default function Leaderboard() {
                 <TabsTrigger value="all">{t('leaderboard.allTime')}</TabsTrigger>
                 <TabsTrigger value="today">{t('leaderboard.today')}</TabsTrigger>
               </TabsList>
-              <div className="flex gap-1.5">
+              <div className="flex flex-wrap gap-1.5">
                 {MODE_FILTERS.map((filter) => (
                   <button
                     key={filter.value}

@@ -65,12 +65,17 @@
     color: hsl(var(--foreground));
     font-family:
       'Barlow',
-      Inter,
       ui-sans-serif,
       system-ui,
       -apple-system,
       'Segoe UI',
       sans-serif;
+    /* Mobile: sem flash de tap, sem inflar texto em landscape, sem
+       pull-to-refresh engolindo o scroll da tela de jogo. */
+    -webkit-tap-highlight-color: transparent;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    overscroll-behavior-y: contain;
   }
 
   button,

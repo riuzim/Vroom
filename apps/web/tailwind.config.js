@@ -8,7 +8,7 @@ export default {
     extend: {
       fontFamily: {
         display: ['Barlow Condensed', 'Barlow', 'ui-sans-serif', 'system-ui'],
-        sans: ['Barlow', 'Inter', 'ui-sans-serif', 'system-ui'],
+        sans: ['Barlow', 'ui-sans-serif', 'system-ui'],
         mono: ['Roboto Mono', 'ui-monospace', 'SFMono-Regular'],
       },
       colors: {
@@ -45,7 +45,7 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        /* Tokens da marca Vroom — paleta "Asfalto 1-bit" */
+        /* Tokens da marca Vroom — paleta "Oficina Noturna" */
         ink: 'hsl(var(--ink))',
         panel: 'hsl(var(--panel))',
         raised: 'hsl(var(--raised))',
