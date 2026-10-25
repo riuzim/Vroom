@@ -16,13 +16,17 @@ function ensureGsiLoaded() {
 
   const existing = document.querySelector(`script[src="${GSI_SRC}"]`);
   if (existing) {
+    // Script já presente (montagem anterior): espera o GSI nascer. Sem o
+    // deadline isto seria um loop a 10Hz para sempre se o script quebrar
+    // de um jeito que não dispara onerror.
     return new Promise((resolve, reject) => {
+      const startedAt = Date.now();
       const check = () => {
         if (window.google?.accounts?.id) {
           resolve();
           return;
         }
-        if (existing.dataset.failed) {
+        if (existing.dataset.failed || Date.now() - startedAt > 10_000) {
           reject(new Error(i18n.t('auth.google.notLoaded')));
           return;
         }

@@ -29,7 +29,9 @@ export default function Home() {
   useEffect(() => () => clearTimeout(timer.current), []);
 
   const handleLaunch = (mode) => {
-    if (launching) return;
+    // Ref (síncrono), não state: dois cliques rápidos no mesmo tick não
+    // podem criar dois timers — o primeiro ficaria órfão e navegaria depois.
+    if (timer.current) return;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced) {
       navigate(`/game/${mode}`);

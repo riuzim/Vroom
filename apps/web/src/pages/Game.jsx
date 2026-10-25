@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { GAME_MODES, MAX_ATTEMPTS, buildShareText } from '@vroom/shared';
 import { useTranslation } from 'react-i18next';
 import { CalendarCheck, CalendarX, LogIn, ServerCrash, SkipForward } from 'lucide-react';
@@ -15,20 +15,22 @@ import { api } from '@/lib/api';
 import { useVroomGame } from '@/hooks/useVroomGame.js';
 
 // Nomes dos modos são marca própria do jogo — iguais em todos os idiomas.
+// Exceção: a Série tem nome próprio traduzido (Series/Serie) via t().
 const MODE_LABELS = {
   classic: 'Classic',
   hard: 'Hard',
   daily: 'Daily',
   silhouette: 'Silhouette',
-  themed: 'Série',
 };
 
 export default function Game() {
   const { mode: rawMode } = useParams();
-  const mode = GAME_MODES.includes(rawMode) ? rawMode : 'classic';
+  const validMode = GAME_MODES.includes(rawMode);
+  const mode = validMode ? rawMode : 'classic';
   const { t } = useTranslation();
 
   const game = useVroomGame(mode);
+  const modeLabel = mode === 'themed' ? t('home.modes.themed.title') : MODE_LABELS[mode];
 
   // Share-grid sem spoiler. O streak é buscado fresco na hora do clique —
   // o cache de stats pode ainda não ter refetchado após o fim da rodada.
@@ -47,14 +49,21 @@ export default function Game() {
     return buildShareText({
       mode,
       status: game.roundStatus,
-      attemptsUsed: game.attemptsUsed,
+      // attemptsUsed do servidor não conta o chute vencedor — o share conta.
+      attemptsUsed: game.attemptsUsed + (game.roundStatus === 'correct' ? 1 : 0),
       maxAttempts: MAX_ATTEMPTS,
       dailyNumber: game.dailyNum,
       streak,
+      modeLabel,
       url,
     });
   };
   const canShare = game.isRoundOver && ['correct', 'failed', 'skipped'].includes(game.roundStatus);
+
+  // URL de modo inválida não fica no histórico: corrige para o classic.
+  if (!validMode) {
+    return <Navigate to="/game/classic" replace />;
+  }
 
   if (game.isError) {
     return (
@@ -93,7 +102,7 @@ export default function Game() {
 
       <section className="order-1 grid content-center gap-5 lg:order-2">
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <Badge variant="secondary">{MODE_LABELS[mode]}</Badge>
+          <Badge variant="secondary">{modeLabel}</Badge>
           {mode === 'hard' && <Badge variant="outline">{t('game.badge2x')}</Badge>}
           {mode === 'themed' && game.theme && (
             <Badge variant="outline">
@@ -147,7 +156,7 @@ export default function Game() {
               blur={game.blur}
               isHardMode={game.isHardMode}
               status={game.status}
-              label={MODE_LABELS[mode]}
+              label={modeLabel}
               carName={game.carName}
               mode={mode}
               mistakes={game.attemptsUsed}
@@ -174,6 +183,7 @@ export default function Game() {
             )}
 
             <GuessInput
+              key={mode}
               disabled={game.isRoundOver || game.isGuessing || game.isSkipping}
               onSubmit={game.guess}
               hideSuggestions={mode === 'hard'}

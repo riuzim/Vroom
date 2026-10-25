@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Bug, Languages, Mail, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,14 @@ import { cn } from '@/lib/utils';
 export default function SettingsModal({ isOpen, onClose, onResetScores }) {
   const { t, i18n } = useTranslation();
   const [isConfirming, setIsConfirming] = useState(false);
+
+  // Fechar (ESC/clique fora) no meio da confirmação não pode deixar o
+  // botão armado para a próxima abertura.
+  useEffect(() => {
+    if (!isOpen) {
+      setIsConfirming(false);
+    }
+  }, [isOpen]);
 
   function handleReset() {
     if (!isConfirming) {

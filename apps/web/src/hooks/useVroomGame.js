@@ -41,7 +41,9 @@ export function useVroomGame(mode = 'classic') {
     queryKey: ['round', mode],
     queryFn: () => api.post('/api/rounds', { mode }),
     staleTime: Infinity,
-    retry: 1,
+    // Um 429 do rate limit NÃO deve ser reenviado na hora (dobra a pressão
+    // no mesmo segundo); erros de rede legítimos ganham uma retentativa.
+    retry: (failureCount, error) => failureCount < 1 && error?.status !== 429,
   });
 
   const [status, setStatus] = useState('idle');
@@ -81,6 +83,19 @@ export function useVroomGame(mode = 'classic') {
     };
   }, [mode]);
 
+  // A virada do dia derruba o cache do desafio diário: sem isso, o
+  // "Desafio de hoje concluído" de ONTEM fica na tela (e uma rodada
+  // playing de ontem continuaria jogável no dia errado) até um F5.
+  useEffect(() => {
+    if (!isDailyMode || !round?.dailyDate) {
+      return;
+    }
+    const today = new Date().toISOString().slice(0, 10);
+    if (round.dailyDate.split('#')[0] !== today) {
+      queryClient.invalidateQueries({ queryKey: ['round', mode] });
+    }
+  }, [isDailyMode, mode, queryClient, round?.dailyDate]);
+
   const startNextRound = useCallback(() => {
     setStatus('idle');
     setMessage('');
@@ -113,19 +128,33 @@ export function useVroomGame(mode = 'classic') {
 
   const recordEndedRound = useCallback((sessionStreak) => {
     // Score local acompanha o streak da sessão (Best/Last Score do painel).
-    // Grava no fim da rodada direto na store, que é a fonte única de verdade.
-    saveLocalScores([...loadLocalScores(), sessionStreak]);
+    // Streak 0 não aparece em painel nenhum — não ocupa espaço; histórico
+    // limitado para o localStorage não crescer sem fim.
+    const history = loadLocalScores().filter((item) => item > 0);
+    if (sessionStreak > 0 && history[history.length - 1] !== sessionStreak) {
+      history.push(sessionStreak);
+    }
+    saveLocalScores(history.slice(-200));
   }, []);
 
   const guessMutation = useMutation({
     mutationFn: (guess) => api.post(`/api/rounds/${round?.id}/guess`, { guess }),
     onSuccess: (data) => {
-      queryClient.setQueryData(['round', mode], { round: data.round });
+      // Resposta atrasada (logout/troca de sessão no meio do voo): só grava
+      // se o cache ainda mostra a MESMA rodada que recebeu o chute.
+      if (queryClient.getQueryData(['round', mode])?.round?.id === data.round?.id) {
+        queryClient.setQueryData(['round', mode], { round: data.round });
+      }
       setStatus(data.result);
       setMessage(composeGuessMessage(t, data));
 
       if (data.result === 'correct') {
-        setSessionScore((value) => value + 1);
+        const nextStreak = sessionScore + 1;
+        // O acerto também grava no histórico local: sessão terminada em
+        // vitória não pode se perder (o dedupe evita o failed seguinte
+        // gravar o mesmo valor de novo).
+        recordEndedRound(nextStreak);
+        setSessionScore(nextStreak);
         if (user && data.points > 0) {
           toast.success(t('game.pointsToast', { points: data.points }));
         }
@@ -138,13 +167,26 @@ export function useVroomGame(mode = 'classic') {
         scheduleNext(4000);
       }
     },
-    onError: (error) => toast.error(apiErrorMessage(t, error)),
+    onError: (error) => {
+      toast.error(apiErrorMessage(t, error));
+      // Rodada morta no servidor (encerrada noutra aba, sessão caiu):
+      // revalida para o jogo se recuperar sozinho em vez de ficar preso
+      // em loop de 403/401 até um F5.
+      if (
+        ['ROUND_ENDED', 'ROUND_NOT_YOURS', 'ROUND_NOT_FOUND'].includes(error?.code) ||
+        error?.status === 401
+      ) {
+        queryClient.invalidateQueries({ queryKey: ['round', mode] });
+      }
+    },
   });
 
   const skipMutation = useMutation({
     mutationFn: () => api.post(`/api/rounds/${round?.id}/skip`),
     onSuccess: (data) => {
-      queryClient.setQueryData(['round', mode], { round: data.round });
+      if (queryClient.getQueryData(['round', mode])?.round?.id === data.round?.id) {
+        queryClient.setQueryData(['round', mode], { round: data.round });
+      }
       setStatus('skipped');
       setMessage(t('game.messages.skipped', { name: data.round?.carName ?? '' }));
       recordEndedRound(sessionScore);
@@ -153,7 +195,15 @@ export function useVroomGame(mode = 'classic') {
       // Igual ao chute errado: agenda a próxima rodada para não travar o jogo.
       scheduleNext(1800);
     },
-    onError: (error) => toast.error(apiErrorMessage(t, error)),
+    onError: (error) => {
+      toast.error(apiErrorMessage(t, error));
+      if (
+        ['ROUND_ENDED', 'ROUND_NOT_YOURS', 'ROUND_NOT_FOUND'].includes(error?.code) ||
+        error?.status === 401
+      ) {
+        queryClient.invalidateQueries({ queryKey: ['round', mode] });
+      }
+    },
   });
 
   const bestScores = useMemo(

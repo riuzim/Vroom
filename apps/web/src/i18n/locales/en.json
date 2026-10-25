@@ -16,7 +16,6 @@
     "metaTitle": "Vroom — Car Guessing Game",
     "metaDescription": "Guess the car from the blurry photo. 5 guesses, a hint on every miss, and a global leaderboard.",
     "tagline": "One blurry image. One legendary car. 5 guesses to get it right.",
-    "playNow": "Play now",
     "modes": {
       "classic": {
         "title": "Classic",

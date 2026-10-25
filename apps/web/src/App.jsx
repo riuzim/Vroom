@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ErrorBoundary from '@/components/ErrorBoundary.jsx';
 import Header from '@/components/Header.jsx';
@@ -28,6 +28,31 @@ function PageFallback() {
   );
 }
 
+/** Rotas com boundary que reseta a cada navegação: um crash de render em
+ *  uma página não pode deixar o app inteiro travado até um F5. */
+function RoutedContent() {
+  const { pathname } = useLocation();
+  return (
+    <ErrorBoundary key={pathname}>
+      <Suspense fallback={<PageFallback />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/game/:mode" element={<Game />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/privacidade" element={<Privacy />} />
+          <Route path="/termos" element={<Terms />} />
+          <Route path="/cookies" element={<Cookies />} />
+          <Route path="/creditos" element={<Credits />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+
 export default function App() {
   const { t } = useTranslation();
 
@@ -42,23 +67,7 @@ export default function App() {
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="grain relative flex min-h-screen flex-col bg-ink text-bone">
         <Header />
-        <ErrorBoundary>
-          <Suspense fallback={<PageFallback />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/game/:mode" element={<Game />} />
-              <Route path="/leaderboard" element={<Leaderboard />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/privacidade" element={<Privacy />} />
-              <Route path="/termos" element={<Terms />} />
-              <Route path="/cookies" element={<Cookies />} />
-              <Route path="/creditos" element={<Credits />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Suspense>
-        </ErrorBoundary>
+        <RoutedContent />
         <footer className="border-t border-bone/10">
           <div aria-hidden="true" className="checker h-1.5" />
           <div className="px-4 py-6 text-center text-xs font-medium text-bone/60">

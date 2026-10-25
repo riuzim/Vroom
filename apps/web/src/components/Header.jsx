@@ -52,6 +52,7 @@ function NavLinks({ onNavigate }) {
 export default function Header() {
   const { t } = useTranslation();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { data } = useMe();
   const logout = useLogout();
   const user = data?.user ?? null;
@@ -125,7 +126,7 @@ export default function Header() {
             </Button>
           )}
           <div className="md:hidden">
-            <Sheet>
+            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" aria-label={t('nav.openMenu')}>
                   <Menu className="size-5" />
@@ -136,7 +137,7 @@ export default function Header() {
                   <SheetTitle>Vroom</SheetTitle>
                 </SheetHeader>
                 <div className="mt-4 flex flex-col gap-4">
-                  <NavLinks />
+                  <NavLinks onNavigate={() => setMenuOpen(false)} />
                   <div className="flex flex-col gap-2 border-t border-bone/10 pt-4">
                     {user ? (
                       <>

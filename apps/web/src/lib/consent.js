@@ -108,8 +108,7 @@ export function hasExternalCmp() {
 }
 
 function updateConsentMode(consent) {
-  if (!consent.decided) return;
-  const granted = (value) => (value ? 'granted' : 'denied');
+  const granted = (value) => (consent.decided && value ? 'granted' : 'denied');
   window.dataLayer.push([
     'consent',
     'update',
@@ -135,5 +134,8 @@ if (typeof window !== 'undefined') {
       analytics_storage: 'denied',
     },
   ]);
+  // Replay do estado de quem JÁ decidiu (visita de retorno): sem isso, quem
+  // concedeu publicidade vive a sessão inteira como denied no Consent Mode.
+  updateConsentMode(state);
   window.addEventListener(CHANGE_EVENT, () => updateConsentMode(state));
 }

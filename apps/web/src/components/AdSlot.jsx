@@ -12,16 +12,23 @@ import { useConsent } from '@/lib/consent';
  */
 
 let adsScriptPromise = null;
+let adsScriptFailed = false;
 
 function loadAdsScript(client) {
   if (adsScriptPromise) return adsScriptPromise;
+  adsScriptFailed = false;
   adsScriptPromise = new Promise((resolve) => {
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
     script.crossOrigin = 'anonymous';
     script.onload = () => resolve();
-    script.onerror = () => resolve();
+    // Falha (adblock/offline): resolve para não pendurar a promise, mas
+    // marca — push num window.adsbygoogle morto só acumula entrada órfã.
+    script.onerror = () => {
+      adsScriptFailed = true;
+      resolve();
+    };
     document.head.appendChild(script);
   });
   return adsScriptPromise;
@@ -37,7 +44,7 @@ export default function AdSlot({ slot, className = '', minHeight = 280, ...rest 
     if (!enabled) return undefined;
     let cancelled = false;
     loadAdsScript(client).then(() => {
-      if (cancelled) return;
+      if (cancelled || adsScriptFailed) return;
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
       } catch {

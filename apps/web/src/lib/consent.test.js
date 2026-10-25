@@ -81,10 +81,11 @@ describe('Consent Mode v2 (dataLayer usado pelo AdSense)', () => {
     expect(window.dataLayer.filter(countFilter).at(-1)[2].ad_storage).toBe('denied');
   });
 
-  it('não publica update enquanto não houver decisão', () => {
+  it('indeciso/revogado publica denied — revogação tem efeito imediato', () => {
     const before = countUpdates();
     setConsent({ decided: false });
-    expect(countUpdates()).toBe(before);
+    expect(countUpdates()).toBe(before + 1);
+    expect(window.dataLayer.filter(countFilter).at(-1)[2].ad_storage).toBe('denied');
   });
 });
 

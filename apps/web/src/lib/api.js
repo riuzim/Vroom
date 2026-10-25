@@ -10,6 +10,9 @@ async function request(path, options = {}) {
   try {
     response = await fetch(`${API_BASE}${path}`, {
       credentials: 'include',
+      // Rede estagnada não pode pendurar a UI para sempre: 15s de teto.
+      // AbortSignal.timeout rejeita com TimeoutError → cai no catch de rede.
+      signal: AbortSignal.timeout(15_000),
       ...options,
       headers: {
         ...(options.body ? { 'Content-Type': 'application/json' } : {}),
@@ -31,7 +34,9 @@ async function request(path, options = {}) {
   if (!response.ok) {
     const error = new Error(data?.error ?? 'Não foi possível falar com o servidor.');
     error.status = response.status;
-    error.code = data?.code;
+    // Corpo não-JSON (ex.: 502/HTML de um proxy na frente da API) não tem
+    // código — INTERNAL_ERROR existe traduzido nos três idiomas.
+    error.code = data?.code ?? (data === null ? 'INTERNAL_ERROR' : undefined);
     error.details = data?.details;
     throw error;
   }
