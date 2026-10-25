@@ -33,13 +33,13 @@ olho"; cada seleção passou pelo protocolo:
 
 ## Estatísticas
 
-| Métrica | Valor |
-| --- | --- |
-| Carros | 100 (41 re-verificados + 59 novos) |
-| Marcas | 38 |
+| Métrica    | Valor                                                                                                                   |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Carros     | 100 (41 re-verificados + 59 novos)                                                                                      |
+| Marcas     | 38                                                                                                                      |
 | Categorias | supercar 20 · sport 16 · jdm 16 · suv 11 · sedan 10 · classic 10 · muscle 5 · hatch 3 · ev 3 · pickup 2 · bra 2 · lux 2 |
-| Licenças | CC BY-SA 4.0 (71) · CC BY 2.0 (10) · CC0 (6) · CC BY-SA 3.0 (5) · Public domain (4) · CC BY 4.0 (3) · CC BY-SA 2.0 (1) |
-| Formato | 100 JPEG, largura mínima 1565px |
+| Licenças   | CC BY-SA 4.0 (71) · CC BY 2.0 (10) · CC0 (6) · CC BY-SA 3.0 (5) · Public domain (4) · CC BY 4.0 (3) · CC BY-SA 2.0 (1)  |
+| Formato    | 100 JPEG, largura mínima 1565px                                                                                         |
 
 ## Decisões de era/trim (por lote)
 

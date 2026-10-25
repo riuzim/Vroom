@@ -102,6 +102,8 @@ export async function ensureLocalDatabase(databaseUrl: string, nodeEnv: string):
 
   const pg = await startLocalPg();
   if (pg) {
-    console.log('    (o banco encerra junto com este processo; os dados ficam em apps/api/.pg-data)');
+    console.log(
+      '    (o banco encerra junto com este processo; os dados ficam em apps/api/.pg-data)',
+    );
   }
 }

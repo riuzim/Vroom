@@ -19,25 +19,25 @@ contam como mesmo site para SameSite) → cookie de sessão pode usar
 
 ### `apps/web/.env` (no servidor de build)
 
-| Var | Valor em produção |
-| --- | --- |
-| `VITE_API_URL` | `https://api.vroom.example.com` — ou vazio se o Caddy fizer proxy de `/api` no mesmo domínio |
-| `VITE_GOOGLE_CLIENT_ID` | igual ao da API (adicione a origem nova no Google Cloud Console) |
-| `VITE_BASE` | `/` (raiz do domínio; vazio mantém `/Vroom/` do GitHub Pages) |
-| `VITE_SITE_URL` | `https://vroom.example.com` (gera robots.txt + sitemap.xml no build) |
-| `VITE_ADSENSE_CLIENT` | `ca-pub-…` **só depois da conta AdSense APROVADA** (habilita AdSlots, CSP e ads.txt) |
+| Var                     | Valor em produção                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------------- |
+| `VITE_API_URL`          | `https://api.vroom.example.com` — ou vazio se o Caddy fizer proxy de `/api` no mesmo domínio |
+| `VITE_GOOGLE_CLIENT_ID` | igual ao da API (adicione a origem nova no Google Cloud Console)                             |
+| `VITE_BASE`             | `/` (raiz do domínio; vazio mantém `/Vroom/` do GitHub Pages)                                |
+| `VITE_SITE_URL`         | `https://vroom.example.com` (gera robots.txt + sitemap.xml no build)                         |
+| `VITE_ADSENSE_CLIENT`   | `ca-pub-…` **só depois da conta AdSense APROVADA** (habilita AdSlots, CSP e ads.txt)         |
 
 ### `apps/api/.env`
 
-| Var | Valor em produção |
-| --- | --- |
-| `DATABASE_URL` | URI Postgres do **Supabase Session pooler** (`postgresql://postgres.<ref>:<senha>@aws-0-<região>.pooler.supabase.com:5432/postgres`) — veja abaixo |
-| `NODE_ENV` | `production` (exige JWT_SECRET 32+ caracteres real) |
-| `JWT_SECRET` | `openssl rand -base64 48` |
-| `CORS_ORIGIN` | `https://vroom.example.com` (+ `https://riuzim.github.io` se mantiver o Pages) |
-| `TRUST_PROXY` | `1` (atrás do Caddy, para o rate-limit ver o IP real) |
-| `GOOGLE_CLIENT_ID` | igual ao do front |
-| `COOKIE_SAMESITE` | `lax` (mesmo site com o front) — vazio/`none` só se front e API em sites distintos |
+| Var                | Valor em produção                                                                                                                                  |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`     | URI Postgres do **Supabase Session pooler** (`postgresql://postgres.<ref>:<senha>@aws-0-<região>.pooler.supabase.com:5432/postgres`) — veja abaixo |
+| `NODE_ENV`         | `production` (exige JWT_SECRET 32+ caracteres real)                                                                                                |
+| `JWT_SECRET`       | `openssl rand -base64 48`                                                                                                                          |
+| `CORS_ORIGIN`      | `https://vroom.example.com` (+ `https://riuzim.github.io` se mantiver o Pages)                                                                     |
+| `TRUST_PROXY`      | `1` (atrás do Caddy, para o rate-limit ver o IP real)                                                                                              |
+| `GOOGLE_CLIENT_ID` | igual ao do front                                                                                                                                  |
+| `COOKIE_SAMESITE`  | `lax` (mesmo site com o front) — vazio/`none` só se front e API em sites distintos                                                                 |
 
 ### Postgres de produção (Supabase)
 

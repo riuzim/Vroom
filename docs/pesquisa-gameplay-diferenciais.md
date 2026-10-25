@@ -24,17 +24,17 @@ Roadmap sugerido: **Fase 1** (quick wins de 0–30 dias: share-grid, streak, sta
 
 ## 2. O Vroom hoje (baseline)
 
-| Dimensão | Estado atual |
-|---|---|
-| Core loop | Adivinhar o carro por foto que clareia a cada chute errado + 1 letra revelada por erro; 5 tentativas |
-| Pontuação | 10 × tentativas restantes (2× no Hard) |
-| Modos | Classic (livre), Hard (P&B, 2×), Daily (1/dia, mesmo carro para todos, `@@unique([userId, dailyDate])`) |
-| Social/retorno | **Nenhum** — sem streak, share-grid, archive, coleção, quests, notificações ou stats |
-| Contas | Visitante joga (não pontua); ranking global só para contas — padrão correto (sem signup wall) |
-| Anti-cheat | Server-authoritative; nome nunca sai do payload antes do fim (coberto por teste) |
-| Catálogo | ~120 carros (Wikimedia Commons), `Car{name, brand, model, category, years, imageData Bytes…}`; **sem specs** (combustível, tração, potência, preço, país) |
-| Stack | React 18 + Vite (web), Express + Prisma + Postgres (API), i18n pt-BR/en/es, imagens BYTEA servidas pela própria API |
-| Monetização | AdSense + consent de cookies; sem tier pago |
+| Dimensão       | Estado atual                                                                                                                                              |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Core loop      | Adivinhar o carro por foto que clareia a cada chute errado + 1 letra revelada por erro; 5 tentativas                                                      |
+| Pontuação      | 10 × tentativas restantes (2× no Hard)                                                                                                                    |
+| Modos          | Classic (livre), Hard (P&B, 2×), Daily (1/dia, mesmo carro para todos, `@@unique([userId, dailyDate])`)                                                   |
+| Social/retorno | **Nenhum** — sem streak, share-grid, archive, coleção, quests, notificações ou stats                                                                      |
+| Contas         | Visitante joga (não pontua); ranking global só para contas — padrão correto (sem signup wall)                                                             |
+| Anti-cheat     | Server-authoritative; nome nunca sai do payload antes do fim (coberto por teste)                                                                          |
+| Catálogo       | ~120 carros (Wikimedia Commons), `Car{name, brand, model, category, years, imageData Bytes…}`; **sem specs** (combustível, tração, potência, preço, país) |
+| Stack          | React 18 + Vite (web), Express + Prisma + Postgres (API), i18n pt-BR/en/es, imagens BYTEA servidas pela própria API                                       |
+| Monetização    | AdSense + consent de cookies; sem tier pago                                                                                                               |
 
 **Conclusão do baseline:** o custo de jogo é baixo e a sessão é curta (bom, pela evidência de Wordle/Stanly). O gargalo não é o core — é tudo ao redor dele (retenção, social, profundidade de catálogo).
 
@@ -48,11 +48,11 @@ Roadmap sugerido: **Fase 1** (quick wins de 0–30 dias: share-grid, streak, sta
 
 **Nichos relevantes para o Vroom dentro do ecossistema:**
 
-| Nicho | Tamanho/sinais | Exemplos |
-|---|---|---|
-| Estimativa/Comparação | ~33 jogos (um dos maiores nichos) | Magnitudle, Size It Up, Its Price, Tall Ordle (ordena "fastest cars"), More/Less binário |
-| Ordenação temporal | Categoria History cheia de jogos de ordenar | Chronle, Timdle, Wikitrivia, Chrono, TimeGuessr |
-| Adivinhação visual revelada | Formato dominante em filmes (Framed), carros (Cardle), música (album covers) | Framed, Cardle, Heardle-likes |
+| Nicho                       | Tamanho/sinais                                                               | Exemplos                                                                                 |
+| --------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Estimativa/Comparação       | ~33 jogos (um dos maiores nichos)                                            | Magnitudle, Size It Up, Its Price, Tall Ordle (ordena "fastest cars"), More/Less binário |
+| Ordenação temporal          | Categoria History cheia de jogos de ordenar                                  | Chronle, Timdle, Wikitrivia, Chrono, TimeGuessr                                          |
+| Adivinhação visual revelada | Formato dominante em filmes (Framed), carros (Cardle), música (album covers) | Framed, Cardle, Heardle-likes                                                            |
 
 **Leitura:** há demanda comprovada por modos de (a) estimativa "mais ou menos" (potência/preço/0–100), (b) ordenação por ano/velocidade, (c) revelação progressiva de pistas visuais — exatamente os formatos que o Vroom pode construir com o que já tem (`years`) ou com enriquecimento de catálogo.
 
@@ -84,7 +84,7 @@ Roadmap sugerido: **Fase 1** (quick wins de 0–30 dias: share-grid, streak, sta
 - **Cranked** — "Five cars. One correct order." (jogo de **ordenação**)
 - **Spotted** — "See the shape. Name the car." (**silhueta**)
 
-Com **Ranks** (leaderboard), **Stats**, **Garage** (coleção!) e **Archive**. 
+Com **Ranks** (leaderboard), **Stats**, **Garage** (coleção!) e **Archive**.
 
 **Leitura estratégica:** REVVED prova que silhueta e ordenação sustentam modos próprios em carro — e que "Garage" (coleção) é a camada de progressão esperada do nicho. O Vroom pode implementar equivalentes **sem nenhum asset novo** (imagens já estão no banco; `years` já existe no schema).
 
@@ -94,24 +94,24 @@ Com **Ranks** (leaderboard), **Stats**, **Garage** (coleção!) e **Archive**.
 
 ### 4.5 Tabela comparativa
 
-| Recurso | Vroom | DailyCarQuiz | cardle.sh | REVVED |
-|---|:---:|:---:|:---:|:---:|
-| Daily visual (foto) | ✅ | ✅ (Cardle) | ✅ (Image) | — |
-| Modo specs/ficha técnica | — | — | ✅ | — |
-| Modo som | — | ✅ (RevQuiz) | — | ✅ (Revved) |
-| Modo silhueta | — | — | — | ✅ (Spotted) |
-| Modo ordenação | — | — | — | ✅ (Cranked) |
-| Modos por nicho (JDM etc.) | — | ✅ | — | — |
-| Puzzle semanal | — | ✅ (CarConnections) | — | — |
-| Streak | — | ✅ | ✅ (com fogo) | ✅ |
-| Archive | — | ✅ | ✅ (premium p/ antigos) | ✅ |
-| Stats | — | ✅ | — | ✅ |
-| Coleção/Garage | — | — | — | ✅ |
-| Leaderboard | ✅ | ✅ | — (contador apenas) | ✅ (Ranks) |
-| Share-grid | — | — | — | — |
-| Duelo entre amigos | — | — | — | — |
-| i18n | ✅ pt-BR/en/es | EN | EN (seletor 🇬🇧) | EN |
-| Premium | — | ✅ | ✅ | — |
+| Recurso                    |     Vroom      |    DailyCarQuiz     |        cardle.sh        |    REVVED    |
+| -------------------------- | :------------: | :-----------------: | :---------------------: | :----------: |
+| Daily visual (foto)        |       ✅       |     ✅ (Cardle)     |       ✅ (Image)        |      —       |
+| Modo specs/ficha técnica   |       —        |          —          |           ✅            |      —       |
+| Modo som                   |       —        |    ✅ (RevQuiz)     |            —            | ✅ (Revved)  |
+| Modo silhueta              |       —        |          —          |            —            | ✅ (Spotted) |
+| Modo ordenação             |       —        |          —          |            —            | ✅ (Cranked) |
+| Modos por nicho (JDM etc.) |       —        |         ✅          |            —            |      —       |
+| Puzzle semanal             |       —        | ✅ (CarConnections) |            —            |      —       |
+| Streak                     |       —        |         ✅          |      ✅ (com fogo)      |      ✅      |
+| Archive                    |       —        |         ✅          | ✅ (premium p/ antigos) |      ✅      |
+| Stats                      |       —        |         ✅          |            —            |      ✅      |
+| Coleção/Garage             |       —        |          —          |            —            |      ✅      |
+| Leaderboard                |       ✅       |         ✅          |   — (contador apenas)   |  ✅ (Ranks)  |
+| Share-grid                 |       —        |          —          |            —            |      —       |
+| Duelo entre amigos         |       —        |          —          |            —            |      —       |
+| i18n                       | ✅ pt-BR/en/es |         EN          |     EN (seletor 🇬🇧)     |      EN      |
+| Premium                    |       —        |         ✅          |           ✅            |      —       |
 
 **Os dois buracos verdes da matriz:** share-grid emoji e duelo assíncrono de amigo — ninguém no nicho tem. São justamente os de menor esforço.
 
@@ -127,7 +127,7 @@ Com **Ranks** (leaderboard), **Stats**, **Garage** (coleção!) e **Archive**.
 2. **Simplicidade** — UI sem distração;
 3. **Compromisso limitado** — sem notificações; o jogo pede minutos, não horas.
 
-E o growth hack acidental: **share-grid emoji sem spoiler**, adicionado em dez/2021 → crescimento hockey-stick. Funciona por *common knowledge*: só quem jogou decodifica o grid, e todos jogam o MESMO puzzle do dia — ver o resultado de um amigo (a) lembra que o board de hoje existe (retenção!) e (b) cria curiosidade nos que ainda não jogaram (aquisição). O grid precisa ser legível **sem explicação**.
+E o growth hack acidental: **share-grid emoji sem spoiler**, adicionado em dez/2021 → crescimento hockey-stick. Funciona por _common knowledge_: só quem jogou decodifica o grid, e todos jogam o MESMO puzzle do dia — ver o resultado de um amigo (a) lembra que o board de hoje existe (retenção!) e (b) cria curiosidade nos que ainda não jogaram (aquisição). O grid precisa ser legível **sem explicação**.
 
 ### 5.2 Streak: potente, mas não salva produto fraco
 
@@ -158,48 +158,48 @@ Avaliação relativa à stack atual (React+Vite / Express+Prisma+Postgres, image
 
 ### A. Mecânicas de retorno (cross-cutting — vêm antes de modos novos)
 
-| # | Candidato | O que é | Precedente | Esforço | Impacto |
-|---|---|---|---|:---:|:---:|
-| A1 | **Share-grid emoji** | Grid sem spoiler (ex.: `Vroom #57 🟥🟨🟩🟩🟩🚗 4/5`) copiável ao terminar | Wordle (hockey-stick); ninguém no nicho de carros tem | **Baixo** (front-end + clipboard) | **Alto** (crescimento + retenção) |
-| A2 | **Streak diário + destaque no perfil** | Contagem de dailies consecutivos, com "melhor streak" | Cardle (fogo animado), NYT, Duolingo (2,4×) | **Baixo/Médio** (tabela `UserStreak` ou derivação de `Score`) | **Alto** |
-| A3 | **Página de Stats** | Distribuição de chutes, % vitória, streaks, histórico pessoal | NYT Connections, REVVED, Framed | **Baixo/Médio** (dados já existem em `Score`/`Round`) | **Médio** |
-| A4 | **Archive de dailies** | Jogar dias passados, com reveal opcional da resposta | Andy Stanly; Framed "Play the days you missed"; Cardle (paywall) | **Médio** ⚠️ depende do registro histórico do carro do dia (ver nota) | **Médio/Alto** |
-| A5 | **Duelo assíncrono de amigo** | Link "desafio do dia": mesmo carro, quem acerta em menos chutes; placar 1:1 | Squabble (real-time); **gap no nicho de carros** | **Médio** (token de round + rota de replay) | **Alto** (viral 1:1, sem infra nova) |
+| #   | Candidato                              | O que é                                                                     | Precedente                                                       |                                Esforço                                |               Impacto                |
+| --- | -------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------- | :-------------------------------------------------------------------: | :----------------------------------: |
+| A1  | **Share-grid emoji**                   | Grid sem spoiler (ex.: `Vroom #57 🟥🟨🟩🟩🟩🚗 4/5`) copiável ao terminar   | Wordle (hockey-stick); ninguém no nicho de carros tem            |                   **Baixo** (front-end + clipboard)                   |  **Alto** (crescimento + retenção)   |
+| A2  | **Streak diário + destaque no perfil** | Contagem de dailies consecutivos, com "melhor streak"                       | Cardle (fogo animado), NYT, Duolingo (2,4×)                      |     **Baixo/Médio** (tabela `UserStreak` ou derivação de `Score`)     |               **Alto**               |
+| A3  | **Página de Stats**                    | Distribuição de chutes, % vitória, streaks, histórico pessoal               | NYT Connections, REVVED, Framed                                  |         **Baixo/Médio** (dados já existem em `Score`/`Round`)         |              **Médio**               |
+| A4  | **Archive de dailies**                 | Jogar dias passados, com reveal opcional da resposta                        | Andy Stanly; Framed "Play the days you missed"; Cardle (paywall) | **Médio** ⚠️ depende do registro histórico do carro do dia (ver nota) |            **Médio/Alto**            |
+| A5  | **Duelo assíncrono de amigo**          | Link "desafio do dia": mesmo carro, quem acerta em menos chutes; placar 1:1 | Squabble (real-time); **gap no nicho de carros**                 |              **Médio** (token de round + rota de replay)              | **Alto** (viral 1:1, sem infra nova) |
 
 > **Nota técnica (A4):** o archive exige saber qual carro foi o daily de cada data passada. Verificar se a seleção do carro do dia é **determinística** (ex.: seed pela data sobre o catálogo, em `packages/shared`) — se for, o archive é derivável de graça; se não for, criar `DailyCar{date, carId}` registrando o carro de cada dia **a partir de agora** (o passado não é recuperável).
 
 ### B. Novos modos de jogo
 
-| # | Candidato | O que é | Precedente | Esforço | Impacto |
-|---|---|---|---|:---:|:---:|
-| B1 | **Modo Silhueta** ("Spotted"-like) | Silhueta preta do carro; chutes revelam detalhes/foto | REVVED Spotted | **Baixo** (imagens já no banco; silhueta = filtro/processamento no servidor ou CSS) | **Médio** |
-| B2 | **Modo Ordenação** ("Cranked"-like) | 5 carros, ordenar por ano (depois: potência/preço com catálogo rico) | REVVED Cranked; Chronle/Tall Ordle no ecossistema | **Baixo/Médio** (`years` já existe!) | **Médio** |
-| B3 | **Séries temáticas rotativas** | "Fim de semana JDM", "Semana hypercars" — daily filtrado por `category` | DailyCarQuiz (JDMdle/Muscledle/Eurodle como jogos fixos) | **Baixo** (campo `category` existe; é um filtro + agenda) | **Médio** |
-| B4 | **Modo Specs (ficha técnica)** | Chutes revelam tiles: país, tração, motor, potência, ano com setas ↑↓ | cardle.sh Classic (formato comprovado); nicho estimação (33+ dles) | **Alto** ⚠️ exige enriquecer catálogo com specs | **Alto** |
-| B5 | **Modo "Mais ou Menos"** | Comparação binária: "potência/preço/0–100 do carro X é maior ou menor?" | Its Price, Magnitudle, Size It Up (nicho de 33 jogos) | **Médio** (subconjunto de B4 — mesmos campos de catálogo) | **Médio/Alto** |
-| B6 | **Modo Som (motor)** | Adivinhar pelo som | REVVED Revved; DailyCarQuiz RevQuiz | **Alto** (assets de áudio + licenças + storage) | **Médio** (nicho já dominado — seriamos seguidores) |
-| B7 | **Modo Emoji** | Marca por emojis | cardle.sh Emoji | **Baixo** (mapear emojis por marca) | **Baixo/Médio** (gimmick) |
-| B8 | **Modo Brasil** | Daily da cultura carros BR (Uno, Gol, Opala, Chevette, Kombi…) — curadoria + destaque | **Nenhum concorrente atende** pt-BR | **Médio** (curadoria de catálogo Wikimedia BR) | **Alto** para o público-alvo |
-| B9 | **Practice/Unlimited** | Rodadas infinitas fora do daily (sem valer streak/ranking) | Krillion/Unlimited-likes; citado por Stanly | **Baixo/Médio** (o modo Classic já é isso — formalizar UX "treino") | **Médio** |
+| #   | Candidato                           | O que é                                                                               | Precedente                                                         |                                       Esforço                                       |                       Impacto                       |
+| --- | ----------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | :---------------------------------------------------------------------------------: | :-------------------------------------------------: |
+| B1  | **Modo Silhueta** ("Spotted"-like)  | Silhueta preta do carro; chutes revelam detalhes/foto                                 | REVVED Spotted                                                     | **Baixo** (imagens já no banco; silhueta = filtro/processamento no servidor ou CSS) |                      **Médio**                      |
+| B2  | **Modo Ordenação** ("Cranked"-like) | 5 carros, ordenar por ano (depois: potência/preço com catálogo rico)                  | REVVED Cranked; Chronle/Tall Ordle no ecossistema                  |                        **Baixo/Médio** (`years` já existe!)                         |                      **Médio**                      |
+| B3  | **Séries temáticas rotativas**      | "Fim de semana JDM", "Semana hypercars" — daily filtrado por `category`               | DailyCarQuiz (JDMdle/Muscledle/Eurodle como jogos fixos)           |              **Baixo** (campo `category` existe; é um filtro + agenda)              |                      **Médio**                      |
+| B4  | **Modo Specs (ficha técnica)**      | Chutes revelam tiles: país, tração, motor, potência, ano com setas ↑↓                 | cardle.sh Classic (formato comprovado); nicho estimação (33+ dles) |                   **Alto** ⚠️ exige enriquecer catálogo com specs                   |                      **Alto**                       |
+| B5  | **Modo "Mais ou Menos"**            | Comparação binária: "potência/preço/0–100 do carro X é maior ou menor?"               | Its Price, Magnitudle, Size It Up (nicho de 33 jogos)              |              **Médio** (subconjunto de B4 — mesmos campos de catálogo)              |                   **Médio/Alto**                    |
+| B6  | **Modo Som (motor)**                | Adivinhar pelo som                                                                    | REVVED Revved; DailyCarQuiz RevQuiz                                |                   **Alto** (assets de áudio + licenças + storage)                   | **Médio** (nicho já dominado — seriamos seguidores) |
+| B7  | **Modo Emoji**                      | Marca por emojis                                                                      | cardle.sh Emoji                                                    |                         **Baixo** (mapear emojis por marca)                         |              **Baixo/Médio** (gimmick)              |
+| B8  | **Modo Brasil**                     | Daily da cultura carros BR (Uno, Gol, Opala, Chevette, Kombi…) — curadoria + destaque | **Nenhum concorrente atende** pt-BR                                |                   **Médio** (curadoria de catálogo Wikimedia BR)                    |            **Alto** para o público-alvo             |
+| B9  | **Practice/Unlimited**              | Rodadas infinitas fora do daily (sem valer streak/ranking)                            | Krillion/Unlimited-likes; citado por Stanly                        |         **Baixo/Médio** (o modo Classic já é isso — formalizar UX "treino")         |                      **Médio**                      |
 
 ### C. Meta-jogo e progressão
 
-| # | Candidato | O que é | Precedente | Esforço | Impacto |
-|---|---|---|---|:---:|:---:|
-| C1 | **Garage/Coleção + raridade** | Carros "conquistados" ao acertar, com tiers de raridade (comum→lendário por dificuldade/popularidade) | REVVED "Garage"; "rarity tiers are a promise" (Stanly) | **Médio** (tabela coleção + UI) | **Alto** (colecionável = retorno) |
-| C2 | **Conquistas** | Badges: "primeiro daily", "10 streak", "acertou em 1 chute"… | Padrão de mobile games (ACM 10.1145/3341215.3356261) | **Médio** | **Médio** |
-| C3 | **Quests diárias/semanais** | 3 metas: "jogue o daily", "acerte um Hard", "ganhe um duelo" | Padrão battle pass; valida visitas não-daily | **Médio** | **Médio** |
-| C4 | **Liga/Temporada** | Grupos mensais (Bronze→Diamante) com promoção/rebaixamento | Duolingo Leagues, chess.com ratings | **Alto** ⚠️ precisa massa crítica de jogadores | **Alto** (mas prematuro) |
-| C5 | **Puzzle semanal** | Desafio maior de domingo (ex.: 3 carros ligados por uma tema) | CarConnections (DailyCarQuiz) | **Médio** | **Médio** |
+| #   | Candidato                     | O que é                                                                                               | Precedente                                             |                    Esforço                     |              Impacto              |
+| --- | ----------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------------------ | :--------------------------------------------: | :-------------------------------: |
+| C1  | **Garage/Coleção + raridade** | Carros "conquistados" ao acertar, com tiers de raridade (comum→lendário por dificuldade/popularidade) | REVVED "Garage"; "rarity tiers are a promise" (Stanly) |        **Médio** (tabela coleção + UI)         | **Alto** (colecionável = retorno) |
+| C2  | **Conquistas**                | Badges: "primeiro daily", "10 streak", "acertou em 1 chute"…                                          | Padrão de mobile games (ACM 10.1145/3341215.3356261)   |                   **Médio**                    |             **Médio**             |
+| C3  | **Quests diárias/semanais**   | 3 metas: "jogue o daily", "acerte um Hard", "ganhe um duelo"                                          | Padrão battle pass; valida visitas não-daily           |                   **Médio**                    |             **Médio**             |
+| C4  | **Liga/Temporada**            | Grupos mensais (Bronze→Diamante) com promoção/rebaixamento                                            | Duolingo Leagues, chess.com ratings                    | **Alto** ⚠️ precisa massa crítica de jogadores |     **Alto** (mas prematuro)      |
+| C5  | **Puzzle semanal**            | Desafio maior de domingo (ex.: 3 carros ligados por uma tema)                                         | CarConnections (DailyCarQuiz)                          |                   **Médio**                    |             **Médio**             |
 
 ### D. Conteúdo e monetização
 
-| # | Candidato | Notas | Esforço |
-|---|---|---|---|
-| D1 | **Expandir catálogo** | cardle.sh tem 300+; Vroom ~120. Mais catálogo = mais re-jogabilidade e dificuldade calibrada | Contínuo |
-| D2 | **Enriquecer catálogo (specs)** | Pré-requisito de B4/B5: país, tração, motor, potência, preço (nullable, migrar `Car`) | Alto (dados), destrava a aposta principal |
-| D3 | **Premium** | Precedente: Cardle paywalla o archive antigo; DailyCarQuiz tem tier pago. Caminhos: archive estendido, cosmetics de Garage, séries extras. Manter daily gratuito (padrão do ecossistema) | Médio |
-| D4 | **Playlin/dles** | Submeter ao [playlin.io](https://playlin.io) e ao [dles](https://github.com/aukspot/dles) após ter share-grid + stats — canal de distribuição gratuito | Baixo |
+| #   | Candidato                       | Notas                                                                                                                                                                                    | Esforço                                   |
+| --- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| D1  | **Expandir catálogo**           | cardle.sh tem 300+; Vroom ~120. Mais catálogo = mais re-jogabilidade e dificuldade calibrada                                                                                             | Contínuo                                  |
+| D2  | **Enriquecer catálogo (specs)** | Pré-requisito de B4/B5: país, tração, motor, potência, preço (nullable, migrar `Car`)                                                                                                    | Alto (dados), destrava a aposta principal |
+| D3  | **Premium**                     | Precedente: Cardle paywalla o archive antigo; DailyCarQuiz tem tier pago. Caminhos: archive estendido, cosmetics de Garage, séries extras. Manter daily gratuito (padrão do ecossistema) | Médio                                     |
+| D4  | **Playlin/dles**                | Submeter ao [playlin.io](https://playlin.io) e ao [dles](https://github.com/aukspot/dles) após ter share-grid + stats — canal de distribuição gratuito                                   | Baixo                                     |
 
 ---
 
@@ -207,15 +207,16 @@ Avaliação relativa à stack atual (React+Vite / Express+Prisma+Postgres, image
 
 ### Matriz
 
-|  | **Impacto alto** | **Impacto médio** | **Impacto baixo** |
-|---|---|---|---|
-| **Esforço baixo** | 🥇 A1 Share-grid · A2 Streak · B3 Séries temáticas | A3 Stats · B1 Silhueta · B7 Emoji · B9 Practice | — |
-| **Esforço médio** | 🥈 A5 Duelo assíncrono · C1 Garage | A4 Archive · B2 Ordenação · B8 Modo Brasil · C2 Conquistas · C3 Quests | C5 Puzzle semanal |
-| **Esforço alto** | 🥉 B4 Specs · D2 Enriquecer catálogo · C4 Liga | B5 Mais ou Menos · B6 Som | — |
+|                   | **Impacto alto**                                   | **Impacto médio**                                                      | **Impacto baixo** |
+| ----------------- | -------------------------------------------------- | ---------------------------------------------------------------------- | ----------------- |
+| **Esforço baixo** | 🥇 A1 Share-grid · A2 Streak · B3 Séries temáticas | A3 Stats · B1 Silhueta · B7 Emoji · B9 Practice                        | —                 |
+| **Esforço médio** | 🥈 A5 Duelo assíncrono · C1 Garage                 | A4 Archive · B2 Ordenação · B8 Modo Brasil · C2 Conquistas · C3 Quests | C5 Puzzle semanal |
+| **Esforço alto**  | 🥉 B4 Specs · D2 Enriquecer catálogo · C4 Liga     | B5 Mais ou Menos · B6 Som                                              | —                 |
 
 ### Roadmap sugerido
 
 **Fase 1 — Fundação de retorno (0–30 dias)**
+
 1. A1 Share-grid emoji sem spoiler (botão "Compartilhar" pós-round, clipboard, spoiler-free)
 2. A2 Streak diário com destaque no perfil (streak atual + melhor)
 3. A3 Página de Stats (reutiliza `Score`/`Round`)
@@ -224,6 +225,7 @@ Avaliação relativa à stack atual (React+Vite / Express+Prisma+Postgres, image
 6. Medir: % de primeiras sessões com vitória, D1/D7, share rate
 
 **Fase 2 — Profundidade e social (1–3 meses)**
+
 1. A4 Archive (começar a registrar `DailyCar{date, carId}` desde já, mesmo que a UI venha depois)
 2. A5 Duelo assíncrono por link (token de round; funciona para guest também)
 3. C1 Garage/coleção com tiers de raridade
@@ -231,6 +233,7 @@ Avaliação relativa à stack atual (React+Vite / Express+Prisma+Postgres, image
 5. B8 Curadoria "Vroom Brasil" (catálogo BR + destaque pt-BR)
 
 **Fase 3 — Apostas de diferenciação (3–6 meses)**
+
 1. D2+B4/B5 Enriquecer catálogo → modo Specs com setas → modo Mais ou Menos
 2. C3 Quests diárias (agora com modos suficientes para variar metas)
 3. C2 Conquistas; C4 Liga/temporada (só com massa crítica de DAU)
@@ -238,15 +241,15 @@ Avaliação relativa à stack atual (React+Vite / Express+Prisma+Postgres, image
 
 ### O que NÃO fazer (evidências)
 
-| Armadilha | Por quê |
-|---|---|
-| Notificações push/e-mail agressivas | Wordle venceu **sem** notificações ("compromisso limitado"); ansiedade reduz retorno (Stanly) |
-| Timers/cronômetro | Ansiedade medida como redutora de retorno (Stanly) |
-| Signup wall | Já evitado no Vroom; manter guest-first |
-| Tutoriais longos | Simplicidade é parte da fórmula (Wardle/Stanly) |
-| PvP tempo real | Squabble exige websockets/salas — custo alto para valor que o duelo assíncrono entrega sem infra |
-| Áudio agora | REVVED + RevQuiz dominam; custo de assets/licença alto — só com catálogo já enriquecido |
-| Streak SEM archive | O streak pune o ausente; sem archive ele vira motivo de churn (Stanly) |
+| Armadilha                           | Por quê                                                                                          |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Notificações push/e-mail agressivas | Wordle venceu **sem** notificações ("compromisso limitado"); ansiedade reduz retorno (Stanly)    |
+| Timers/cronômetro                   | Ansiedade medida como redutora de retorno (Stanly)                                               |
+| Signup wall                         | Já evitado no Vroom; manter guest-first                                                          |
+| Tutoriais longos                    | Simplicidade é parte da fórmula (Wardle/Stanly)                                                  |
+| PvP tempo real                      | Squabble exige websockets/salas — custo alto para valor que o duelo assíncrono entrega sem infra |
+| Áudio agora                         | REVVED + RevQuiz dominam; custo de assets/licença alto — só com catálogo já enriquecido          |
+| Streak SEM archive                  | O streak pune o ausente; sem archive ele vira motivo de churn (Stanly)                           |
 
 ---
 
@@ -275,6 +278,7 @@ Avaliação relativa à stack atual (React+Vite / Express+Prisma+Postgres, image
 ## 10. Fontes
 
 **Ecossistema e concorrentes**
+
 - [aukspot/dles — 700+ daily games](https://github.com/aukspot/dles) · [listdle.com](https://listdle.com) · [playlin.io](https://playlin.io)
 - [DailyCarQuiz.com](https://dailycarquiz.com) — hub com 12 jogos, leaderboard, archive, premium
 - [cardle.sh](https://cardle.sh) · [Cardle Classic (specs)](https://cardle.sh/classic) — 300+ carros, streak, archive premium, setas de ano
@@ -282,6 +286,7 @@ Avaliação relativa à stack atual (React+Vite / Express+Prisma+Postgres, image
 - [Framed](https://framed.wtf) — modos por tipo de pista, archive, stats, Oscars comunitário, merch
 
 **Retenção e design**
+
 - [The Hard Copy — Wordle's Viral Success is Based on Design](https://thehardcopy.co/wordles-viral-success-is-based-on-design/) (jan/2022)
 - [Andy Stanly — Retention lessons from building a daily puzzle](https://dev.to/andystanly/retention-lessons-from-building-a-daily-puzzle-the-streak-is-not-the-feature-2af9)
 - [Andy Stanly — Why a daily puzzle needs an archive, not a streak](https://dev.to/andystanly/why-a-daily-puzzle-needs-an-archive-not-a-streak-344i)
@@ -294,4 +299,4 @@ Avaliação relativa à stack atual (React+Vite / Express+Prisma+Postgres, image
 
 ---
 
-*Relatório gerado em out/2026 como resultado da pesquisa solicitada em m00003. Sem implementação de código — as notas técnicas indicam dependências de schema para o time validar.*
+_Relatório gerado em out/2026 como resultado da pesquisa solicitada em m00003. Sem implementação de código — as notas técnicas indicam dependências de schema para o time validar._

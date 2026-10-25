@@ -118,17 +118,17 @@ As imagens **não dependem de nenhum host externo em runtime**: os bytes (JPEG/P
 
 ### API
 
-| Rota                                                                | Descrição                                                         |
-| ------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `GET /api/health`                                                   | Healthcheck                                                       |
-| `GET /api/cars/:id/image`                                           | Bytes da imagem do carro, direto do banco (BYTEA, cache imutável) |
-| `POST /api/auth/register` / `login` / `logout` · `GET /api/auth/me` | Autenticação (JWT em cookie httpOnly)                             |
+| Rota                                                                | Descrição                                                             |
+| ------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `GET /api/health`                                                   | Healthcheck                                                           |
+| `GET /api/cars/:id/image`                                           | Bytes da imagem do carro, direto do banco (BYTEA, cache imutável)     |
+| `POST /api/auth/register` / `login` / `logout` · `GET /api/auth/me` | Autenticação (JWT em cookie httpOnly)                                 |
 | `POST /api/rounds {mode}`                                           | Inicia/retoma rodada (mode: classic, hard, daily, silhouette, themed) |
-| `GET /api/rounds/active`                                            | Rodada em andamento do usuário                                    |
-| `POST /api/rounds/:id/guess {guess}`                                | Valida chute no servidor                                          |
-| `POST /api/rounds/:id/skip`                                         | Encerra revelando (0 pontos)                                      |
-| `GET /api/leaderboard?period=all\|today&mode=`                      | Ranking global agregado                                           |
-| `GET /api/profile/stats`                                            | Estatísticas do jogador: pontos, streak e distribuição do Daily   |
+| `GET /api/rounds/active`                                            | Rodada em andamento do usuário                                        |
+| `POST /api/rounds/:id/guess {guess}`                                | Valida chute no servidor                                              |
+| `POST /api/rounds/:id/skip`                                         | Encerra revelando (0 pontos)                                          |
+| `GET /api/leaderboard?period=all\|today&mode=`                      | Ranking global agregado                                               |
+| `GET /api/profile/stats`                                            | Estatísticas do jogador: pontos, streak e distribuição do Daily       |
 
 ### Scripts
 

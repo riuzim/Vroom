@@ -26,9 +26,7 @@ describe('car-credits.json (atribuição CC das fotos)', () => {
       expect(item.author, label).toBeTruthy();
       expect(KNOWN_LICENSES, label).toContain(item.license);
       expect(item.licenseUrl, label).toMatch(/^https:\/\//);
-      expect(item.filePageUrl, label).toMatch(
-        /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/,
-      );
+      expect(item.filePageUrl, label).toMatch(/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     }
   });
 

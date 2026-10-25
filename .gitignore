@@ -41,3 +41,18 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# --- Tooling de agentes/harness: fica local, NÃO vai para o GitHub ---
+# Skills e hooks são do assistente (DSH) e continuam funcionando localmente.
+skills/
+hooks/
+.agents/
+docs/agents/
+
+# Stores e caches locais
+.pnpm-store/
+.pnpm-local/
+*.tsbuildinfo
+
+# Windows cruft
+Thumbs.db

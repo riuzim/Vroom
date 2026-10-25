@@ -25,12 +25,12 @@ A leitura de que o design está "forte, duro, engessado e seco" bate com o que a
 
 ## 2. O terreno competitivo (fetch direto das 4 home pages)
 
-| Jogo | Visual | Mecânica | DNA automotivo |
-|---|---|---|---|
-| [CarSpotr](https://www.carspotr.io) | Branco flat, "in the shape of Wordle" (auto-declarado) | Foto central + dropdowns Make/Model/Year, feedback verde/setas, streak 🔥🏆 | Zero |
-| [Vroomdle](https://vroomdle.com) | Minimalismo extremo, uma tela | 10 chutes, legenda Correct/Close/Wrong | Zero |
-| [Cardle](https://cardle.sh/about) | Flat, tiles verde/laranja/vermelho | 3 modos (Classic/Image/Emoji), linhagem loldle/pokedle assumida | Zero |
-| [Carlee](https://playcarlee.com) | Flat e limpo | 6 chutes, grid de atributos com logos de marca, setas ↑↓ | Silhuetas autorais (única personalidade) |
+| Jogo                                | Visual                                                 | Mecânica                                                                    | DNA automotivo                           |
+| ----------------------------------- | ------------------------------------------------------ | --------------------------------------------------------------------------- | ---------------------------------------- |
+| [CarSpotr](https://www.carspotr.io) | Branco flat, "in the shape of Wordle" (auto-declarado) | Foto central + dropdowns Make/Model/Year, feedback verde/setas, streak 🔥🏆 | Zero                                     |
+| [Vroomdle](https://vroomdle.com)    | Minimalismo extremo, uma tela                          | 10 chutes, legenda Correct/Close/Wrong                                      | Zero                                     |
+| [Cardle](https://cardle.sh/about)   | Flat, tiles verde/laranja/vermelho                     | 3 modos (Classic/Image/Emoji), linhagem loldle/pokedle assumida             | Zero                                     |
+| [Carlee](https://playcarlee.com)    | Flat e limpo                                           | 6 chutes, grid de atributos com logos de marca, setas ↑↓                    | Silhuetas autorais (única personalidade) |
 
 **Síntese:** todos usam fundo claro flat, sans neutra de sistema, tiles do Wordle, zero materialidade (nada evoca papel, metal, pista, garagem) e zero narrativa de desejo — o carro é tratado como **dado**, não como **objeto**.
 
@@ -56,13 +56,13 @@ A leitura de que o design está "forte, duro, engessado e seco" bate com o que a
 
 ### Vetor 2 — Estética automotiva autêntica (6 territórios)
 
-**T1. Telemetria/HUD de motorsport — 7.5/10.** Tokens de spec F1 real: grafite em camadas (`#0A0A0C`→`#16171A`→`#1F2024`), branco `#FFF`, setores roxo `#B055F5` (melhor da sessão) / verde `#00D26A` (correto) / amarelo `#FFD100` (atenção), vermelho F1 `#E10600`; tipografia Titillium Web / Chakra Petch / Barlow Condensed com **`font-variant-numeric: tabular-nums` obrigatório** (números sem jitter); timing tower 280–300px, linhas 26–28px, código de 3 letras, barra vertical 3.5px da equipe; radius 0–4px, sem sombra — camadas translúcidas de grafite. Aplicação: contador de 5 chutes = barra de rev de 5 LEDs; ranking = timing tower com **gap para o líder em nº de chutes**; dicas como delta pills. Prós: casa 100% com dark+laranja, dá tratamento "pro" a ranking/stats. Contras: frio, território comum em sim-racing, clássicos não conversam com HUD. Fontes: skills.rest (spec F1 com hexes), mattbirkett.co.uk (F1 TV Graphics), iconic-simracing/iconic-dash (GitHub), figma.com Formula Kit, edriessen.com (timing F1 acessível). *Pit board (1 linha): placas leves de números trocáveis, herança do giz no quadro-negro dos mecânicos (f1technical.net/features/3895).*
+**T1. Telemetria/HUD de motorsport — 7.5/10.** Tokens de spec F1 real: grafite em camadas (`#0A0A0C`→`#16171A`→`#1F2024`), branco `#FFF`, setores roxo `#B055F5` (melhor da sessão) / verde `#00D26A` (correto) / amarelo `#FFD100` (atenção), vermelho F1 `#E10600`; tipografia Titillium Web / Chakra Petch / Barlow Condensed com **`font-variant-numeric: tabular-nums` obrigatório** (números sem jitter); timing tower 280–300px, linhas 26–28px, código de 3 letras, barra vertical 3.5px da equipe; radius 0–4px, sem sombra — camadas translúcidas de grafite. Aplicação: contador de 5 chutes = barra de rev de 5 LEDs; ranking = timing tower com **gap para o líder em nº de chutes**; dicas como delta pills. Prós: casa 100% com dark+laranja, dá tratamento "pro" a ranking/stats. Contras: frio, território comum em sim-racing, clássicos não conversam com HUD. Fontes: skills.rest (spec F1 com hexes), mattbirkett.co.uk (F1 TV Graphics), iconic-simracing/iconic-dash (GitHub), figma.com Formula Kit, edriessen.com (timing F1 acessível). _Pit board (1 linha): placas leves de números trocáveis, herança do giz no quadro-negro dos mecânicos (f1technical.net/features/3895)._
 
 **T2. Editorial de revistas de carro clássicas — 9/10.** Tokens: papel cream `#F5EFE3`, tinta `#111111`, vermelho editorial `#A32A22`, cinza quente `#6B6257`, bronze `#8C6B3F`; serif display no masthead (Octane, Classic & Sports Car), **itálico para ênfase editorial**, captions pequenas com crédito, numeração de edição (№, Issue #155); radius 0, sem sombra — margens e composição; grão de filme. Petrolicious: cards fotográficos gigantes + o Petrolicious Post ("jornal impresso… deixe sobre a bancada"). Bring a Trailer: cards de leilão com texto editorial de 4 linhas por carro. RM Sotheby's: escuro cinematográfico + wordmark serifado. Aplicação: foto como capa de matéria ("The Mystery Car — Issue #155"), chute como ficha de colecionador, ranking como índice de leilão, home como capa de revista. Prós: diferenciação máxima (nenhum daily usa serif/cream/heritage), eleva o jogo a curadoria. Contras: **re-skin light completa** (quebra com o dark), risco de parecer site de leilão, exige fotografia sempre bonita.
 
 **T3. Montadoras premium — 7.5/10.** Pagani (DESIGN.md shadcn.io): **3 tokens monocromáticos** — canvas `#000`, surface `#141414`, ink `#FFF`; **"zero brand voltage"** — nenhuma cor entre o visitante e o carro (a cor vem da pintura na foto); Istok Web weight 100, uppercase, display 36px com tracking 3.6px ("the tracking IS the brand"); um único radius na página inteira. "The site IS the press still." Koenigsegg: ink `#040B12` (azul-preto), marrom `#6B5243`/`#44312A`, areia `#9A826C`, hairlines `#AAB3C4`. Porsche: "deep blacks, sleek grays, signature red highlights". Princípio de showroom (colorarchive.org): tornar o carro o objeto mais brilhante e saturado do espaço. Aplicação: foto full-bleed, UI que some — hairlines e labels weight-100 com tracking largo, input de chute como linha hairline, `#FF6D00` como único brand voltage. Prós: maximiza a foto. Contras: pouca gamificação visual, frio, exige fotografia impecável.
 
-**T4. Garage culture / manual de oficina — 9/10, O VENCEDOR deste vetor.** A única estética cuja tarefa nativa (identificar carro por detalhe: grade, farol, roda) **é literalmente a mecânica do jogo**. Tokens: código semafórico do painel — vermelho stop `#D22630`, âmbar caution `#FF8C00` (≈ nosso `#FF6D00`), verde info `#3DBB63` (significado universal, sem legenda); papel técnico cream `#F2EBDC`, kraft `#B89B6C`, safety-orange `#E8641B`, grafite tinta `#111111`. Tipografia **DIN 1451** — a letra do técnico: 1931, Ludwig Goller/Siemens, sinalização alemã, documentação técnica, placas de carro 1956–95; digitais: FF DIN (1995, Albert-Jan Pool), **D-DIN (open source OFL, gratuito)**, Bahnschrift (variável, Windows), Gidole. Nada de seven-segment (dated). Elementos: placas VIN/data plates, tire placards, exploded diagrams com leader lines tracejadas e **hatching 45°** (flavors.design: "hatching on warm paper, one safety-orange spring, part-code leaders"); agulha > número digital (dial Cord 810 de 1936: preto/branco + acento vermelho). *Haynes (1 linha): capas com cutaway técnico de Terry Davey (1972–91), a identidade visual mais reconhecível do manual de oficina.* Radius 2–4px (chanfro de chapa); sombra "stamped" dura curta (`0 1px 0 rgba(0,0,0,.6)` + inset highlight de 1px), zero glow; **halftone de impresso — o nosso Bayer dithering já é isso**; motion: needle sweep de tacômetro, luzes de aviso acendendo. Aplicação: cada chute = linha de checklist carimbado ("MAKE — [ ] / MODEL — [ ] / YEAR — [ ]"); feedback com luzes de painel; 5 chutes = 5 fusíveis/lâmpadas que queimam; foto como **"FIG. 155-A"** em prancha técnica com callouts part-code ("REF 12-3 — HEADLAMP ASSY"); ranking como folha de inspeção; home como bancada (grafite escuro com placas cream flutuando). Contras: execução ruim vira clipart de oficina; semáforo exige disciplina (não virar arco-íris); stencil em excesso = pastiche.
+**T4. Garage culture / manual de oficina — 9/10, O VENCEDOR deste vetor.** A única estética cuja tarefa nativa (identificar carro por detalhe: grade, farol, roda) **é literalmente a mecânica do jogo**. Tokens: código semafórico do painel — vermelho stop `#D22630`, âmbar caution `#FF8C00` (≈ nosso `#FF6D00`), verde info `#3DBB63` (significado universal, sem legenda); papel técnico cream `#F2EBDC`, kraft `#B89B6C`, safety-orange `#E8641B`, grafite tinta `#111111`. Tipografia **DIN 1451** — a letra do técnico: 1931, Ludwig Goller/Siemens, sinalização alemã, documentação técnica, placas de carro 1956–95; digitais: FF DIN (1995, Albert-Jan Pool), **D-DIN (open source OFL, gratuito)**, Bahnschrift (variável, Windows), Gidole. Nada de seven-segment (dated). Elementos: placas VIN/data plates, tire placards, exploded diagrams com leader lines tracejadas e **hatching 45°** (flavors.design: "hatching on warm paper, one safety-orange spring, part-code leaders"); agulha > número digital (dial Cord 810 de 1936: preto/branco + acento vermelho). _Haynes (1 linha): capas com cutaway técnico de Terry Davey (1972–91), a identidade visual mais reconhecível do manual de oficina._ Radius 2–4px (chanfro de chapa); sombra "stamped" dura curta (`0 1px 0 rgba(0,0,0,.6)` + inset highlight de 1px), zero glow; **halftone de impresso — o nosso Bayer dithering já é isso**; motion: needle sweep de tacômetro, luzes de aviso acendendo. Aplicação: cada chute = linha de checklist carimbado ("MAKE — [ ] / MODEL — [ ] / YEAR — [ ]"); feedback com luzes de painel; 5 chutes = 5 fusíveis/lâmpadas que queimam; foto como **"FIG. 155-A"** em prancha técnica com callouts part-code ("REF 12-3 — HEADLAMP ASSY"); ranking como folha de inspeção; home como bancada (grafite escuro com placas cream flutuando). Contras: execução ruim vira clipart de oficina; semáforo exige disciplina (não virar arco-íris); stencil em excesso = pastiche.
 
 **T5. GT/JDM anos 90–2000 — 7.5/10.** Wangan (Shuto `#0B0C10` + cyan `#26E0E0` / magenta `#E8267A`) ou GT contido (branco-azulado `#DDE8F2`/`#4A90D9`, âmbar de menu GT); itálica condensada de velocidade; kanji como acento; tacômetro analógico gigante (Initial D Arcade Stage: 10 skins de tacômetro); rival cards (Tokyo Xtreme Racer); scanline CRT sutil. Prós: nostalgia máxima para carspotter, juice. Contras: **neon/80s é o território mais saturado da web pós-synthwave** — risco real de clichê.
 
@@ -81,6 +81,7 @@ A leitura de que o design está "forte, duro, engessado e seco" bate com o que a
 **Escola neal.fun / Universal Paperclips — 7.5/10.** Identidade vem do verbo limpo e premissa levada a sério (neal.fun usa só Roboto); "the interface is the fiction" — a UI É a narrativa; UMA cor cromática no site; desabilitado FAZ FADE, nunca vermelho; títulos-convite ("Uma foto. Cinco chutes. Meia-noite."). Aproveita o 1-bit atual: "brutalismo → instrumento com alma", menor custo.
 
 **Luz/gradiente narrativo (Sky / Journey / Alto's) — 9/10, a mais alta do vetor.** No Sky o gradiente é NARRATIVA (mapeia time-of-day → arco da vida). Para um jogo dark: manter o escuro, mudar a FONTE do estilo — **luz concentrada NA FOTO; glow pertence ao farol/cromo/reflexo, NUNCA a botões**. Duas assinaturas:
+
 - **"Showroom Noturno"** — foto sob spotlight quente + vinheta radial, fundo carvão-quente (nunca preto puro).
 - **"Céu da era"** — gradiente sutil mapeado à DÉCADA do carro do dia: 60s mercúrio-azul, 70s âmbar/ouro, 80s azul-magenta, 90s teal/jade, 2000s prata frio, modernos branco-led. **O layout muda com o puzzle, ensina eras sem uma palavra, e NENHUM daily tem.** O Vroom já tem `years` no catálogo — o dado existe.
 - Reveal com **flare de farol** ("o carro acende"). Risco: gradiente malfeito = wallpaper de app icon.
@@ -104,18 +105,18 @@ A leitura de que o design está "forte, duro, engessado e seco" bate com o que a
 
 ## 4. Comparativo dos 10 estilos
 
-| # | Estilo | Como ficaria no Vroom | Diferenciação | Migração | Risco principal |
-|---|---|---|---|---|---|
-| A | **Pit Lane 1-bit** (atual) | baseline | 6/10 | — | "duro, seco, engessado" (confirmado) |
-| B | **Asfalto Noturno** | charcoal `#1C1917` (nunca `#000`), âmbar único, sombras em camadas, radius 12, springs | 8/10 | Baixa | Sozinho vira dev-tool genérico |
-| C | **Blurred Glass Garage** | glass escuro SÓ no que flutua sobre a foto (input, modal); resto sólido | 9/10 | Média | GPU mobile; contraste vs foto que muda; glass = tell IA se em excesso |
-| D | **Capa de Garagem** | cream `#F2ECE0` + serif Fraunces; cada puzzle = capa de revista datada | 9/10 | Alta (re-skin light) | Virar "beige trend"; briga com DNA dark |
-| E | **Workshop Dark** | FIG. 155-A, checklist MAKE/MODEL/YEAR, luzes de painel, DIN | 9/10 | Média | Execução ruim = clipart |
-| F | **Showroom Noturno** | spotlight na foto + "céu da era" por década + reveal com flare | 9/10 | Média | Gradiente ruim = wallpaper |
-| G | **Telemetria F1** | timing tower, rev de 5 LEDs, mono tabular, setores | 7.5/10 | Baixa | Frio; comum em sim-racing |
-| H | **Montadora cinematográfica** | foto full-bleed, UI hairline que some, tracking 3.6px | 7.5/10 | Baixa | Pouco juice; parece site, não jogo |
-| I | **Wangan/GT 90s** | neon cyan/magenta, tacômetro, rival cards, scanlines | 7.5/10 | Média | Pós-synthwave saturado = clichê |
-| J | **Playroom Tátil** | off-white + mocha + paper-lift + marker | 7/10 | Alta | Infantiliza; conflita com gearhead |
+| #   | Estilo                        | Como ficaria no Vroom                                                                  | Diferenciação | Migração             | Risco principal                                                       |
+| --- | ----------------------------- | -------------------------------------------------------------------------------------- | ------------- | -------------------- | --------------------------------------------------------------------- |
+| A   | **Pit Lane 1-bit** (atual)    | baseline                                                                               | 6/10          | —                    | "duro, seco, engessado" (confirmado)                                  |
+| B   | **Asfalto Noturno**           | charcoal `#1C1917` (nunca `#000`), âmbar único, sombras em camadas, radius 12, springs | 8/10          | Baixa                | Sozinho vira dev-tool genérico                                        |
+| C   | **Blurred Glass Garage**      | glass escuro SÓ no que flutua sobre a foto (input, modal); resto sólido                | 9/10          | Média                | GPU mobile; contraste vs foto que muda; glass = tell IA se em excesso |
+| D   | **Capa de Garagem**           | cream `#F2ECE0` + serif Fraunces; cada puzzle = capa de revista datada                 | 9/10          | Alta (re-skin light) | Virar "beige trend"; briga com DNA dark                               |
+| E   | **Workshop Dark**             | FIG. 155-A, checklist MAKE/MODEL/YEAR, luzes de painel, DIN                            | 9/10          | Média                | Execução ruim = clipart                                               |
+| F   | **Showroom Noturno**          | spotlight na foto + "céu da era" por década + reveal com flare                         | 9/10          | Média                | Gradiente ruim = wallpaper                                            |
+| G   | **Telemetria F1**             | timing tower, rev de 5 LEDs, mono tabular, setores                                     | 7.5/10        | Baixa                | Frio; comum em sim-racing                                             |
+| H   | **Montadora cinematográfica** | foto full-bleed, UI hairline que some, tracking 3.6px                                  | 7.5/10        | Baixa                | Pouco juice; parece site, não jogo                                    |
+| I   | **Wangan/GT 90s**             | neon cyan/magenta, tacômetro, rival cards, scanlines                                   | 7.5/10        | Média                | Pós-synthwave saturado = clichê                                       |
+| J   | **Playroom Tátil**            | off-white + mocha + paper-lift + marker                                                | 7/10          | Alta                 | Infantiliza; conflita com gearhead                                    |
 
 **Reprovados com razão:** neumorphism (morto por acessibilidade), glassmorphism como sistema inteiro (só como chrome flutuante), mascote fofo + streak-guilt (o carro é o mascote; copiar CarSpotr é correr para a média).
 
@@ -131,17 +132,17 @@ Os 4 vetores descrevem a mesma direção por ângulos diferentes:
 
 **Paleta (9):**
 
-| Papel | Cor | Obs |
-|---|---|---|
-| Fundo (asfalto) | `#1C1917` | warm charcoal, NUNCA `#000` (consenso 2025, halation) |
-| Painel (garagem) | `#262220` | elevação por overlays quentes, não por sombra |
-| Superfície alta | `#322B27` | hover/raised |
-| Hairline | `rgba(232,228,216,0.10)` | 1px, substitui a borda 2px dura |
-| Papel técnico (placas) | `#F2EBDC` | placas de spec, checklist carimbado |
-| Primária (âmbar warning) | `#FF6D00` | mantém o laranja — é cor de painel de carro |
-| OK (verde painel) | `#3DBB63` | código semafórico |
-| Stop (vermelho) | `#D93A2B` | |
-| Texto | `#EDE7DA` (87%) / 60% / 38% | escalas Material, bone ~92% contra halation |
+| Papel                    | Cor                         | Obs                                                   |
+| ------------------------ | --------------------------- | ----------------------------------------------------- |
+| Fundo (asfalto)          | `#1C1917`                   | warm charcoal, NUNCA `#000` (consenso 2025, halation) |
+| Painel (garagem)         | `#262220`                   | elevação por overlays quentes, não por sombra         |
+| Superfície alta          | `#322B27`                   | hover/raised                                          |
+| Hairline                 | `rgba(232,228,216,0.10)`    | 1px, substitui a borda 2px dura                       |
+| Papel técnico (placas)   | `#F2EBDC`                   | placas de spec, checklist carimbado                   |
+| Primária (âmbar warning) | `#FF6D00`                   | mantém o laranja — é cor de painel de carro           |
+| OK (verde painel)        | `#3DBB63`                   | código semafórico                                     |
+| Stop (vermelho)          | `#D93A2B`                   |                                                       |
+| Texto                    | `#EDE7DA` (87%) / 60% / 38% | escalas Material, bone ~92% contra halation           |
 
 **Tipografia:** display condensed bold (títulos, "speed moments") + **D-DIN ou Bahnschrift (gratuitos)** para labels carimbados + mono tabular (`tnum` obrigatório) para números/ranking. Corpo pode migrar de Inter no ritmo das fases (Inter é tell nº1 de AI slop, mas trocar tudo de uma vez aumenta o custo).
 
@@ -170,13 +171,13 @@ Glow em UI (glow pertence ao farol/cromo na foto) · glass em superfície de lei
 
 ## 7. Plano de aplicação (para quando aprovar)
 
-| Fase | Escopo | Conteúdo |
-|---|---|---|
-| 1 | Tokens | styles.css + tailwind.config: paleta 9 cores, radius, sombras stamped/camadas, hairlines, grain, feTurbulence, `prefers-reduced-transparency` |
-| 2 | Primitivos ui/ | button (press tátil, 10–12px), card, tabs, badge (luzes de painel), input, dialog/tooltip/sonner |
-| 3 | Shell + jogo | Header, CarStage (spotlight + vinheta + céu-da-era por `years`), GameInfo (cluster de luzes), GuessInput, ScorePanel (placa de spec / prancha de tempos) |
-| 4 | Páginas + assinaturas | Home (hero com FIG. 155-A), Leaderboard (prancha de tempos), share card, halftone nas placas |
-| 5 | QA | contraste AA+, reduced-motion, `@supports` fallback, grep ban-list, build+testes |
+| Fase | Escopo                | Conteúdo                                                                                                                                                 |
+| ---- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Tokens                | styles.css + tailwind.config: paleta 9 cores, radius, sombras stamped/camadas, hairlines, grain, feTurbulence, `prefers-reduced-transparency`            |
+| 2    | Primitivos ui/        | button (press tátil, 10–12px), card, tabs, badge (luzes de painel), input, dialog/tooltip/sonner                                                         |
+| 3    | Shell + jogo          | Header, CarStage (spotlight + vinheta + céu-da-era por `years`), GameInfo (cluster de luzes), GuessInput, ScorePanel (placa de spec / prancha de tempos) |
+| 4    | Páginas + assinaturas | Home (hero com FIG. 155-A), Leaderboard (prancha de tempos), share card, halftone nas placas                                                             |
+| 5    | QA                    | contraste AA+, reduced-motion, `@supports` fallback, grep ban-list, build+testes                                                                         |
 
 Critérios de aceite: WCAG AA em todos os pares (halation controlado); foco visível; zero glow em UI; grain nunca sobre texto animado; keepers do atual preservados (blur progressivo, laranja, dark, dither→halftone).
 

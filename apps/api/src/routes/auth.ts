@@ -26,7 +26,10 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
   // A suíte de testes dispara dezenas de registros/logins do mesmo IP.
   skip: () => env.isTest,
-  message: { error: 'Muitas tentativas. Aguarde alguns minutos e tente de novo.', code: 'RATE_LIMITED' },
+  message: {
+    error: 'Muitas tentativas. Aguarde alguns minutos e tente de novo.',
+    code: 'RATE_LIMITED',
+  },
 });
 
 const registerSchema = z.object({
@@ -68,9 +71,7 @@ const publicUser = (user: DbUser) => ({
 /** Erro de constraint única do Prisma (e-mail/username/googleId em uso). */
 function isUniqueViolation(error: unknown): boolean {
   return (
-    typeof error === 'object' &&
-    error !== null &&
-    (error as { code?: string }).code === 'P2002'
+    typeof error === 'object' && error !== null && (error as { code?: string }).code === 'P2002'
   );
 }
 
@@ -85,7 +86,9 @@ const register: AsyncRequestHandler = async (req, res) => {
   });
 
   if (existing) {
-    res.status(409).json({ error: 'Nome de usuário ou email já registrado', code: 'REGISTER_TAKEN' });
+    res
+      .status(409)
+      .json({ error: 'Nome de usuário ou email já registrado', code: 'REGISTER_TAKEN' });
     return;
   }
 
@@ -101,7 +104,9 @@ const register: AsyncRequestHandler = async (req, res) => {
   } catch (error) {
     // Registro concorrente passou da checagem acima: mesma resposta 409.
     if (isUniqueViolation(error)) {
-      res.status(409).json({ error: 'Nome de usuário ou email já registrado', code: 'REGISTER_TAKEN' });
+      res
+        .status(409)
+        .json({ error: 'Nome de usuário ou email já registrado', code: 'REGISTER_TAKEN' });
       return;
     }
     throw error;
@@ -129,7 +134,10 @@ const login: AsyncRequestHandler = async (req, res) => {
 /** Deriva um username válido a partir do email Google (local part). */
 function baseUsernameFromEmail(email: string): string {
   const local = email.split('@')[0] ?? '';
-  const cleaned = local.replace(/[^a-zA-Z0-9_]/g, '').slice(0, 14).toLowerCase();
+  const cleaned = local
+    .replace(/[^a-zA-Z0-9_]/g, '')
+    .slice(0, 14)
+    .toLowerCase();
   return cleaned.length >= 3 ? cleaned : 'piloto';
 }
 
@@ -209,7 +217,10 @@ const googleLogin: AsyncRequestHandler = async (req, res) => {
   if (!env.GOOGLE_CLIENT_ID) {
     res
       .status(503)
-      .json({ error: 'Login com Google não está configurado neste servidor.', code: 'GOOGLE_NOT_CONFIGURED' });
+      .json({
+        error: 'Login com Google não está configurado neste servidor.',
+        code: 'GOOGLE_NOT_CONFIGURED',
+      });
     return;
   }
 
@@ -225,7 +236,12 @@ const googleLogin: AsyncRequestHandler = async (req, res) => {
     });
     payload = ticket.getPayload();
   } catch {
-    res.status(401).json({ error: 'Não foi possível validar seu login do Google.', code: 'GOOGLE_INVALID_TOKEN' });
+    res
+      .status(401)
+      .json({
+        error: 'Não foi possível validar seu login do Google.',
+        code: 'GOOGLE_INVALID_TOKEN',
+      });
     return;
   }
 
@@ -235,14 +251,21 @@ const googleLogin: AsyncRequestHandler = async (req, res) => {
   }
 
   if (payload.email_verified !== true) {
-    res.status(401).json({ error: 'Seu email do Google não foi verificado.', code: 'GOOGLE_EMAIL_UNVERIFIED' });
+    res
+      .status(401)
+      .json({ error: 'Seu email do Google não foi verificado.', code: 'GOOGLE_EMAIL_UNVERIFIED' });
     return;
   }
 
   const user = await findOrCreateGoogleUser(payload.sub, payload.email.toLowerCase());
 
   if (!user) {
-    res.status(409).json({ error: 'Não foi possível vincular sua conta do Google.', code: 'GOOGLE_LINK_FAILED' });
+    res
+      .status(409)
+      .json({
+        error: 'Não foi possível vincular sua conta do Google.',
+        code: 'GOOGLE_LINK_FAILED',
+      });
     return;
   }
 

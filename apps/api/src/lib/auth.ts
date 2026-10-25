@@ -100,7 +100,9 @@ export function optionalAuth(req: Request, _res: Response, next: NextFunction): 
 /** Bloqueia a rota quando não há usuário autenticado. */
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
   if (!req.user) {
-    res.status(401).json({ error: 'Você precisa entrar para fazer isso.', code: 'NOT_AUTHENTICATED' });
+    res
+      .status(401)
+      .json({ error: 'Você precisa entrar para fazer isso.', code: 'NOT_AUTHENTICATED' });
     return;
   }
   next();

@@ -22,7 +22,13 @@ function detectMime(bytes: Buffer): 'image/jpeg' | 'image/png' | null {
   if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) {
     return 'image/jpeg';
   }
-  if (bytes.length >= 4 && bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47) {
+  if (
+    bytes.length >= 4 &&
+    bytes[0] === 0x89 &&
+    bytes[1] === 0x50 &&
+    bytes[2] === 0x4e &&
+    bytes[3] === 0x47
+  ) {
     return 'image/png';
   }
   return null;
@@ -30,10 +36,7 @@ function detectMime(bytes: Buffer): 'image/jpeg' | 'image/png' | null {
 
 /** Caminhos de cache possíveis (o formato real pode diferir do original). */
 function cacheCandidates(slug: string): string[] {
-  return [
-    path.join(IMAGE_DIR, `${slug}.jpg`),
-    path.join(IMAGE_DIR, `${slug}.png`),
-  ];
+  return [path.join(IMAGE_DIR, `${slug}.jpg`), path.join(IMAGE_DIR, `${slug}.png`)];
 }
 
 /**
@@ -70,7 +73,10 @@ async function loadImage(car: (typeof cars)[number]): Promise<{ bytes: Buffer; m
   }
 
   await mkdir(IMAGE_DIR, { recursive: true });
-  await writeFile(path.join(IMAGE_DIR, `${car.slug}.${mime === 'image/png' ? 'png' : 'jpg'}`), bytes);
+  await writeFile(
+    path.join(IMAGE_DIR, `${car.slug}.${mime === 'image/png' ? 'png' : 'jpg'}`),
+    bytes,
+  );
   return { bytes, mime };
 }
 
