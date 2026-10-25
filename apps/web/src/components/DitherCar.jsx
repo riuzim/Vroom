@@ -41,7 +41,7 @@ export default function DitherCar({ className, launching = false }) {
 
       {/* fumaça de escape — irmã do grupo que anda: fica no ar */}
       {launching && (
-        <g fill="url(#dither50)" aria-hidden="true">
+        <g fill="currentColor" aria-hidden="true">
           <circle className="puff" style={{ '--d': 0 }} cx="4.5" cy="10" r="2.2" />
           <circle className="puff" style={{ '--d': 1 }} cx="3.2" cy="11" r="1.7" />
           <circle className="puff" style={{ '--d': 2 }} cx="5" cy="12.2" r="2.6" />
@@ -49,10 +49,10 @@ export default function DitherCar({ className, launching = false }) {
         </g>
       )}
 
-      <g className={launching ? 'car-drive' : undefined}>
-        {/* sombra no asfalto — dither 25% */}
-        <rect x="4" y="16.5" width="40" height="1" fill="url(#dither25)" />
+      {/* asfalto — fica no chão; o carro parte sobre ele */}
+      <rect className="car-shadow" x="4" y="16.5" width="40" height="1" fill="url(#dither25)" />
 
+      <g className={launching ? 'car-drive' : undefined}>
         {/* corpo do carro */}
         <path
           d="M2 13 V10 H1 V8 L5 7 H7 L9 5 L11 4 L13 3 H32 L34 4 L36 5 L40 6 L44 7 L46 9 H47 V13 Z"
@@ -96,17 +96,17 @@ export default function DitherCar({ className, launching = false }) {
           </g>
         )}
 
-        {/* rodas — raios giram durante a largada */}
+        {/* rodas — calota com raio central; gira na largada */}
         <g className={launching ? 'wheel-spin wheel-a' : undefined}>
           <circle cx="10" cy="13" r="3.4" fill="currentColor" />
           <circle cx="10" cy="13" r="2.1" fill="#0e0e10" />
-          {launching && <rect x="9.65" y="11" width="0.7" height="4" fill="currentColor" />}
+          <rect x="9.65" y="11" width="0.7" height="4" fill="currentColor" />
           <circle cx="10" cy="13" r="0.8" fill="currentColor" />
         </g>
         <g className={launching ? 'wheel-spin wheel-b' : undefined}>
           <circle cx="37" cy="13" r="3.4" fill="currentColor" />
           <circle cx="37" cy="13" r="2.1" fill="#0e0e10" />
-          {launching && <rect x="36.65" y="11" width="0.7" height="4" fill="currentColor" />}
+          <rect x="36.65" y="11" width="0.7" height="4" fill="currentColor" />
           <circle cx="37" cy="13" r="0.8" fill="currentColor" />
         </g>
       </g>
