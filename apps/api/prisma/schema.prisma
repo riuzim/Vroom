@@ -60,6 +60,9 @@ model Round {
   attemptsUsed    Int      @default(0)
   revealedLetters String   @default("[]")
   dailyDate       String?
+  /// Sessão de visitante (cookie vroom_guest) que criou esta rodada —
+  /// sem isso qualquer visitante encerraria rodadas alheias por id.
+  guestSessionId  String?
   points          Int?
   startedAt       DateTime @default(now())
   endedAt         DateTime?

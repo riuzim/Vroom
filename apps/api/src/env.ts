@@ -3,7 +3,10 @@ import { z } from 'zod';
 const envSchema = z.object({
   DATABASE_URL: z
     .string()
-    .min(1, 'DATABASE_URL é obrigatória: string de conexão Postgres (Supabase/Neon ou Postgres local — ver apps/api/.env.example)')
+    .min(
+      1,
+      'DATABASE_URL é obrigatória: string de conexão Postgres (Supabase/Neon ou Postgres local — ver apps/api/.env.example)',
+    )
     .refine(
       (value) => /^postgres(ql)?:\/\//.test(value),
       'DATABASE_URL precisa ser uma URL Postgres (postgresql://…) — o projeto não usa mais SQLite',
@@ -35,10 +38,7 @@ if (!parsed.success) {
 const isProduction = parsed.data.NODE_ENV === 'production';
 
 /** Segredos conhecidos/publicados que jamais podem assinar tokens em produção. */
-const BLOCKED_SECRETS = new Set([
-  'dev-secret-troque-em-producao',
-  'test-secret-com-16-caracteres',
-]);
+const BLOCKED_SECRETS = new Set(['dev-secret-troque-em-producao', 'test-secret-com-16-caracteres']);
 
 if (isProduction) {
   const secret = parsed.data.JWT_SECRET;
@@ -67,7 +67,10 @@ function parseTrustProxy(raw: string): boolean | number {
     return false;
   }
   if (value === 'true') {
-    return true;
+    // 'true' confia em TODOS os hops — XFF forjável de qualquer proxy no
+    // caminho. O deploy real tem UM proxy na frente; quem precisar de
+    // mais hops configura um número explícito.
+    return 1;
   }
 
   const hops = Number(value);

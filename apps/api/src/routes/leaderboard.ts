@@ -15,7 +15,7 @@ const leaderboardLimiter = rateLimit({
   standardHeaders: 'draft-7',
   legacyHeaders: false,
   skip: () => env.isTest,
-  message: { error: 'Muitas consultas ao ranking. Aguarde um pouco.' },
+  message: { error: 'Muitas consultas ao ranking. Aguarde um pouco.', code: 'RATE_LIMITED' },
 });
 
 const querySchema = z.object({

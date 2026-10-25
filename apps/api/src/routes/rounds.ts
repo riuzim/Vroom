@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import rateLimit from 'express-rate-limit';
 import { Router } from 'express';
 import { z } from 'zod';
@@ -57,6 +58,23 @@ const guessSchema = z.object({
 });
 
 const roundIdSchema = z.coerce.number().int().positive();
+
+/** Cookie de sessão de visitante — liga rodadas guest a este browser. */
+const GUEST_COOKIE = 'vroom_guest';
+const GUEST_COOKIE_TTL_MS = 180 * 24 * 60 * 60 * 1000; // 180 dias
+
+function guestCookieOptions() {
+  // Mesmas bandeiras do cookie de sessão (auth.ts): httpOnly + Secure em
+  // produção. O SameSite da sessão implica o mesmo aqui — o front embutido
+  // em domínio distinto (Pages ↔ API) precisa do cookie no fetch CORS.
+  return {
+    httpOnly: true,
+    secure: env.isProduction,
+    path: '/',
+    sameSite: env.isProduction ? env.cookieSameSite : 'lax',
+    maxAge: GUEST_COOKIE_TTL_MS,
+  } as const;
+}
 
 /** Data UTC de hoje no formato YYYY-MM-DD. */
 function todayUtc(): string {
@@ -124,6 +142,7 @@ interface RoundWithCar {
   attemptsUsed: number;
   revealedLetters: string;
   dailyDate: string | null;
+  guestSessionId: string | null;
   points: number | null;
   car: {
     id: number;
@@ -141,8 +160,8 @@ interface RoundWithCar {
 /**
  * Visão pública de uma rodada: o nome do carro (e os dados completos dele)
  * só viajam quando a rodada já terminou (status !== playing) — núcleo do
- * anti-cheat. A imagem é referenciada por caminho local da própria API;
- * nenhum host externo entra no runtime.
+ * anti-cheat. A imagem é servida POR RODADA (não por carro): o id do carro
+ * nunca vaza para o cliente, então o catálogo público não vira oráculo.
  */
 function roundToClient(round: RoundWithCar) {
   const revealed = JSON.parse(round.revealedLetters) as string[];
@@ -156,7 +175,7 @@ function roundToClient(round: RoundWithCar) {
     maxAttempts: MAX_ATTEMPTS,
     attemptsLeft,
     blur: isOver ? 0 : blurFromMistakes(round.attemptsUsed),
-    imagePath: `/api/cars/${round.car.id}/image`,
+    imagePath: `/api/rounds/${round.id}/image`,
     hint: getHint(round.car.name, revealed),
     dailyDate: round.dailyDate,
     // Tema da Série do dia (modo themed): vem no dailyDate "YYYY-MM-DD#tema".
@@ -228,8 +247,17 @@ async function cleanupGuestRounds() {
   await prisma.round.deleteMany({
     where: {
       userId: null,
-      status: 'playing',
-      startedAt: { lt: new Date(Date.now() - 2 * 3600_000) },
+      OR: [
+        // Rodadas abandonadas no meio (2h): o jogador sumiu.
+        { status: 'playing', startedAt: { lt: new Date(Date.now() - 2 * 3600_000) } },
+        // Encerradas de visitante: o histórico que importa vive no
+        // navegador do jogador — no servidor só servem ao "1/dia" do dia
+        // corrente. Sem isso, tráfego anônimo incha o banco sem limite.
+        {
+          status: { not: 'playing' },
+          startedAt: { lt: new Date(Date.now() - 30 * 24 * 3600_000) },
+        },
+      ],
     },
   });
 }
@@ -261,6 +289,36 @@ const startRound: AsyncRequestHandler = async (req, res) => {
     }
   }
 
+  // Sessão de visitante: liga as rodadas guest a este browser. Sem isso,
+  // qualquer script encerra rodadas alheias por id sequencial (griefing).
+  const guestSessionId = user
+    ? null
+    : ((req.cookies?.[GUEST_COOKIE] as string | undefined) ?? crypto.randomUUID());
+
+  if (guestSessionId) {
+    res.cookie(GUEST_COOKIE, guestSessionId, guestCookieOptions());
+
+    // Retoma a visão deste cookie: o desafio do dia (jogando OU encerrado
+    // — visitante também é 1/dia, sem replay pós-reload) e rodadas de
+    // outros modos que ficaram em andamento.
+    const existing = dailyKey
+      ? await prisma.round.findFirst({
+          where: { guestSessionId, mode, dailyDate: dailyKey },
+          include: { car: true },
+          orderBy: { id: 'desc' },
+        })
+      : await prisma.round.findFirst({
+          where: { guestSessionId, mode, status: 'playing' },
+          include: { car: true },
+          orderBy: { id: 'desc' },
+        });
+
+    if (existing) {
+      res.json({ round: roundToClient(existing) });
+      return;
+    }
+  }
+
   const car = await pickCar(mode);
 
   if (!car) {
@@ -276,6 +334,7 @@ const startRound: AsyncRequestHandler = async (req, res) => {
     const round = await prisma.round.create({
       data: {
         userId: user?.id ?? null,
+        guestSessionId,
         carId: car.id,
         mode,
         dailyDate: dailyKey,
@@ -331,14 +390,26 @@ interface RoundProblem {
   message: string;
 }
 
-function canPlayRound(round: RoundWithCar | null, userId?: number): RoundProblem | null {
+function canPlayRound(
+  round: RoundWithCar | null,
+  userId?: number,
+  guestSessionId?: string,
+): RoundProblem | null {
   if (!round) {
     return { status: 404, code: 'ROUND_NOT_FOUND', message: 'Rodada não encontrada' };
   }
   if (round.status !== 'playing') {
     return { status: 403, code: 'ROUND_ENDED', message: 'Esta rodada já foi encerrada' };
   }
-  if (round.userId !== null && round.userId !== userId) {
+  if (round.userId !== null) {
+    if (round.userId !== userId) {
+      return { status: 403, code: 'ROUND_NOT_YOURS', message: 'Esta rodada não é sua' };
+    }
+    return null;
+  }
+  // Rodada de visitante: só quem tem o cookie da sessão que a criou joga.
+  // (Legado pré-cookie, guestSessionId null: ninguém joga — expira em 2h.)
+  if (!round.guestSessionId || round.guestSessionId !== guestSessionId) {
     return { status: 403, code: 'ROUND_NOT_YOURS', message: 'Esta rodada não é sua' };
   }
   return null;
@@ -369,7 +440,11 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
   const { guess } = guessSchema.parse(req.body);
 
   const round = await prisma.round.findUnique({ where: { id: roundId }, include: { car: true } });
-  const problem = canPlayRound(round, req.user?.id);
+  const problem = canPlayRound(
+    round,
+    req.user?.id,
+    req.cookies?.[GUEST_COOKIE] as string | undefined,
+  );
 
   if (problem) {
     res.status(problem.status).json({ error: problem.message, code: problem.code });
@@ -497,7 +572,11 @@ const skipRound: AsyncRequestHandler = async (req, res) => {
   }
 
   const round = await prisma.round.findUnique({ where: { id: roundId }, include: { car: true } });
-  const problem = canPlayRound(round, req.user?.id);
+  const problem = canPlayRound(
+    round,
+    req.user?.id,
+    req.cookies?.[GUEST_COOKIE] as string | undefined,
+  );
 
   if (problem) {
     res.status(problem.status).json({ error: problem.message, code: problem.code });
@@ -538,8 +617,66 @@ const skipRound: AsyncRequestHandler = async (req, res) => {
   });
 };
 
+/**
+ * GET /api/rounds/:id/image — a foto do carro DENTRO da rodada.
+ *
+ * A posse é da rodada: usuário logado dono, ou o cookie de sessão guest
+ * que a criou. Rodadas legadas (pré-cookie) sem sessão ainda servem a
+ * foto do próprio dono — expiram em 2h/30d pelo cleanup. Cache privado:
+ * a mesma foto pode ser vista por quem NÃO tem posse, então nunca pública.
+ */
+const roundImage: AsyncRequestHandler = async (req, res) => {
+  const id = parseRoundId(req.params.id);
+
+  if (id === null) {
+    res.status(404).json({ error: 'Rodada não encontrada', code: 'ROUND_NOT_FOUND' });
+    return;
+  }
+
+  const round = await prisma.round.findUnique({
+    where: { id },
+    select: {
+      userId: true,
+      guestSessionId: true,
+      car: { select: { imageData: true, imageMime: true } },
+    },
+  });
+
+  if (!round?.car?.imageData) {
+    res.status(404).json({ error: 'Imagem não encontrada', code: 'IMAGE_NOT_FOUND' });
+    return;
+  }
+
+  const guestCookie = req.cookies?.[GUEST_COOKIE] as string | undefined;
+  const owns =
+    round.userId !== null
+      ? round.userId === req.user?.id
+      : !round.guestSessionId || round.guestSessionId === guestCookie;
+
+  if (!owns) {
+    res.status(403).json({ error: 'Esta rodada não é sua', code: 'ROUND_NOT_YOURS' });
+    return;
+  }
+
+  const bytes = Buffer.from(round.car.imageData);
+  const etag = `W/"round-${id}-${bytes.byteLength}"`;
+
+  if (req.headers['if-none-match'] === etag) {
+    res.set('Cache-Control', 'private, max-age=3600');
+    res.status(304).end();
+    return;
+  }
+
+  res
+    .set('Content-Type', round.car.imageMime || 'image/jpeg')
+    .set('Cache-Control', 'private, max-age=3600')
+    .set('ETag', etag)
+    .send(bytes);
+};
+
 roundsRouter.post('/', startLimiter, asyncHandler(startRound));
 roundsRouter.get('/active', asyncHandler(activeRound));
+roundsRouter.get('/:id/image', asyncHandler(roundImage));
 roundsRouter.post('/:id/guess', guessLimiter, asyncHandler(submitGuess));
 roundsRouter.post('/:id/skip', skipLimiter, asyncHandler(skipRound));
 

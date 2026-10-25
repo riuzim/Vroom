@@ -12,6 +12,7 @@ import leaderboardRouter from './routes/leaderboard.js';
 import profileRouter from './routes/profile.js';
 import roundsRouter from './routes/rounds.js';
 import { errorHandler, notFoundHandler } from './middleware/error.js';
+import { checkOrigin } from './middleware/origin.js';
 
 export function createApp() {
   const app = express();
@@ -53,13 +54,16 @@ export function createApp() {
       standardHeaders: 'draft-7',
       legacyHeaders: false,
       skip: () => env.isTest,
-      message: { error: 'Muitas requisições. Calma aí, piloto.' },
+      message: { error: 'Muitas requisições. Calma aí, piloto.', code: 'RATE_LIMITED' },
     }),
   );
 
   app.use(express.json({ limit: '64kb' }));
   app.use(cookieParser());
   app.use(optionalAuth);
+  // CSRF de lastro: com cookies SameSite=None (Pages ↔ API), POSTs de
+  // outros sites chegam com sessão — Origin/Referer fora da allowlist morre.
+  app.use(checkOrigin);
 
   app.use('/api/health', healthRouter);
   app.use('/api/auth', authRouter);

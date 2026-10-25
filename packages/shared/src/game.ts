@@ -1,6 +1,6 @@
 export interface Car {
   name: string;
-  /** Caminho local da imagem servido pela própria API (ex.: /api/cars/1/image). */
+  /** Caminho local da imagem servido pela própria API (ex.: /api/rounds/1/image). */
   imagePath: string;
 }
 
@@ -48,12 +48,14 @@ export function pickRandomCar(cars: Car[], currentCar?: Car): Car {
     return cars[0];
   }
 
-  let nextCar: Car | undefined = currentCar;
-  while (!nextCar || nextCar.name === currentCar?.name) {
-    nextCar = cars[Math.floor(Math.random() * cars.length)];
+  const available = cars.filter((car) => car.name !== currentCar?.name);
+  // Todos os nomes iguais ao atual (teórico): devolver o primeiro é a única
+  // saída — o loop de sorteio não teria como terminar.
+  if (available.length === 0) {
+    return cars[0];
   }
 
-  return nextCar;
+  return available[Math.floor(Math.random() * available.length)];
 }
 
 /** Rótulos de marca dos modos — iguais em todos os idiomas (como na UI). */
@@ -75,6 +77,8 @@ export interface ShareInput {
   dailyNumber?: number | null;
   /** Streak atual de dailies — linha 🔥 só entra quando > 0. */
   streak?: number;
+  /** Rótulo localizado do modo (ex.: "Series" em EN) — default: marca própria. */
+  modeLabel?: string;
   url: string;
 }
 
@@ -90,10 +94,11 @@ export function buildShareText({
   maxAttempts,
   dailyNumber: day,
   streak,
+  modeLabel,
   url,
 }: ShareInput): string {
   const used = Math.max(0, Math.min(attemptsUsed, maxAttempts));
-  const label = SHARE_MODE_LABELS[mode] ?? 'Vroom';
+  const label = modeLabel ?? SHARE_MODE_LABELS[mode] ?? 'Vroom';
   const header = day ? `Vroom ${label} #${day}` : `Vroom ${label}`;
 
   let row: string;

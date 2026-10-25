@@ -198,9 +198,10 @@ describe('Rodadas server-authoritative', () => {
     expect(car).not.toBeNull();
     expect(JSON.stringify(start.body)).not.toContain(car!.name);
 
-    // A imagem viaja como caminho local da própria API; créditos completos
-    // (modelo/autor/licença) só depois do fim da rodada.
-    expect(start.body.round.imagePath).toBe(`/api/cars/${car!.id}/image`);
+    // A imagem viaja como caminho da própria API indexado pela RODADA (nunca
+    // pelo carro: o id do carro antes do fim seria um oráculo do nome).
+    // Créditos completos (modelo/autor/licença) só depois do fim da rodada.
+    expect(start.body.round.imagePath).toBe(`/api/rounds/${start.body.round.id}/image`);
     expect(start.body.round.carCredits).toBeUndefined();
   });
 
