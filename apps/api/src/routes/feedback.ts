@@ -158,8 +158,41 @@ const remove: AsyncRequestHandler = async (req, res) => {
   res.json({ ok: true });
 };
 
+/**
+ * GET /api/feedback/summary — sino do admin: quantos feedbacks ainda não
+ * foram vistos. "Não visto" = criado DEPOIS da última visita à caixa de
+ * entrada (User.feedbackSeenAt); sem visita registrada, tudo é novo.
+ */
+const summary: AsyncRequestHandler = async (req, res) => {
+  const admin = await prisma.user.findUnique({
+    where: { id: req.user!.id },
+    select: { feedbackSeenAt: true },
+  });
+
+  const total = await prisma.feedback.count();
+  const unseen = admin?.feedbackSeenAt
+    ? await prisma.feedback.count({
+        where: { createdAt: { gt: admin.feedbackSeenAt } },
+      })
+    : total;
+
+  res.json({ unseen, total });
+};
+
+/** POST /api/feedback/seen — admin abriu a caixa de entrada: zera o sino. */
+const seen: AsyncRequestHandler = async (req, res) => {
+  await prisma.user.update({
+    where: { id: req.user!.id },
+    data: { feedbackSeenAt: new Date() },
+  });
+
+  res.json({ ok: true });
+};
+
 feedbackRouter.post('/', feedbackLimiter, asyncHandler(create));
 feedbackRouter.get('/', requireAuth, asyncHandler(requireAdmin), asyncHandler(list));
+feedbackRouter.get('/summary', requireAuth, asyncHandler(requireAdmin), asyncHandler(summary));
+feedbackRouter.post('/seen', requireAuth, asyncHandler(requireAdmin), asyncHandler(seen));
 feedbackRouter.get('/:id/image', requireAuth, asyncHandler(requireAdmin), asyncHandler(image));
 feedbackRouter.delete('/:id', requireAuth, asyncHandler(requireAdmin), asyncHandler(remove));
 

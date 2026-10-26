@@ -8,11 +8,12 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { useLogout, useMe } from '@/hooks/useAuth';
+import { useFeedbackUnseen } from '@/hooks/useFeedbackUnseen';
 import { clearLocalScores } from '@/lib/localScores';
 import { apiErrorMessage } from '@/lib/api';
 import SettingsModal from '@/components/SettingsModal.jsx';
 
-function NavLinks({ onNavigate }) {
+function NavLinks({ onNavigate, isAdmin = false, unseen = 0 }) {
   const { t } = useTranslation();
   const location = useLocation();
   const navItems = [
@@ -43,6 +44,14 @@ function NavLinks({ onNavigate }) {
             )}
           >
             {item.label}
+            {item.to === '/feedback' && isAdmin && unseen > 0 && (
+              <span
+                aria-label={t('feedback.newFeedbacks', { count: unseen })}
+                className="ml-1.5 inline-flex min-w-5 items-center justify-center rounded-full bg-danger px-1.5 py-0.5 text-[10px] font-bold leading-none text-bone"
+              >
+                {unseen > 99 ? '99+' : unseen}
+              </span>
+            )}
           </Link>
         );
       })}
@@ -57,6 +66,8 @@ export default function Header() {
   const { data } = useMe();
   const logout = useLogout();
   const user = data?.user ?? null;
+  const isAdmin = user?.isAdmin ?? false;
+  const { unseen } = useFeedbackUnseen(isAdmin);
 
   function handleLogout() {
     logout.mutate(undefined, {
@@ -76,7 +87,7 @@ export default function Header() {
         </Link>
 
         <div className="hidden md:block">
-          <NavLinks />
+          <NavLinks isAdmin={isAdmin} unseen={unseen} />
         </div>
 
         <div className="flex items-center gap-2">
@@ -138,7 +149,7 @@ export default function Header() {
                   <SheetTitle>Vroom</SheetTitle>
                 </SheetHeader>
                 <div className="mt-4 flex flex-col gap-4">
-                  <NavLinks onNavigate={() => setMenuOpen(false)} />
+                  <NavLinks onNavigate={() => setMenuOpen(false)} isAdmin={isAdmin} unseen={unseen} />
                   <div className="flex flex-col gap-2 border-t border-bone/10 pt-4">
                     {user ? (
                       <>

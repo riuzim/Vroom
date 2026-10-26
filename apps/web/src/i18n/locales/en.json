@@ -140,7 +140,12 @@
     "anonymous": "Guest",
     "markRead": "Mark as read",
     "confirmRead": "Delete?",
-    "markedRead": "Feedback deleted."
+    "markedRead": "Feedback deleted.",
+    "versionNew": "New",
+    "changelogTitle": "Version history",
+    "changelogDescription": "What changed in each version of Vroom.",
+    "newFeedbacks_one": "{{count}} new feedback",
+    "newFeedbacks_other": "{{count}} new feedbacks"
   },
   "leaderboard": {
     "metaTitle": "Global Leaderboard — Vroom",
