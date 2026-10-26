@@ -12,6 +12,7 @@ import { useFeedbackUnseen } from '@/hooks/useFeedbackUnseen';
 import { clearLocalScores } from '@/lib/localScores';
 import { apiErrorMessage } from '@/lib/api';
 import SettingsModal from '@/components/SettingsModal.jsx';
+import VersionBadge from '@/components/VersionBadge.jsx';
 
 function NavLinks({ onNavigate, isAdmin = false, unseen = 0 }) {
   const { t } = useTranslation();
@@ -91,6 +92,11 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Selo da versão do jogo: visível em toda página (no mobile,
+              dentro do menu). Abre o histórico de versões. */}
+          <div className="hidden sm:block">
+            <VersionBadge />
+          </div>
           <a
             href="https://github.com/riuzim/Vroom"
             target="_blank"
@@ -180,6 +186,9 @@ export default function Header() {
                         </Link>
                       </Button>
                     )}
+                    <div className="flex justify-center">
+                      <VersionBadge />
+                    </div>
                     <a
                       href="https://github.com/riuzim/Vroom"
                       target="_blank"
