@@ -140,7 +140,12 @@
     "anonymous": "Visitante",
     "markRead": "Marcar como lido",
     "confirmRead": "Apagar?",
-    "markedRead": "Feedback apagado."
+    "markedRead": "Feedback apagado.",
+    "versionNew": "Novo",
+    "changelogTitle": "Histórico de versões",
+    "changelogDescription": "O que mudou em cada versão do Vroom.",
+    "newFeedbacks_one": "{{count}} feedback novo",
+    "newFeedbacks_other": "{{count}} feedbacks novos"
   },
   "leaderboard": {
     "metaTitle": "Ranking global — Vroom",

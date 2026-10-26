@@ -24,14 +24,18 @@ export default function CarStage({
     setHasFailed(false);
   }, [car.imageUrl]);
 
-  // Silhueta: a foto começa quase preta e a luz sobe a cada erro. Ao fim da
-  // rodada (qualquer status) a foto revela: o DitherReveal cobre a transição
-  // com o dither 1-bit → cor, e a <img> fica nítida por baixo.
+  // Silhueta: binarização por contraste extremo — o carro vira uma forma
+  // escura sólida sobre o fundo estourado (1-bit, a mesma linguagem do dither
+  // do jogo), e cada erro "desestoura" o limiar até a foto real. Escurecer
+  // com brightness() não é silhueta: a foto continua legível por baixo.
   const isSilhouette = mode === 'silhouette';
   const isRevealed = status === 'correct' || status === 'failed' || status === 'skipped';
   const reveal = isRevealed ? 1 : Math.min(mistakes / (MAX_ATTEMPTS - 1), 1);
+  const lerp = (from, to, t) => from + (to - from) * t;
   const filter = isSilhouette
-    ? `brightness(${(0.08 + 0.92 * reveal).toFixed(3)}) contrast(1.15)`
+    ? isRevealed
+      ? 'none'
+      : `grayscale(${lerp(1, 0, reveal).toFixed(3)}) brightness(${lerp(0.85, 1, reveal).toFixed(3)}) contrast(${lerp(48, 1.08, reveal).toFixed(2)})`
     : isRevealed
       ? isHardMode
         ? 'grayscale(100%) contrast(1.08)'

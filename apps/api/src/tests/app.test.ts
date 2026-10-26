@@ -305,6 +305,43 @@ describe('Rodadas server-authoritative', () => {
     expect(rounds.body.round.id).not.toBe(start.body.round.id);
   });
 
+  it('não repete o carro da run: segunda rodada clássica sai diferente', async () => {
+    // Feedback do jvvr0608: "carros se repetiram na minha run". O catálogo
+    // de teste tem 2 carros — depois de jogar um, o sorteio só tem o outro.
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send(newUser());
+
+    const first = await agent.post('/api/rounds').send({ mode: 'classic' });
+    expect(first.status).toBe(201);
+    const firstCar = await dbCarOf(first.body.round.id);
+
+    await agent.post(`/api/rounds/${first.body.round.id}/skip`);
+
+    const second = await agent.post('/api/rounds').send({ mode: 'classic' });
+    expect(second.status).toBe(201);
+    const secondCar = await dbCarOf(second.body.round.id);
+
+    expect(secondCar?.name).not.toBe(firstCar?.name);
+  });
+
+  it('visitante também não repete carro na própria sessão', async () => {
+    // O histórico sem-repetição vale por sessão de visitante (cookie
+    // vroom_guest), não só por conta — a run anônima não pode repetir.
+    const guest = request.agent(app);
+
+    const first = await guest.post('/api/rounds').send({ mode: 'classic' });
+    expect(first.status).toBe(201);
+    const firstCar = await dbCarOf(first.body.round.id);
+
+    await guest.post(`/api/rounds/${first.body.round.id}/skip`);
+
+    const second = await guest.post('/api/rounds').send({ mode: 'classic' });
+    expect(second.status).toBe(201);
+    const secondCar = await dbCarOf(second.body.round.id);
+
+    expect(secondCar?.name).not.toBe(firstCar?.name);
+  });
+
   it('retoma a rodada em andamento do usuário', async () => {
     const agent = request.agent(app);
     await agent.post('/api/auth/register').send(newUser());
@@ -747,5 +784,65 @@ describe('Feedback', () => {
 
     const list = await agent.get('/api/feedback');
     expect(list.status).toBe(200);
+  });
+
+  it('sino do admin: summary conta feedbacks novos e seen zera', async () => {
+    // O sino (GET /summary) alimenta a bolinha "n feedbacks novos"; abrir
+    // a caixa de entrada (POST /seen) zera até o próximo feedback chegar.
+    await prisma.feedback.deleteMany();
+
+    const agent = request.agent(app);
+    // riuzimjp foi registrado no teste anterior — entra por email/senha.
+    const login = await agent
+      .post('/api/auth/login')
+      .send({ email: 'riuzimjp@vroom.test', password: 'password123' });
+    expect(login.status).toBe(200);
+
+    // Feedback chega: nunca vista a caixa, tudo é novo (unseen = total).
+    const fb = await request(app).post('/api/feedback').send({
+      category: 'BUG',
+      title: 'Carro repetiu na run',
+      content: 'Tirei dois carros iguais seguidos no modo clássico.',
+    });
+    expect(fb.status).toBe(201);
+
+    const before = await agent.get('/api/feedback/summary');
+    expect(before.status).toBe(200);
+    expect(before.body.total).toBe(1);
+    expect(before.body.unseen).toBe(1);
+
+    // Admin abriu a caixa de entrada: sino zera.
+    const seen = await agent.post('/api/feedback/seen');
+    expect(seen.status).toBe(200);
+    expect(seen.body.ok).toBe(true);
+
+    const afterSeen = await agent.get('/api/feedback/summary');
+    expect(afterSeen.body.total).toBe(1);
+    expect(afterSeen.body.unseen).toBe(0);
+
+    // Feedback que chega DEPOIS da visita volta a tocar o sino.
+    const newer = await request(app).post('/api/feedback').send({
+      category: 'IMPROVEMENT',
+      title: 'Sugestão de série',
+      content: 'Podia ter uma série de carros dos anos 80 no temático.',
+    });
+    expect(newer.status).toBe(201);
+
+    const afterNew = await agent.get('/api/feedback/summary');
+    expect(afterNew.body.total).toBe(2);
+    expect(afterNew.body.unseen).toBe(1);
+  });
+
+  it('sino do admin é só do admin', async () => {
+    const agent = request.agent(app);
+    await agent.post('/api/auth/register').send(newUser());
+
+    const summary = await agent.get('/api/feedback/summary');
+    expect(summary.status).toBe(403);
+    expect(summary.body.code).toBe('FEEDBACK_ADMIN_ONLY');
+
+    const seen = await agent.post('/api/feedback/seen');
+    expect(seen.status).toBe(403);
+    expect(seen.body.code).toBe('FEEDBACK_ADMIN_ONLY');
   });
 });

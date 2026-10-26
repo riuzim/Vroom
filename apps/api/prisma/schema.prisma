@@ -18,6 +18,9 @@ model User {
   passwordHash String?
   // "sub" do Google do usuário; nulo para contas de email/senha.
   googleId     String?  @unique
+  // Última vez que o admin abriu a caixa de entrada de feedback —
+  // feedbacks criados depois disso tocam o "sino" de feedback novo.
+  feedbackSeenAt DateTime?
   createdAt    DateTime @default(now())
   rounds       Round[]
   scores       Score[]
@@ -73,6 +76,8 @@ model Round {
   @@index([userId, status])
   @@index([status])
   @@index([mode])
+  // Sorteio sem repetição varre rodadas recentes por sessão de visitante.
+  @@index([guestSessionId])
 }
 
 /// Pontos registrados no ranking — apenas de usuários autenticados.

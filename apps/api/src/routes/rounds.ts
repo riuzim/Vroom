@@ -196,7 +196,21 @@ function roundToClient(round: RoundWithCar) {
   };
 }
 
-async function pickCar(mode: GameMode) {
+/**
+ * Janela de memória do "não repetir": quantas rodadas recentes do jogador
+ * (login OU sessão de visitante) alimentam a lista de carros a evitar.
+ * Maior que o catálogo ativo inteiro, então o jogador só reencontra a
+ * mesma máquina depois de rodar por todos os carros — nunca dois seguidos.
+ */
+const RECENT_ROUNDS_WINDOW = 50;
+
+/** Identidade dona do histórico de rodadas usado pelo sorteio sem repetição. */
+interface PlayerScope {
+  userId: number | null;
+  guestSessionId: string | null;
+}
+
+async function pickCar(mode: GameMode, player: PlayerScope) {
   const cars = await prisma.car.findMany({ where: { active: true }, orderBy: { id: 'asc' } });
 
   if (cars.length === 0) {
@@ -215,7 +229,28 @@ async function pickCar(mode: GameMode) {
     return pickDailyCar(`${todayUtc()}#${theme}`, 'themed', themed.length > 0 ? themed : cars);
   }
 
-  return cars[Math.floor(Math.random() * cars.length)];
+  // Modos livres (classic/hard/silhouette): sorteia FORA do histórico
+  // recente deste jogador — feedback do jvvr0608: "carros se repetiram na
+  // minha run". Rodadas de login OU de sessão de visitante contam como
+  // histórico, em qualquer modo. Se o histórico recente já cobre o
+  // catálogo todo (recomeço, catálogo pequeno), volta ao sorteio cheio:
+  // repetir só depois de esgotar as opções.
+  const recentRounds = await prisma.round.findMany({
+    where: {
+      OR: [
+        ...(player.userId !== null ? [{ userId: player.userId }] : []),
+        ...(player.guestSessionId ? [{ guestSessionId: player.guestSessionId }] : []),
+      ],
+    },
+    orderBy: { id: 'desc' },
+    take: RECENT_ROUNDS_WINDOW,
+    select: { carId: true },
+  });
+  const recentCarIds = new Set(recentRounds.map((round) => round.carId));
+  const unseen = cars.filter((car) => !recentCarIds.has(car.id));
+
+  const pool = unseen.length > 0 ? unseen : cars;
+  return pool[Math.floor(Math.random() * pool.length)];
 }
 
 /**
@@ -319,7 +354,10 @@ const startRound: AsyncRequestHandler = async (req, res) => {
     }
   }
 
-  const car = await pickCar(mode);
+  const car = await pickCar(mode, {
+    userId: user?.id ?? null,
+    guestSessionId: guestSessionId ?? null,
+  });
 
   if (!car) {
     res
