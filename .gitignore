@@ -44,10 +44,12 @@ coverage
 
 # --- Tooling de agentes/harness: fica local, NÃO vai para o GitHub ---
 # Skills e hooks são do assistente (DSH) e continuam funcionando localmente.
-skills/
-hooks/
-.agents/
-docs/agents/
+# Âncora "/" = só as pastas da RAIZ: "hooks/" sem barra casaria apps/web/src/hooks/
+# e engoliria hooks novos do app (foi exatamente o que derrubou o CI do v1.1.0).
+/skills/
+/hooks/
+/.agents/
+/docs/agents/
 
 # Stores e caches locais
 .pnpm-store/
