@@ -6,7 +6,7 @@ import type { AsyncRequestHandler } from '../middleware/asyncHandler.js';
 import { asyncHandler } from '../middleware/asyncHandler.js';
 import { prisma } from '../lib/prisma.js';
 import { env } from '../env.js';
-import { isAdminAccount } from '@vroom/shared';
+import { isAdminAccount, isAdminEmail } from '@vroom/shared';
 import {
   clearAuthCookie,
   dummyHash,
@@ -61,7 +61,7 @@ const googleSchema = z.object({
   credential: z.string().min(10, 'Credencial do Google ausente'),
 });
 
-type DbUser = { id: number; username: string; email: string };
+type DbUser = { id: number; username: string; email: string; googleId: string | null };
 
 const publicUser = (user: DbUser) => ({
   id: user.id,
@@ -79,6 +79,17 @@ function isUniqueViolation(error: unknown): boolean {
 
 const register: AsyncRequestHandler = async (req, res) => {
   const body = registerSchema.parse(req.body);
+
+  // O email do dono NÃO pode virar conta local: admin é a conta
+  // Google-vinculada com esse email — registrar aqui abriria disputa
+  // de identidade. Mesma resposta 409 genérica do nome ocupado (sem
+  // enumerar por que foi recusado).
+  if (isAdminEmail(body.email)) {
+    res
+      .status(409)
+      .json({ error: 'Nome de usuário ou email já registrado', code: 'REGISTER_TAKEN' });
+    return;
+  }
 
   // Mensagem ÚNICA para email e username: distinguir os dois casos
   // permitiria enumerar quais emails/nomes já têm conta.
@@ -163,7 +174,8 @@ async function uniqueUsername(base: string): Promise<string> {
 /**
  * Resolve a conta Vroom de um usuário Google autenticado.
  * 1) googleId já vinculado → entra.
- * 2) conta local com o mesmo email (verificado PELO GOOGLE) → vincula.
+ * 2) conta sem senha com o mesmo email → vincula (contas com senha são
+ *    RECUSADAS: ver comentário anti pre-claim no ramo abaixo).
  * 3) nada ainda → cria conta sem senha (só Google).
  * Trata corridas (P2002) re-buscando pelo googleId.
  */
@@ -177,6 +189,15 @@ async function findOrCreateGoogleUser(sub: string, email: string): Promise<DbUse
   const byEmail = await prisma.user.findUnique({ where: { email } });
 
   if (byEmail) {
+    // Pre-claim takeover: uma conta local com senha neste email pode ter
+    // sido criada por qualquer um (registro não verifica posse do email).
+    // Vincular o Google a ela daria ao criador a sessão do dono real do
+    // email — e, se for o email do admin, o painel inteiro. Exige-se um
+    // fluxo explícito de vinculação (inexistente por enquanto): recusa.
+    if (byEmail.passwordHash != null) {
+      return null;
+    }
+
     try {
       return await prisma.user.update({ where: { id: byEmail.id }, data: { googleId: sub } });
     } catch (error) {
@@ -200,6 +221,11 @@ async function findOrCreateGoogleUser(sub: string, email: string): Promise<DbUse
 
       const racedEmail = await prisma.user.findUnique({ where: { email } });
       if (racedEmail) {
+        // Mesma regra anti pre-claim do ramo principal (corrida de criação).
+        if (racedEmail.passwordHash != null) {
+          return null;
+        }
+
         try {
           return await prisma.user.update({
             where: { id: racedEmail.id },
@@ -282,11 +308,19 @@ const me: AsyncRequestHandler = async (req, res) => {
 
   const user = await prisma.user.findUnique({
     where: { id: req.user.id },
-    select: { id: true, username: true, email: true, createdAt: true },
+    // googleId só alimenta isAdminAccount; NÃO vai para a resposta.
+    select: { id: true, username: true, email: true, createdAt: true, googleId: true },
   });
 
   res.json({
-    user: user && { ...user, isAdmin: isAdminAccount(user) },
+    user:
+      user && {
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        createdAt: user.createdAt,
+        isAdmin: isAdminAccount(user),
+      },
   });
 };
 

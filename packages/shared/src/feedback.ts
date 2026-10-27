@@ -19,11 +19,14 @@ export const FEEDBACK_IMAGE_MAX_BYTES = 2 * 1024 * 1024;
 export const FEEDBACK_IMAGE_MIME_TYPES = ['image/png', 'image/jpeg', 'image/webp'] as const;
 
 /**
- * Conta de administração do painel de feedback. O usuário pediu: a conta
- * `riuzimjp`, se existir, administra — e a conta dele entra pelo Google com
- * o email `riuzimjp@gmail.com`, que pode gerar username derivado diferente
- * (ex.: `riuzimjp42` se o puro já estava ocupado). Admin, portanto, é
- * username OU email; ambos case-insensitive.
+ * Conta de administração do painel de feedback. O dono entra PELO GOOGLE
+ * com o email `riuzimjp@gmail.com`; o Google atesta que a pessoa controla
+ * esse endereço (email_verified). Admin, portanto, é a conta VINCULADA ao
+ * Google (googleId) com esse email.
+ *
+ * O caminho por username (`riuzimjp`) NÃO dá mais admin: qualquer um pode
+ * registrar esse nome primeiro (squatting) e qualquer conta Google própria
+ * tem googleId — só o email verificado pelo Google prova a identidade.
  */
 export const ADMIN_USERNAME = 'riuzimjp';
 export const ADMIN_EMAIL = 'riuzimjp@gmail.com';
@@ -36,12 +39,17 @@ export function isAdminEmail(email: string | null | undefined): boolean {
   return typeof email === 'string' && email.trim().toLowerCase() === ADMIN_EMAIL;
 }
 
-/** Admin por username OU por email (a conta Google do dono). */
+/**
+ * Admin = conta Google-vinculada (googleId) com o email do dono.
+ * Contas locais com senha NUNCA administram — nem com o username nem com
+ * o email do dono (evita escalada por registro/pre-claim do email).
+ */
 export function isAdminAccount(account: {
   username?: string | null;
   email?: string | null;
+  googleId?: string | null;
 }): boolean {
-  return isAdminUsername(account?.username) || isAdminEmail(account?.email);
+  return account?.googleId != null && isAdminEmail(account?.email);
 }
 
 /** Item de feedback como o painel admin recebe (imagem só via GET separado). */

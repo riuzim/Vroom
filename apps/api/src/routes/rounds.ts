@@ -107,7 +107,7 @@ interface CarOption {
 async function pickDailyCar(slot: string, mode: 'daily' | 'themed', cars: CarOption[]) {
   const registered = await prisma.dailyCar.findUnique({
     where: { date_mode: { date: slot, mode } },
-    include: { car: true },
+    include: { car: { select: CAR_LIGHT_SELECT } },
   });
 
   if (registered) {
@@ -132,6 +132,25 @@ async function pickDailyCar(slot: string, mode: 'daily' | 'themed', cars: CarOpt
 
   return chosen;
 }
+
+/**
+ * Select leve do carro para TODAS as queries de rodada: `imageData` é um
+ * BLOB de centenas de KB — materializá-lo em cada POST/guess/skip/retomada
+ * multiplica memória e latência sem uso algum. A foto só sai pela rota
+ * de imagem (/api/rounds/:id/image), que a lê explicitamente. Se algum
+ * campo novo do carro precisar viajar, adicione AQUI (e no tipo abaixo).
+ */
+const CAR_LIGHT_SELECT = {
+  id: true,
+  name: true,
+  brand: true,
+  model: true,
+  category: true,
+  years: true,
+  author: true,
+  license: true,
+  filePageUrl: true,
+} as const;
 
 interface RoundWithCar {
   id: number;
@@ -211,7 +230,14 @@ interface PlayerScope {
 }
 
 async function pickCar(mode: GameMode, player: PlayerScope) {
-  const cars = await prisma.car.findMany({ where: { active: true }, orderBy: { id: 'asc' } });
+  // Select mínimo: sortear precisa só de id (chave estrangeira da rodada)
+  // e category (filtro do themed). SEM select o Prisma materializa os
+  // BLOBs de TODOS os carros (~dezenas de MB) a cada POST /api/rounds.
+  const cars = await prisma.car.findMany({
+    where: { active: true },
+    orderBy: { id: 'asc' },
+    select: { id: true, category: true },
+  });
 
   if (cars.length === 0) {
     return null;
@@ -309,12 +335,12 @@ const startRound: AsyncRequestHandler = async (req, res) => {
     const existing = dailyKey
       ? await prisma.round.findFirst({
           where: { userId: user.id, mode, dailyDate: dailyKey },
-          include: { car: true },
+          include: { car: { select: CAR_LIGHT_SELECT } },
           orderBy: { id: 'desc' },
         })
       : await prisma.round.findFirst({
           where: { userId: user.id, mode, status: 'playing' },
-          include: { car: true },
+          include: { car: { select: CAR_LIGHT_SELECT } },
           orderBy: { id: 'desc' },
         });
 
@@ -339,12 +365,12 @@ const startRound: AsyncRequestHandler = async (req, res) => {
     const existing = dailyKey
       ? await prisma.round.findFirst({
           where: { guestSessionId, mode, dailyDate: dailyKey },
-          include: { car: true },
+          include: { car: { select: CAR_LIGHT_SELECT } },
           orderBy: { id: 'desc' },
         })
       : await prisma.round.findFirst({
           where: { guestSessionId, mode, status: 'playing' },
-          include: { car: true },
+          include: { car: { select: CAR_LIGHT_SELECT } },
           orderBy: { id: 'desc' },
         });
 
@@ -377,7 +403,7 @@ const startRound: AsyncRequestHandler = async (req, res) => {
         mode,
         dailyDate: dailyKey,
       },
-      include: { car: true },
+      include: { car: { select: CAR_LIGHT_SELECT } },
     });
 
     res.status(201).json({ round: roundToClient(round) });
@@ -392,7 +418,7 @@ const startRound: AsyncRequestHandler = async (req, res) => {
     ) {
       const existing = await prisma.round.findFirst({
         where: { userId: user.id, mode, dailyDate: dailyKey },
-        include: { car: true },
+        include: { car: { select: CAR_LIGHT_SELECT } },
         orderBy: { id: 'desc' },
       });
 
@@ -415,7 +441,7 @@ const activeRound: AsyncRequestHandler = async (req, res) => {
 
   const round = await prisma.round.findFirst({
     where: { userId: req.user.id, status: 'playing' },
-    include: { car: true },
+    include: { car: { select: CAR_LIGHT_SELECT } },
     orderBy: { id: 'desc' },
   });
 
@@ -477,7 +503,7 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
 
   const { guess } = guessSchema.parse(req.body);
 
-  const round = await prisma.round.findUnique({ where: { id: roundId }, include: { car: true } });
+  const round = await prisma.round.findUnique({ where: { id: roundId }, include: { car: { select: CAR_LIGHT_SELECT } } });
   const problem = canPlayRound(
     round,
     req.user?.id,
@@ -524,7 +550,7 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
           }
         }
 
-        return tx.round.findUnique({ where: { id: active.id }, include: { car: true } });
+        return tx.round.findUnique({ where: { id: active.id }, include: { car: { select: CAR_LIGHT_SELECT } } });
       });
     } catch (error) {
       if (isUniqueViolation(error)) {
@@ -579,7 +605,7 @@ const submitGuess: AsyncRequestHandler = async (req, res) => {
 
   const updated = await prisma.round.findUnique({
     where: { id: active.id },
-    include: { car: true },
+    include: { car: { select: CAR_LIGHT_SELECT } },
   });
 
   if (!updated) {
@@ -609,7 +635,7 @@ const skipRound: AsyncRequestHandler = async (req, res) => {
     return;
   }
 
-  const round = await prisma.round.findUnique({ where: { id: roundId }, include: { car: true } });
+  const round = await prisma.round.findUnique({ where: { id: roundId }, include: { car: { select: CAR_LIGHT_SELECT } } });
   const problem = canPlayRound(
     round,
     req.user?.id,
@@ -638,7 +664,7 @@ const skipRound: AsyncRequestHandler = async (req, res) => {
 
   const updated = await prisma.round.findUnique({
     where: { id: active.id },
-    include: { car: true },
+    include: { car: { select: CAR_LIGHT_SELECT } },
   });
 
   if (!updated) {

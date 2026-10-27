@@ -2,6 +2,12 @@ packages:
   - apps/*
   - packages/*
 
+# Força body-parser >= 1.20.9 (GHSA-27r3-jxmh-p828, DoS via trailing
+# bytes) mesmo enquanto o express 4.x pinar 1.20.8 — o audit do CI
+# bloqueia o deploy em high.
+overrides:
+  body-parser: ^1.20.9
+
 allowBuilds:
   esbuild: true
   prisma: true

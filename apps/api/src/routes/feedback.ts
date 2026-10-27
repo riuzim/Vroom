@@ -54,7 +54,9 @@ const createSchema = z.object({
 const requireAdmin: AsyncRequestHandler = async (req, res, next) => {
   const user = await prisma.user.findUnique({
     where: { id: req.user!.id },
-    select: { username: true, email: true },
+    // googleId entra na checagem: admin = conta Google-vinculada com o
+    // email do dono (contas locais com senha nunca administram).
+    select: { username: true, email: true, googleId: true },
   });
 
   if (!user || !isAdminAccount(user)) {

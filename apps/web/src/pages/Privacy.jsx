@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { usePageMeta } from '@/hooks/usePageMeta';
 
-export const PRIVACY_UPDATED_AT = '2026-10-18';
+export const PRIVACY_UPDATED_AT = '2026-10-26';
 
 const focusClasses = 'text-flame underline-offset-4 hover:underline';
 
@@ -52,6 +52,9 @@ export default function Privacy() {
             {t('legal.cookiesPolicyLink')}
           </Link>
           {t('legal.privacy.s1li4c')}
+        </li>
+        <li>
+          <strong>{t('legal.privacy.s1li5a')}</strong> {t('legal.privacy.s1li5b')}
         </li>
       </ul>
 

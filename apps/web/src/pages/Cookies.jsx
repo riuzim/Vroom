@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { usePageMeta } from '@/hooks/usePageMeta';
 import { setConsent, useConsent } from '@/lib/consent';
 
-export const COOKIES_UPDATED_AT = '2026-10-18';
+export const COOKIES_UPDATED_AT = '2026-10-26';
 
 const focusRing =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background';
@@ -61,9 +61,8 @@ export default function Cookies() {
               <td className="p-3">
                 <code className="font-mono text-xs">vroom_token</code>
                 {t('legal.cookiesPage.essentialDescA')}
-                <code className="font-mono text-xs">vroom:scores</code>
+                <code className="font-mono text-xs">vroom_guest</code>
                 {t('legal.cookiesPage.essentialDescB')}
-                <code className="font-mono text-xs">vroom:consent</code>
                 {t('legal.cookiesPage.essentialDescC')}
               </td>
               <td className="p-3">{t('legal.cookiesPage.essentialConsent')}</td>
