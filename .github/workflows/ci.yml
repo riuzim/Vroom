@@ -1,0 +1,64 @@
+name: CI
+
+# Portões de qualidade em PRs e na dev: o deploy (deploy.yml) só roda na
+# main — sem isto, um PR quebrava testes/lint/audit sem ninguém ver.
+
+on:
+  pull_request:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      # Actions pinadas por commit SHA (tags são mutáveis). MAJOR comentado acima.
+      - name: Checkout
+        uses: actions/checkout@11bd5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+
+      - name: Setup Node
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Lint inclui o gate anti-cheat: importar o catálogo de carros no
+      # cliente (@vroom/shared/cars) quebra aqui.
+      - name: Lint
+        run: pnpm lint
+
+      - name: Build shared package
+        run: pnpm --filter @vroom/shared build
+
+      - name: Generate Prisma client
+        run: pnpm --filter @vroom/api exec prisma generate
+
+      - name: Tests
+        run: pnpm -r test
+
+      # Bloqueia HIGH/CRITICAL em dependências de RUNTIME (--prod).
+      # Advisories em build-time (tailwind/prisma CLI) são aceitos.
+      - name: Audit de runtime (bloqueia em high/critical)
+        run: pnpm audit --prod --audit-level high
+
+      # Smoke do front: valida que o bundle constrói (CSP, alias, imports).
+      # Placeholders públicos — nada de secrets em CI de PR.
+      - name: Build web (smoke)
+        run: pnpm --filter @vroom/web build
+        env:
+          VITE_API_URL: https://vroom.invalid
+          VITE_GOOGLE_CLIENT_ID: ci-placeholder.apps.googleusercontent.com

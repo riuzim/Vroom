@@ -8,7 +8,7 @@
 // da rodada com o nome do carro e quebra o jogo.
 //
 // `downloadUrl` é usado apenas pela seed como fallback offline — o runtime
-// serve os bytes direto do banco (/api/cars/:id/image).
+// serve os bytes pela rodada (/api/rounds/:id/image, com posse).
 
 export interface CatalogCar {
   /** Nome oficial do jogo (resposta válida do chute). */

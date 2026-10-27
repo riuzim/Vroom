@@ -43,8 +43,8 @@ describe('getAvailableLetters', () => {
 
 describe('pickRandomCar', () => {
   const cars = [
-    { name: 'Alfa A', imagePath: '/api/cars/1/image' },
-    { name: 'Bravo B', imagePath: '/api/cars/2/image' },
+    { name: 'Alfa A', imagePath: '/api/rounds/1/image' },
+    { name: 'Bravo B', imagePath: '/api/rounds/2/image' },
   ];
 
   it('evita repetir o carro atual quando há opções', () => {

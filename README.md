@@ -108,7 +108,7 @@ Vroom/
 
 ### Catálogo de carros
 
-As imagens **não dependem de nenhum host externo em runtime**: os bytes (JPEG/PNG, lado maior ≤1280px) são gravados como BYTEA no Postgres e servidos pela própria API em `GET /api/cars/:id/image`. Cada carro carrega sua proveniência — `brand`, `model`, `years`, `author`, `license`, `filePageUrl` — herdada do levantamento verificado no Wikimedia Commons (`levantamento/`). O cache de imagens é versionado no repositório (`apps/api/prisma/car-images/`), então a seed funciona **100% offline**.
+As imagens **não dependem de nenhum host externo em runtime**: os bytes (JPEG/PNG, lado maior ≤1280px) são gravados como BYTEA no Postgres e servidos pela própria API pela rota da rodada (`GET /api/rounds/:id/image`, com posse obrigatória — não existe rota pública por id de carro, que serviria de oráculo anti-cheat). Cada carro carrega sua proveniência — `brand`, `model`, `years`, `author`, `license`, `filePageUrl` — herdada do levantamento verificado no Wikimedia Commons (`levantamento/`). O cache de imagens é versionado no repositório (`apps/api/prisma/car-images/`), então a seed funciona **100% offline**.
 
 | Comando                            | O que faz                                                                                     |
 | ---------------------------------- | --------------------------------------------------------------------------------------------- |
@@ -121,7 +121,7 @@ As imagens **não dependem de nenhum host externo em runtime**: os bytes (JPEG/P
 | Rota                                                                | Descrição                                                             |
 | ------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `GET /api/health`                                                   | Healthcheck                                                           |
-| `GET /api/cars/:id/image`                                           | Bytes da imagem do carro, direto do banco (BYTEA, cache imutável)     |
+| `GET /api/rounds/:id/image`                                         | Bytes da foto da rodada (dono/guest; cache privado)                   |
 | `POST /api/auth/register` / `login` / `logout` · `GET /api/auth/me` | Autenticação (JWT em cookie httpOnly)                                 |
 | `POST /api/rounds {mode}`                                           | Inicia/retoma rodada (mode: classic, hard, daily, silhouette, themed) |
 | `GET /api/rounds/active`                                            | Rodada em andamento do usuário                                        |

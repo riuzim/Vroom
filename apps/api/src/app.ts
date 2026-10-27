@@ -6,7 +6,6 @@ import helmet from 'helmet';
 import { env } from './env.js';
 import { optionalAuth } from './lib/auth.js';
 import authRouter from './routes/auth.js';
-import carsRouter from './routes/cars.js';
 import feedbackRouter from './routes/feedback.js';
 import healthRouter from './routes/health.js';
 import leaderboardRouter from './routes/leaderboard.js';
@@ -71,7 +70,9 @@ export function createApp() {
 
   app.use('/api/health', healthRouter);
   app.use('/api/auth', authRouter);
-  app.use('/api/cars', carsRouter);
+  // Sem rota pública de imagens por id de carro: servia de oráculo para
+  // mapear carro → foto e quebrar o anti-cheat. A foto vive na rodada
+  // (/api/rounds/:id/image, com posse obrigatória).
   app.use('/api/rounds', roundsRouter);
   app.use('/api/leaderboard', leaderboardRouter);
   app.use('/api/profile', profileRouter);

@@ -54,7 +54,7 @@ export async function setup() {
   const prisma = new PrismaClient();
 
   // PNG de 1×1 px — os bytes reais não importam para as regras do jogo,
-  // mas o endpoint /api/cars/:id/image precisa de BYTEA válido no teste.
+  // mas o endpoint de imagem da rodada precisa de BYTEA válido no teste.
   const TEST_PNG = Buffer.from(
     'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
     'base64',

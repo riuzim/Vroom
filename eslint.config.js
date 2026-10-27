@@ -30,5 +30,34 @@ export default tseslint.config(
       'no-console': 'off',
     },
   },
+  {
+    // Anti-cheat (issue #31): cars.ts mapeia nome → imageUrl — é a
+    // RESPOSTA do jogo. Ele vive fora do barrel do shared de propósito;
+    // no cliente só entram nomes (names.ts) e regras (constants/game).
+    // Este gate quebra `pnpm lint` (e o CI) de quem importar o catálogo
+    // por qualquer caminho: subpath, fonte ou dist.
+    files: ['apps/web/**/*.{js,jsx,mjs,ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@vroom/shared/cars',
+              message:
+                'Anti-cheat: o catálogo mapeia nome→imagem (a resposta do jogo) e nunca pode chegar ao cliente. Use o barrel "@vroom/shared" ou "carNames" de names.',
+            },
+          ],
+          patterns: [
+            {
+              group: ['**/shared/src/cars*', '**/shared/dist/cars*'],
+              message:
+                'Anti-cheat: importação direta do catálogo proibida no cliente. Use "@vroom/shared" (barrel sem cars) ou carNames.',
+            },
+          ],
+        },
+      ],
+    },
+  },
   prettier,
 );

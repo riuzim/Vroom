@@ -9,6 +9,7 @@ import { prisma } from '../lib/prisma.js';
 vi.mock('google-auth-library', () => {
   const payloads: Record<string, Record<string, unknown>> = {
     'token-newuser': { sub: 'g-new-1', email: 'gnew@vroom.test', email_verified: true },
+    'token-admin': { sub: 'g-admin-1', email: 'riuzimjp@gmail.com', email_verified: true },
     'token-link': { sub: 'g-link-1', email: 'linkme@vroom.test', email_verified: true },
     'token-unverified': { sub: 'g-unv-1', email: 'unv@vroom.test', email_verified: false },
     'token-unset': { sub: 'g-unset-1', email: 'unset@vroom.test' },
@@ -145,7 +146,10 @@ describe('Login com Google', () => {
     expect(byPassword.status).toBe(401);
   });
 
-  it('vincula uma conta local existente pelo email verificado', async () => {
+  it('NÃO vincula conta local com senha (anti pre-claim takeover)', async () => {
+    // Registro não prova posse do email: quem criou a conta local pode
+    // ser qualquer um. Vincular o Google a ela entregaria a sessão do
+    // dono REAL do email ao criador — o vínculo é recusado.
     const agent = request.agent(app);
     const reg = await agent
       .post('/api/auth/register')
@@ -153,12 +157,18 @@ describe('Login com Google', () => {
     expect(reg.status).toBe(201);
 
     const google = await agent.post('/api/auth/google').send({ credential: 'token-link' });
-    expect(google.status).toBe(200);
-    expect(google.body.user.id).toBe(reg.body.user.id);
-    expect(google.body.user.username).toBe('linkme');
+    expect(google.status).toBe(409);
+    expect(google.body.code).toBe('GOOGLE_LINK_FAILED');
 
-    const linked = await prisma.user.findUnique({ where: { googleId: 'g-link-1' } });
-    expect(linked?.id).toBe(reg.body.user.id);
+    // A conta local continua intacta: sem googleId, senha original valendo.
+    const linked = await prisma.user.findUnique({ where: { email: 'linkme@vroom.test' } });
+    expect(linked?.googleId).toBeNull();
+    expect(linked?.username).toBe('linkme');
+
+    const relogin = await request(app)
+      .post('/api/auth/login')
+      .send({ email: 'linkme@vroom.test', password: 'password123' });
+    expect(relogin.status).toBe(200);
   });
 
   it('rejeita credential inválido, email não verificado e payload incompleto', async () => {
@@ -205,26 +215,35 @@ describe('Rodadas server-authoritative', () => {
     expect(start.body.round.carCredits).toBeUndefined();
   });
 
-  it('serve a imagem do carro direto do banco, com cache e ETag', async () => {
+  it('serve a imagem pela rodada, com cache privado, ETag e posse obrigatória', async () => {
     const agent = request.agent(app);
     await agent.post('/api/auth/register').send(newUser());
     const start = await agent.post('/api/rounds').send({ mode: 'classic' });
-    const car = await dbCarOf(start.body.round.id);
+    const { id } = start.body.round;
 
-    const image = await request(app).get(`/api/cars/${car!.id}/image`);
+    const image = await agent.get(`/api/rounds/${id}/image`);
     expect(image.status).toBe(200);
     expect(image.headers['content-type']).toBe('image/png');
-    expect(image.headers['cache-control']).toContain('immutable');
+    expect(image.headers['cache-control']).toContain('private');
     expect(image.headers.etag).toBeTruthy();
     expect(image.body.length).toBeGreaterThan(60);
 
-    const revalidation = await request(app)
-      .get(`/api/cars/${car!.id}/image`)
+    const revalidation = await agent
+      .get(`/api/rounds/${id}/image`)
       .set('If-None-Match', image.headers.etag);
     expect(revalidation.status).toBe(304);
 
-    expect((await request(app).get('/api/cars/99999/image')).status).toBe(404);
-    expect((await request(app).get('/api/cars/abc/image')).status).toBe(404);
+    // A foto de rodada alheia é 403: sem oráculo por id de carro.
+    const stranger = request.agent(app);
+    await stranger.post('/api/auth/register').send(newUser());
+    expect((await stranger.get(`/api/rounds/${id}/image`)).status).toBe(403);
+
+    expect((await agent.get('/api/rounds/99999/image')).status).toBe(404);
+    expect((await agent.get('/api/rounds/abc/image')).status).toBe(404);
+
+    // Guarda de regressão: a antiga rota /api/cars/:id/image (oráculo de
+    // nome por id sequencial) foi removida — deve continuar 404 para sempre.
+    expect((await agent.get('/api/cars/1/image')).status).toBe(404);
   });
 
   it('valida chute errado, revela dica e reduz o blur', async () => {
@@ -723,11 +742,17 @@ describe('Feedback', () => {
     await prisma.feedback.deleteMany();
 
     const agent = request.agent(app);
-    const reg = await agent
-      .post('/api/auth/register')
-      .send({ username: 'riuzimjp', email: 'riuzimjp@vroom.test', password: 'password123' });
-    // A conta riuzimjp administra o painel por username.
-    expect(reg.body.user.isAdmin).toBe(true);
+    // Admin é a conta Google-vinculada do dono (email verificado pelo
+    // Google) — contas locais nunca administram.
+    const adminLogin = await agent.post('/api/auth/google').send({ credential: 'token-admin' });
+    expect(adminLogin.status).toBe(200);
+    expect(adminLogin.body.user.isAdmin).toBe(true);
+    expect(adminLogin.body.user.username).toBe('riuzimjp');
+
+    // /me sinaliza isAdmin sem vazar o googleId interno.
+    const me = await agent.get('/api/auth/me');
+    expect(me.body.user?.isAdmin).toBe(true);
+    expect(me.body.user?.googleId).toBeUndefined();
 
     // Um bug com print (visitante) e uma opinião (o próprio admin).
     await request(app)
@@ -770,20 +795,34 @@ describe('Feedback', () => {
     expect(again.status).toBe(404);
   });
 
-  it('conta com email de admin vira admin mesmo com outro username', async () => {
-    // Caso real: login Google com riuzimjp@gmail.com pode derivar username
-    // diferente — admin tem que reconhecer pelo email também.
+  it('email do dono é reservado e username do dono não dá admin', async () => {
     const agent = request.agent(app);
-    const reg = await agent
+
+    // Email do dono: reservado à conta Google — registro local recusado
+    // com o MESMO 409 genérico (sem enumerar por que foi recusado).
+    const reserved = await agent
       .post('/api/auth/register')
       .send({ username: 'zelador', email: 'riuzimjp@gmail.com', password: 'password123' });
-    expect(reg.body.user.isAdmin).toBe(true);
+    expect(reserved.status).toBe(409);
+    expect(reserved.body.code).toBe('REGISTER_TAKEN');
 
-    const me = await agent.get('/api/auth/me');
-    expect(me.body.user?.isAdmin).toBe(true);
+    // Username do dono: já pertence à conta Google do teste anterior —
+    // o squatter cai no 409 genérico de nome ocupado.
+    const squat = await agent
+      .post('/api/auth/register')
+      .send({ username: 'riuzimjp', email: 'outro@vroom.test', password: 'password123' });
+    expect(squat.status).toBe(409);
+
+    // Conta local comum (email que não é o do dono) nunca administra.
+    const common = await agent
+      .post('/api/auth/register')
+      .send({ username: 'farsante', email: 'farsante@vroom.test', password: 'password123' });
+    expect(common.status).toBe(201);
+    expect(common.body.user.isAdmin).toBe(false);
 
     const list = await agent.get('/api/feedback');
-    expect(list.status).toBe(200);
+    expect(list.status).toBe(403);
+    expect(list.body.code).toBe('FEEDBACK_ADMIN_ONLY');
   });
 
   it('sino do admin: summary conta feedbacks novos e seen zera', async () => {
@@ -792,10 +831,8 @@ describe('Feedback', () => {
     await prisma.feedback.deleteMany();
 
     const agent = request.agent(app);
-    // riuzimjp foi registrado no teste anterior — entra por email/senha.
-    const login = await agent
-      .post('/api/auth/login')
-      .send({ email: 'riuzimjp@vroom.test', password: 'password123' });
+    // Reentra com a conta Google do admin (criada no teste do painel).
+    const login = await agent.post('/api/auth/google').send({ credential: 'token-admin' });
     expect(login.status).toBe(200);
 
     // Feedback chega: nunca vista a caixa, tudo é novo (unseen = total).

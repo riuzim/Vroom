@@ -11,7 +11,7 @@
  */
 
 /** Versão atual do jogo, exibida como "v{GAME_VERSION}" na UI. */
-export const GAME_VERSION = '1.1.0';
+export const GAME_VERSION = '1.2.0';
 
 /** Uma versão lançada com suas mudanças — o changelog do jogo. */
 export interface VersionLogEntry {
@@ -25,6 +25,24 @@ export interface VersionLogEntry {
 
 /** Histórico de versões, mais recente primeiro. */
 export const VERSION_LOG: VersionLogEntry[] = [
+  {
+    version: '1.2.0',
+    date: '2026-10-26',
+    changes: [
+      // Backfill da Fase 1 (issue #54) — novidades que ficaram sem entrada:
+      'Modo diário com sequência (streak): um carro por dia e fogo na constância.',
+      'A cada erro o carro ganha silhueta — a dica agora é visual.',
+      'Séries temáticas: rodadas em mini-campeonatos por marca ou era.',
+      'Compartilhe o resultado em grade estilo Wordle na aba de share.',
+      'Site em três idiomas: português, inglês e espanhol.',
+      'Aba de feedback: mande print, título e mensagem direto pro jogo.',
+      'Fontes próprias: o jogo carrega Barlow direto do site, sem depender do Google Fonts.',
+      // Fase 2 (v1.2.0) — LGPD e transparência:
+      'Política de privacidade e de cookies reescritas: agora dizem exatamente o que o jogo guarda (cookie de visitante, feedbacks e prints) e por quanto tempo.',
+      'Aviso de dados no formulário de feedback: o que é enviado e quando é apagado, com link pra política.',
+      'Login do admin verificado por Google: mais uma camada de segurança nas ferramentas do jogo.',
+    ],
+  },
   {
     version: '1.1.0',
     date: '2026-10-26',

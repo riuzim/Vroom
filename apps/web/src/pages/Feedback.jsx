@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ImagePlus, Send, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
@@ -217,6 +218,15 @@ function FeedbackForm() {
         <Send className="size-4" />
         {sending ? t('feedback.sending') : t('feedback.send')}
       </Button>
+
+      {/* Aviso LGPD: coleta + retenção do que o formulário envia (issue #52). */}
+      <p className="text-xs leading-relaxed text-bone/50">
+        {t('feedback.dataNotice')}
+        <Link to="/privacidade" className="underline underline-offset-2 hover:text-bone/80">
+          {t('feedback.dataNoticeLink')}
+        </Link>
+        {t('feedback.dataNoticeEnd')}
+      </p>
     </form>
   );
 }

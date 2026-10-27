@@ -37,7 +37,7 @@ model Car {
   /// Anos de produção da geração retratada.
   years     String
   /// Bytes da imagem (JPEG/PNG, lado maior ≤1280px) — o jogo NÃO depende de
-  /// host externo em runtime; a imagem é servida por /api/cars/:id/image.
+  /// host externo em runtime; a imagem sai pela rodada (/api/rounds/:id/image).
   imageData Bytes
   imageMime String   @default("image/jpeg")
   /// Proveniência/atribuição (Wikimedia Commons) — compliance de licença.
