@@ -141,11 +141,13 @@
     "markRead": "Marcar como leído",
     "confirmRead": "¿Borrar?",
     "markedRead": "Feedback borrado.",
-    "versionNew": "Nuevo",
-    "changelogTitle": "Historial de versiones",
-    "changelogDescription": "Lo que cambió en cada versión de Vroom.",
     "newFeedbacks_one": "{{count}} feedback nuevo",
     "newFeedbacks_other": "{{count}} feedbacks nuevos"
+  },
+  "version": {
+    "new": "Nuevo",
+    "changelogTitle": "Historial de versiones",
+    "changelogDescription": "Lo que cambió en cada versión de Vroom."
   },
   "leaderboard": {
     "metaTitle": "Ranking global — Vroom",
