@@ -1,13 +1,18 @@
 {
-  "generatedAt": "2026-10-18T13:40:10.619Z",
-  "total": 100,
+  "generatedAt": "2026-10-30T13:31:12.043Z",
+  "total": 103,
   "source": "Wikimedia Commons (verificação documental via API — ver RELATORIO.md)",
   "batches": {
     "1": "existentes 1-20",
     "2": "existentes 21-41",
     "3": "supercarros+americanos",
     "4": "JDM+brasileiros",
-    "5": "europeus"
+    "5": "europeus",
+    "6": "supercarros/luxo 2",
+    "7": "JDM 2",
+    "8": "europeus 2",
+    "9": "americanos 2",
+    "10": "brasileiros+variados"
   },
   "cars": [
     {
@@ -2009,6 +2014,66 @@
       "status": "ok",
       "notes": "Dica 1961-1973; escolhido o coupé 1971-72 (dentro do range). Variante P1800ES (perua 1973) e '1800E Convertible' (conversão não-fábrica) evitadas; 'Placa frontal' rejeitado (detalhe).",
       "slug": "volvo-p1800"
+    },
+    {
+      "name": "Ferrari F8 Tributo",
+      "brand": "Ferrari",
+      "model": "F8 Tributo (cupê)",
+      "category": "supercar",
+      "years": "2019–2024 (exemplar 2019)",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Ferrari_F8_Tributo%2C_GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS1319%29.jpg/1280px-Ferrari_F8_Tributo%2C_GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS1319%29.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Ferrari_F8_Tributo%2C_GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS1319%29.jpg",
+      "filePageUrl": "https://commons.wikimedia.org/wiki/File:Ferrari_F8_Tributo,_GIMS_2019,_Le_Grand-Saconnex_(GIMS1319).jpg",
+      "license": "CC BY-SA 4.0",
+      "author": "Matti Blume",
+      "mime": "image/jpeg",
+      "dimensions": "5380x3584",
+      "matchEvidence": "File:Ferrari F8 Tributo, GIMS 2019 (GIMS1319); desc: 'Ferrari F8 Tributo at Geneva International Motor Show 2019'; cats: Ferrari F8 Tributo, Blue Ferrari coupes, Automobiles at GIMS 2019",
+      "existing": false,
+      "currentImgurUrl": "",
+      "status": "ok",
+      "notes": "Foto da estreia mundial no Salão de Genebra 2019 (projeto fotográfico apoiado pela Wikimedia Deutschland). Carro street de produção em estande — mesmo padrão de show/concours já usado nos batches 1-5. Alternativa validada: File:Ferrari F8 Tributo DSC 7013.jpg (Alexander Migl, Motorworld Böblingen). Escolhida a GIMS pela resolução (5380px) e fundo de estande limpo. Excluídas fotos de F8 Spider (trim divergente) e 'Modified F8' da IAA (não original).",
+      "slug": "ferrari-f8-tributo"
+    },
+    {
+      "name": "Ferrari Roma",
+      "brand": "Ferrari",
+      "model": "Roma (cupê tipo 670)",
+      "category": "sport",
+      "years": "2020+ (exemplar 2024)",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Ferrari_Roma_IMG_9620.jpg/1280px-Ferrari_Roma_IMG_9620.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Ferrari_Roma_IMG_9620.jpg",
+      "filePageUrl": "https://commons.wikimedia.org/wiki/File:Ferrari_Roma_IMG_9620.jpg",
+      "license": "CC BY-SA 4.0",
+      "author": "Alexander-93",
+      "mime": "image/jpeg",
+      "dimensions": "4563x3037",
+      "matchEvidence": "File:Ferrari Roma IMG 9620; desc: 'Ferrari Roma in Böblingen'; cats: Ferrari Roma, White Ferrari coupes, Ferrari automobiles at Motorworld Region Stuttgart",
+      "existing": false,
+      "currentImgurUrl": "",
+      "status": "ok",
+      "notes": "Dica pedia Roma coupé street 2020+; excluída a Roma Spider (conversível, trim divergente — DSC 6995/IMG 9546 da mesma série). Escolhida foto 3:2 do coupé branco no Motorworld Böblingen (2024). Alternativa validada: Ferrari Roma 1X7A0309.jpg (Alexander Migl, coupé preto, 5686px, formato panorâmico 2.16:1).",
+      "slug": "ferrari-roma"
+    },
+    {
+      "name": "Ferrari SF90 Stradale",
+      "brand": "Ferrari",
+      "model": "SF90 Stradale (cupê híbrido)",
+      "category": "supercar",
+      "years": "2019+ (exemplar 2024)",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Ferrari_SF90%2C_BAS_24%2C_Brussels_%28P1170486-RR%29.jpg/1280px-Ferrari_SF90%2C_BAS_24%2C_Brussels_%28P1170486-RR%29.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/45/Ferrari_SF90%2C_BAS_24%2C_Brussels_%28P1170486-RR%29.jpg",
+      "filePageUrl": "https://commons.wikimedia.org/wiki/File:Ferrari_SF90,_BAS_24,_Brussels_(P1170486-RR).jpg",
+      "license": "CC BY-SA 4.0",
+      "author": "Matti Blume",
+      "mime": "image/jpeg",
+      "dimensions": "4608x3456",
+      "matchEvidence": "File:Ferrari SF90, BAS 24, Brussels (P1170486-RR); desc: 'Ferrari SF90 Stradale at Brussels Auto Show 2024'; cats: Ferrari SF90 Stradale, Yellow Ferrari coupes, Brussels Auto Show 2024",
+      "existing": false,
+      "currentImgurUrl": "",
+      "status": "ok",
+      "notes": "Dica pedia SF90 Stradale coupé street, NÃO a versão XX — excluídas 'SF90 XX Stradale' e 'SF90 XX Spider' do Calreyn88 (trim XX é mais de pista, rejeitado). Foto de estande no Brussels Auto Show 2024 (projeto Wikimedia DE). Alternativas validadas: 2021 Ferrari SF90 Stradale 3.jpg (Calreyn88, CC BY-SA 4.0) e Washington DC (2.1) (OWS Photography, CC BY 4.0, street).",
+      "slug": "ferrari-sf90-stradale"
     }
   ]
 }

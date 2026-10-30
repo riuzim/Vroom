@@ -26,6 +26,8 @@ const creditsOut = path.join(root, 'apps', 'web', 'src', 'data', 'car-credits.js
 
 /** Contagem esperada por batch — fecha em 200 no total. */
 const EXPECTED = { 1: 20, 2: 21, 3: 22, 4: 19, 5: 18, 6: 20, 7: 20, 8: 20, 9: 20, 10: 20 };
+const args = process.argv.slice(2);
+const partial = args.includes('--partial');
 const CATEGORIES = new Set([
   'supercar',
   'sport',
@@ -100,13 +102,19 @@ async function readBatch(number) {
   try {
     files = (await readdir(dir)).filter((file) => file.endsWith('.json')).sort();
   } catch (cause) {
+    if (partial) {
+      console.warn(`⚠ batch-${number}: diretório ausente ou ilegível — ${cause.message} (modo --partial).`);
+      return [];
+    }
     fail(`batch-${number}: diretório ilegível — ${cause.message}`);
     return [];
   }
 
   const expected = EXPECTED[number];
-  if (files.length !== expected) {
+  if (!partial && files.length !== expected) {
     fail(`batch-${number}: ${files.length} arquivos, esperados ${expected}.`);
+  } else if (partial && files.length !== expected) {
+    console.warn(`⚠ batch-${number}: ${files.length} arquivos, esperados ${expected} (modo --partial).`);
   }
 
   const entries = [];
@@ -136,8 +144,12 @@ for (const entry of entries) {
   seen.set(entry.name, entry.slug);
 }
 
-if (entries.length !== 200) {
+if (!partial && entries.length !== 200) {
   fail(`total ${entries.length} carros — o catálogo fecha em exatamente 200.`);
+} else if (partial && entries.length < 100) {
+  fail(`modo --partial exige pelo menos 100 carros; encontrado ${entries.length}.`);
+} else if (partial && entries.length !== 200) {
+  console.warn(`⚠ modo --partial: total ${entries.length} carros (esperado 200).`);
 }
 
 if (errors.length > 0) {
