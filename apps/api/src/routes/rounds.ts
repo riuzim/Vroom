@@ -26,6 +26,7 @@ const guessLimiter = rateLimit({
   limit: 60,
   standardHeaders: 'draft-7',
   legacyHeaders: false,
+  skip: () => env.isTest,
   message: { error: 'Muitos chutes seguidos. Respire um pouco.', code: 'RATE_LIMITED' },
 });
 
