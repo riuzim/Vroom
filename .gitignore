@@ -58,3 +58,4 @@ coverage
 
 # Windows cruft
 Thumbs.db
+node_modules.orig/

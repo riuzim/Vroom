@@ -22,7 +22,9 @@ export default function GuessInput({ disabled, onSubmit, hideSuggestions = false
       return [];
     }
 
-    return carNames.filter((name) => name.toLowerCase().includes(value)).slice(0, 6);
+    // Prefix-match: nomes que começam exatamente com o que o usuário digitou (ordem correta)
+    const startsWith = carNames.filter((name) => name.toLowerCase().startsWith(value));
+    return startsWith.slice(0, 10);
   }, [guess, hideSuggestions]);
 
   function handleSubmit(event) {
