@@ -483,7 +483,10 @@ function canPlayRound(
 /** Valida :id da rota; inválido/negativo/NaN vira 404 limpo (não 500). */
 function parseRoundId(value: string): number | null {
   const parsed = roundIdSchema.safeParse(value);
-  return parsed.success ? parsed.data : null;
+  if (!parsed.success) return null;
+  const n = parsed.data;
+  if (!Number.isSafeInteger(n) || n > 2147483647 || n < 1) return null;
+  return n;
 }
 
 /** Erro de constraint única do Prisma (guarda dupla @@unique(roundId)). */
