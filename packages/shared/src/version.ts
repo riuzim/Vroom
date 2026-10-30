@@ -11,7 +11,7 @@
  */
 
 /** Versão atual do jogo, exibida como "v{GAME_VERSION}" na UI. */
-export const GAME_VERSION = '1.3.0';
+export const GAME_VERSION = '1.3.1';
 
 /** Uma versão lançada com suas mudanças — o changelog do jogo. */
 export interface VersionLogEntry {
@@ -25,6 +25,13 @@ export interface VersionLogEntry {
 
 /** Histórico de versões, mais recente primeiro. */
 export const VERSION_LOG: VersionLogEntry[] = [
+  {
+    version: '1.3.1',
+    date: '2026-10-27',
+    changes: [
+      'correções de estabilidade na API: rate limit de chute desabilitado em testes, IDs fora do range retornam 404 e limpeza de rodadas abandonadas',
+    ],
+  },
   {
     version: '1.3.0',
     date: '2026-10-27',
