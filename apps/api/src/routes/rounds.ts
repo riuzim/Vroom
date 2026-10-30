@@ -306,20 +306,22 @@ async function cleanupGuestRounds() {
   }
 
   lastCleanupAt = now;
+  // Limpa rodadas abandonadas de visitantes
   await prisma.round.deleteMany({
     where: {
       userId: null,
       OR: [
-        // Rodadas abandonadas no meio (2h): o jogador sumiu.
         { status: 'playing', startedAt: { lt: new Date(Date.now() - 2 * 3600_000) } },
-        // Encerradas de visitante: o histórico que importa vive no
-        // navegador do jogador — no servidor só servem ao "1/dia" do dia
-        // corrente. Sem isso, tráfego anônimo incha o banco sem limite.
-        {
-          status: { not: 'playing' },
-          startedAt: { lt: new Date(Date.now() - 30 * 24 * 3600_000) },
-        },
+        { status: { not: 'playing' }, startedAt: { lt: new Date(Date.now() - 30 * 24 * 3600_000) } },
       ],
+    },
+  });
+  // Limpa rodadas playing abandonadas de usuários logados (7 dias)
+  await prisma.round.deleteMany({
+    where: {
+      userId: { not: null },
+      status: 'playing',
+      startedAt: { lt: new Date(Date.now() - 7 * 24 * 3600_000) },
     },
   });
 }
