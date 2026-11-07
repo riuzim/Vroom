@@ -66,6 +66,8 @@
     "guessPlaceholder": "Manda el nombre del coche",
     "guessLabel": "Tu intento",
     "guessButton": "Arriesgar",
+    "revealProgress": "{{value}}% revelado",
+    "revealProgressAria": "Imagen revelada {{value}} por ciento",
     "skip": "Saltar coche",
     "share": "Compartir",
     "shareCopied": "¡Copiado! Reta a alguien.",

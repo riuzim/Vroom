@@ -45,6 +45,18 @@ export default function CarStage({
   return (
     <section className="relative overflow-hidden rounded-lg border border-bone/10 bg-panel p-3 shadow-hard-sm">
       <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-ink">
+        <div aria-live="polite" className="sr-only">
+          {t('game.revealProgressAria', { value: Math.round(reveal * 100) })}
+        </div>
+        {/* Indicador visual de progresso de revelação */}
+        {!isRevealed && (
+          <div className="absolute top-4 right-4 z-20 flex items-center gap-2 rounded-md border border-bone/30 bg-ink/90 px-3 py-1 text-xs font-semibold text-bone">
+            <span>{t('game.revealProgress', { value: Math.round(reveal * 100) })}</span>
+            <div className="h-1.5 w-16 overflow-hidden rounded bg-bone/10">
+              <div className="h-full bg-flame transition-all duration-700" style={{ width: `${Math.round(reveal * 100)}%` }} />
+            </div>
+          </div>
+        )}
         {!isLoaded && !hasFailed && <Skeleton className="absolute inset-0 z-10 h-full w-full" />}
         {hasFailed && (
           <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 text-bone/70">

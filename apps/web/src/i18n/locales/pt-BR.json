@@ -66,6 +66,8 @@
     "guessPlaceholder": "Manda o nome do carro",
     "guessLabel": "Seu chute",
     "guessButton": "Chutar",
+    "revealProgress": "{{value}}% revelado",
+    "revealProgressAria": "Imagem revelada {{value}} por cento",
     "skip": "Pular carro",
     "share": "Compartilhar",
     "shareCopied": "Copiado! Desafia alguém aí.",

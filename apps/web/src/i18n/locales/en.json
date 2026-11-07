@@ -66,6 +66,8 @@
     "guessPlaceholder": "Type the car's name",
     "guessLabel": "Your guess",
     "guessButton": "Guess",
+    "revealProgress": "{{value}}% revealed",
+    "revealProgressAria": "Image revealed {{value}} percent",
     "skip": "Skip car",
     "share": "Share",
     "shareCopied": "Copied! Challenge someone.",
