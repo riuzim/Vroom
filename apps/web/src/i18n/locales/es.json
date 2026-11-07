@@ -6,6 +6,7 @@
     "home": "Inicio",
     "play": "Jugar",
     "leaderboard": "Ranking",
+    "stats": "Estadísticas",
     "feedback": "Feedback",
     "login": "Entrar",
     "logout": "Salir",
@@ -390,6 +391,10 @@
     "bra": "Brasil",
     "ev": "Eléctricos",
     "lux": "Lujo"
+  },
+  "stats": {
+    "title": "Estadísticas Públicas",
+    "subtitle": "Datos agregados de todos los jugadores."
   },
   "apiErrors": {
     "NETWORK_ERROR": "Sin conexión con el servidor. Comprueba tu internet y vuelve a intentarlo.",

@@ -9,6 +9,7 @@ import Home from '@/pages/Home.jsx';
 
 const Game = lazy(() => import('@/pages/Game.jsx'));
 const Leaderboard = lazy(() => import('@/pages/Leaderboard.jsx'));
+const Stats = lazy(() => import('@/pages/Stats.jsx'));
 const Login = lazy(() => import('@/pages/Login.jsx'));
 const Profile = lazy(() => import('@/pages/Profile.jsx'));
 const Register = lazy(() => import('@/pages/Register.jsx'));
@@ -40,6 +41,7 @@ function RoutedContent() {
           <Route path="/" element={<Home />} />
           <Route path="/game/:mode" element={<Game />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/stats" element={<Stats />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />

@@ -6,6 +6,7 @@
     "home": "Home",
     "play": "Play",
     "leaderboard": "Leaderboard",
+    "stats": "Statistics",
     "feedback": "Feedback",
     "login": "Sign in",
     "logout": "Sign out",
@@ -390,6 +391,10 @@
     "bra": "Brazil",
     "ev": "Electric",
     "lux": "Luxury"
+  },
+  "stats": {
+    "title": "Public Statistics",
+    "subtitle": "Aggregated data from all players."
   },
   "apiErrors": {
     "NETWORK_ERROR": "Can't reach the server. Check your connection and try again.",

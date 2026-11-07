@@ -11,6 +11,7 @@ import healthRouter from './routes/health.js';
 import leaderboardRouter from './routes/leaderboard.js';
 import profileRouter from './routes/profile.js';
 import roundsRouter from './routes/rounds.js';
+import publicStatsRouter from './routes/publicStats.js';
 import { errorHandler, notFoundHandler } from './middleware/error.js';
 import { checkOrigin } from './middleware/origin.js';
 
@@ -77,6 +78,7 @@ export function createApp() {
   app.use('/api/leaderboard', leaderboardRouter);
   app.use('/api/profile', profileRouter);
   app.use('/api/feedback', feedbackRouter);
+  app.use('/api/public/stats', publicStatsRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
