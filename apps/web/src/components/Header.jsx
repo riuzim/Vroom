@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LogIn, LogOut, Menu, Settings } from 'lucide-react';
+import { LogIn, LogOut, Menu, Settings, Moon, Sun } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -64,6 +64,22 @@ export default function Header() {
   const { t } = useTranslation();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(true);
+  useEffect(() => {
+    const saved = localStorage.getItem('vroom-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const dark = saved ? saved === 'dark' : prefersDark;
+    setIsDark(dark);
+    document.documentElement.classList.toggle('light', !dark);
+  }, []);
+  const toggleTheme = () => {
+    setIsDark((d) => {
+      const next = !d;
+      localStorage.setItem('vroom-theme', next ? 'dark' : 'light');
+      document.documentElement.classList.toggle('light', !next);
+      return next;
+    });
+  };
   const { data } = useMe();
   const logout = useLogout();
   const user = data?.user ?? null;
@@ -92,6 +108,14 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label={t('nav.toggleTheme')}
+          >
+            {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
+          </Button>
           {/* Selo da versão do jogo: visível em toda página (no mobile,
               dentro do menu). Abre o histórico de versões. */}
           <div className="hidden sm:block">

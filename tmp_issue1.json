@@ -1,0 +1,4 @@
+﻿{
+  "title": "web:feat(daily): arquivo de puzzles diários passados",
+  "body": "## Contexto\nPesquisa de concorrentes mostra que CarSpotr e Carva oferecem arquivo de dailies para replay.\n\n## Objetivo\nPermitir re-jogar dailies anteriores em modo consulta, sem pontuação.\n\n## Critérios\n- Página /archive com lista por data.\n- Visual igual ao dia original, bloqueio de pontuação.\n- Não conta para streak.\n\n## Referência\nDocs: docs/competitor-qol-research.md"
+}
