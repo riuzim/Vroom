@@ -54,6 +54,15 @@ export default function GuessInput({ disabled, onSubmit, hideSuggestions = false
       return;
     }
 
+    if (event.key === 'Enter' && !event.shiftKey && !event.ctrlKey && !event.metaKey && guess.trim()) {
+      event.preventDefault();
+      const value = guess.trim();
+      onSubmit(value);
+      setGuess('');
+      setHighlightedIndex(-1);
+      return;
+    }
+
     if (!isFocused || suggestions.length === 0) {
       return;
     }
