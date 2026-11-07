@@ -11,7 +11,7 @@
  */
 
 /** Versão atual do jogo, exibida como "v{GAME_VERSION}" na UI. */
-export const GAME_VERSION = '1.3.1';
+export const GAME_VERSION = '1.3.2';
 
 /** Uma versão lançada com suas mudanças — o changelog do jogo. */
 export interface VersionLogEntry {
@@ -25,6 +25,13 @@ export interface VersionLogEntry {
 
 /** Histórico de versões, mais recente primeiro. */
 export const VERSION_LOG: VersionLogEntry[] = [
+  {
+    version: '1.3.2',
+    date: '2026-11-07',
+    changes: [
+      'o jogo agora tem toggle de modo claro/escuro no header com preferência persistida em localStorage',
+    ],
+  },
   {
     version: '1.3.1',
     date: '2026-10-27',
