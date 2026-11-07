@@ -115,25 +115,26 @@ describe('buildShareText', () => {
 describe('computeStreak', () => {
   it('sequência viva terminando hoje', () => {
     const result = computeStreak(['2026-11-01', '2026-11-02', '2026-11-03'], '2026-11-03');
-    expect(result).toEqual({ current: 3, best: 3 });
+    expect(result).toEqual({ current: 3, best: 3, frozen: false });
   });
 
   it('jogou ontem e não hoje: streak ainda vivo', () => {
     const result = computeStreak(['2026-11-02'], '2026-11-03');
-    expect(result).toEqual({ current: 1, best: 1 });
+    expect(result).toEqual({ current: 1, best: 1, frozen: true });
   });
 
   it('pausa de 2 dias zera o atual e preserva o recorde', () => {
     const result = computeStreak(['2026-11-01', '2026-11-02', '2026-11-05'], '2026-11-06');
-    expect(result).toEqual({ current: 1, best: 2 });
+    expect(result).toEqual({ current: 1, best: 2, frozen: true });
   });
 
   it('datas duplicadas contam uma vez e lista vazia zera tudo', () => {
     expect(computeStreak(['2026-11-01', '2026-11-01'], '2026-11-01')).toEqual({
       current: 1,
       best: 1,
+      frozen: false,
     });
-    expect(computeStreak([], '2026-11-01')).toEqual({ current: 0, best: 0 });
+    expect(computeStreak([], '2026-11-01')).toEqual({ current: 0, best: 0, frozen: false });
   });
 
   it('best é a maior sequência histórica mesmo se antiga', () => {
@@ -141,6 +142,6 @@ describe('computeStreak', () => {
       ['2026-10-01', '2026-10-02', '2026-10-03', '2026-11-05'],
       '2026-11-06',
     );
-    expect(result).toEqual({ current: 1, best: 3 });
+    expect(result).toEqual({ current: 1, best: 3, frozen: true });
   });
 });

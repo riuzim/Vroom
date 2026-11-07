@@ -226,6 +226,9 @@ export default function Profile() {
                     <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-flame">
                       {stats.daily.streak.current > 0 ? `🔥${stats.daily.streak.current}` : '—'}
                     </p>
+                    {stats.daily.streak.frozen && stats.daily.streak.current > 0 && (
+                      <p className="mt-1 text-[10px] uppercase tracking-wide text-bone/50">{t('profile.streakFrozen')}</p>
+                    )}
                   </div>
                   <div className="rounded-md border border-bone/10 bg-raised p-4 text-center">
                     <p className="text-xs font-semibold uppercase tracking-wide text-bone/55">

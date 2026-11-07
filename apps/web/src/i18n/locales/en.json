@@ -230,6 +230,7 @@
     "dailySubtitle": "Your daily ritual: streak, wins and guesses until you nail it.",
     "streak": "Streak",
     "streakBest": "Best",
+    "streakFrozen": "frozen",
     "winRate": "Wins",
     "distribution": "Guesses until correct",
     "distributionFail": "Missed",

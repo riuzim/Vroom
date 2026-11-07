@@ -133,10 +133,10 @@ function toDays(date: string): number {
  * presente: a sequência atual continua viva se o último dia jogado for
  * hoje ou ontem — quem volta depois de 1 dia de pausa não perde o streak.
  */
-export function computeStreak(dates: string[], today: string): { current: number; best: number } {
+export function computeStreak(dates: string[], today: string): { current: number; best: number; frozen: boolean } {
   const sorted = [...new Set(dates)].sort();
   if (sorted.length === 0) {
-    return { current: 0, best: 0 };
+    return { current: 0, best: 0, frozen: false };
   }
 
   // Melhor sequência histórica: varredura única das datas ordenadas.
@@ -154,6 +154,7 @@ export function computeStreak(dates: string[], today: string): { current: number
   // Sequência atual: conta de trás pra frente a partir do último dia,
   // que precisa ser hoje ou ontem para o streak ainda estar "vivo".
   let current = 0;
+  let frozen = false;
   const last = toDays(sorted[sorted.length - 1]);
   const todayDays = toDays(today);
 
@@ -166,7 +167,8 @@ export function computeStreak(dates: string[], today: string): { current: number
         break;
       }
     }
+    frozen = last === todayDays - 1 && current > 0;
   }
 
-  return { current, best };
+  return { current, best, frozen };
 }
