@@ -22,6 +22,20 @@ export default function GuessInput({ disabled, onSubmit, hideSuggestions = false
       return [];
     }
 
+    // Filtro avançado make:model → "ford:mustang"
+    const colonIdx = guess.indexOf(':');
+    if (colonIdx > 0) {
+      const make = guess.slice(0, colonIdx).trim().toLowerCase();
+      const model = guess.slice(colonIdx + 1).trim().toLowerCase();
+      const filtered = carNames.filter((name) => {
+        const lower = name.toLowerCase();
+        if (make && !lower.startsWith(make)) return false;
+        if (model && !lower.includes(model)) return false;
+        return true;
+      });
+      return filtered.slice(0, 10);
+    }
+
     // Prefix-match: nomes que começam exatamente com o que o usuário digitou (ordem correta)
     const startsWith = carNames.filter((name) => name.toLowerCase().startsWith(value));
     return startsWith.slice(0, 10);

@@ -11,7 +11,7 @@
  */
 
 /** Versão atual do jogo, exibida como "v{GAME_VERSION}" na UI. */
-export const GAME_VERSION = '1.3.4';
+export const GAME_VERSION = '1.3.5';
 
 /** Uma versão lançada com suas mudanças — o changelog do jogo. */
 export interface VersionLogEntry {
@@ -25,6 +25,13 @@ export interface VersionLogEntry {
 
 /** Histórico de versões, mais recente primeiro. */
 export const VERSION_LOG: VersionLogEntry[] = [
+  {
+    version: '1.3.5',
+    date: '2026-11-07',
+    changes: [
+      'o autocomplete agora permite filtro por marca:modelo usando dois-pontos',
+    ],
+  },
   {
     version: '1.3.4',
     date: '2026-11-07',
