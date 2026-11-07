@@ -40,7 +40,7 @@ publicStatsRouter.get(
     });
 
     // Build per-mode stats
-    const statsByMode: Record<string, any> = {};
+    const statsByMode: Record<string, { total: number; wins: number; winRate: number; avgAttempts: number; distribution: number[] }> = {};
     for (const mode of modes) {
       const total = roundsByMode.find((r) => r.mode === mode)?._count._all ?? 0;
       const wins = winsByMode.find((r) => r.mode === mode)?._count._all ?? 0;
