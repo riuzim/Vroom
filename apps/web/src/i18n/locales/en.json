@@ -61,6 +61,8 @@
     }
   },
   "game": {
+    "summaryTitle": "Round summary",
+    "summaryBody": "Car details, score and trivia.",
     "streak": "Streak",
     "attempts": "Guesses: {{count}}",
     "guessPlaceholder": "Type the car's name",

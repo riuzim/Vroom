@@ -61,6 +61,8 @@
     }
   },
   "game": {
+    "summaryTitle": "Resumo da rodada",
+    "summaryBody": "Detalhes do carro, pontuação e curiosidades.",
     "streak": "Sequência",
     "attempts": "Chutes: {{count}}",
     "guessPlaceholder": "Manda o nome do carro",

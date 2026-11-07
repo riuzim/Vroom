@@ -61,6 +61,8 @@
     }
   },
   "game": {
+    "summaryTitle": "Resumen de la ronda",
+    "summaryBody": "Detalles del coche, puntuación y curiosidades.",
     "streak": "Racha",
     "attempts": "Intentos: {{count}}",
     "guessPlaceholder": "Manda el nombre del coche",

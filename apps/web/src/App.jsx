@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import Home from '@/pages/Home.jsx';
 
 const Game = lazy(() => import('@/pages/Game.jsx'));
+const RoundSummary = lazy(() => import('@/pages/RoundSummary.jsx'));
 const Leaderboard = lazy(() => import('@/pages/Leaderboard.jsx'));
 const Login = lazy(() => import('@/pages/Login.jsx'));
 const Profile = lazy(() => import('@/pages/Profile.jsx'));
@@ -39,6 +40,7 @@ function RoutedContent() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/game/:mode" element={<Game />} />
+          <Route path="/game/:mode/summary" element={<RoundSummary />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
